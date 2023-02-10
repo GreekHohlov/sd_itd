@@ -5,9 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-import java.util.Set;
-
 @Entity
 @Table(name = "users")
 @Getter
@@ -16,9 +13,6 @@ import java.util.Set;
 @SequenceGenerator(name = "default_gen", sequenceName = "users_seq", allocationSize = 1)
 public class User
         extends GenericModel {
-
-    @Column(name = "login", nullable = false)
-    private String login;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
@@ -29,6 +23,21 @@ public class User
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @Column(name = "login", nullable = false)
+    private String login;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    @Column(name = "email", nullable = false)
+    private String email;
+
+    @Column(name = "phone")
+    private String phone;
+
+    @ManyToOne
+    @JoinColumn(name = "location", foreignKey = @ForeignKey(name = "FK_USER_INFO_LOCATION"))
+    private Location location;
 
 /*
     @ManyToOne
