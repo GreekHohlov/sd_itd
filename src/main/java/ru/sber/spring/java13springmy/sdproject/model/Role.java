@@ -1,12 +1,11 @@
 package ru.sber.spring.java13springmy.sdproject.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "role")
@@ -19,4 +18,11 @@ public class Role
 
     @Column(name = "name_role", nullable = false)
     private String nameRole;
+    @ManyToMany
+    @JoinTable(name = "group_role",
+            joinColumns = @JoinColumn(name = "role_id"),
+            foreignKey = @ForeignKey(name = "FK_ROLE_GROUP"),
+            inverseJoinColumns = @JoinColumn(name = "group_id"),
+            inverseForeignKey = @ForeignKey(name = "FK_GROUP_ROLE"))
+    private Set<Group> group;
 }

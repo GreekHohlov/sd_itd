@@ -25,12 +25,8 @@ public class Task extends GenericModel {
     private Priority priority;
 
     @ManyToOne
-    @JoinColumn(name = "category_first", foreignKey = @ForeignKey(name = "FK_TASK_INFO_CATEGORY_FIRST"))
-    private CategoryFirst categoryFirst;
-
-    @ManyToOne
-    @JoinColumn(name = "category_second", foreignKey = @ForeignKey(name = "FK_TASK_INFO_CATEGORY_SECOND"))
-    private CategorySecond categorySecond;
+    @JoinColumn(name = "category", foreignKey = @ForeignKey(name = "FK_TASK_INFO_CATEGORY_FIRST"))
+    private Category category;
 
     @Column(name = "description", nullable = false)
     private String discription;
@@ -40,17 +36,17 @@ public class Task extends GenericModel {
 
     @Column(name = "end_date")
     private LocalDate endDate;
-
-    @Column(name = "file")
-    private String file;
+    @ManyToOne
+    @JoinColumn(name = "attachment_id", foreignKey = @ForeignKey(name = "FK_ATTACHMENT_INF"))
+    private Attachments attachments;
 
     @ManyToOne
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_TASK_INFO_USER"))
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "worker_id", foreignKey = @ForeignKey(name = "FK_TASK_INFO_WORKER"))
-    private Worker worker;
+//    @ManyToOne
+//    @JoinColumn(name = "worker_id", foreignKey = @ForeignKey(name = "FK_TASK_INFO_WORKER"))
+//    private Worker worker;
 
     @Column(name = "status", nullable = false)
     @Enumerated
