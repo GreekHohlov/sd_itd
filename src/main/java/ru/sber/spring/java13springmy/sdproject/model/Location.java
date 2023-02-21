@@ -1,12 +1,11 @@
 package ru.sber.spring.java13springmy.sdproject.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "locations")
@@ -19,4 +18,6 @@ public class Location
 
     @Column(name = "name_lcation")
     private String nameLocation;
+    @OneToMany(mappedBy = "location")
+    private Set<User> users;
 }

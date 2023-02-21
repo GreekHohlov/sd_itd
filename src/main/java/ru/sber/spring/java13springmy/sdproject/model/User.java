@@ -38,14 +38,12 @@ public class User
     private String phone;
 
     @ManyToOne
-    @JoinColumn(name = "location", foreignKey = @ForeignKey(name = "FK_USER_INFO_LOCATION"))
+    @JoinColumn(name = "location_id", foreignKey = @ForeignKey(name = "FK_USER_INFO_LOCATION"))
     private Location location;
 
-    @ManyToMany
-    @JoinTable(name = "user_group",
-            joinColumns = @JoinColumn(name = "user_id"),
-            foreignKey = @ForeignKey(name = "FK_USER_GROUP"),
-            inverseJoinColumns = @JoinColumn(name = "group_id"),
-            inverseForeignKey = @ForeignKey(name = "FK_GROUP_USER"))
-    private Set<Group> group;
+    @ManyToOne
+    @JoinColumn(name = "group_id", foreignKey = @ForeignKey(name = "FK_USER_GROUP_INFO"))
+    private Group groups;
+    @OneToMany(mappedBy = "user")
+    private Set<Task> tasks;
 }
