@@ -18,19 +18,9 @@ public class Group
 
     @Column(name = "responsible", nullable = false)
     private String responsible;
-    @ManyToMany
-    @JoinTable(name = "group_role",
-            joinColumns = @JoinColumn(name = "group_id"),
-            foreignKey = @ForeignKey(name = "FK_GROUP_ROLE"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"),
-            inverseForeignKey = @ForeignKey(name = "FK_ROLE_GROUP")
-    )
-    private Set<Role> role;
-    @ManyToMany
-    @JoinTable(name = "user_group",
-            joinColumns = @JoinColumn(name = "group_id"),
-            foreignKey = @ForeignKey(name = "FK_GROUP_USER"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"),
-            inverseForeignKey = @ForeignKey(name = "FK_USER_GROUP"))
-    private Set<User> users;
+    @ManyToOne
+    @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "FK_GROUP_ROLE_INFO"))
+    private Role role;
+    @OneToMany(mappedBy = "groups")
+    private Set<User> user;
 }

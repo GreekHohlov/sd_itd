@@ -1,12 +1,11 @@
 package ru.sber.spring.java13springmy.sdproject.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "sla")
@@ -22,4 +21,6 @@ public class SLA extends GenericModel {
     private Integer responseTime;
     @Column(name = "execution_time")
     private Integer executionTime;
+    @OneToMany(mappedBy = "sla")
+    private Set<TypeTask> typeTask;
 }
