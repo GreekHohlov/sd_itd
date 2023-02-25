@@ -5,18 +5,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Entity
-@Table(name = "worker_group")
+@Table(name = "groups")
 @Getter
 @Setter
 @NoArgsConstructor
-@SequenceGenerator(name = "default_gen", sequenceName = "workers_seq", allocationSize = 1)
-public class WorkerGroup
+@SequenceGenerator(name = "default_gen", sequenceName = "groups_seq", allocationSize = 1)
+public class Group
         extends GenericModel{
 
     @Column(name = "responsible", nullable = false)
     private String responsible;
     @ManyToOne
-    @JoinColumn(name = "role", foreignKey = @ForeignKey(name = "FK_WORKER_GROUP_INFO_ROLE"))
+    @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "FK_GROUP_ROLE_INFO"))
     private Role role;
+    @OneToMany(mappedBy = "groups")
+    private Set<User> user;
 }

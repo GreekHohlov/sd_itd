@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "users")
 @Getter
@@ -36,17 +38,12 @@ public class User
     private String phone;
 
     @ManyToOne
-    @JoinColumn(name = "location", foreignKey = @ForeignKey(name = "FK_USER_INFO_LOCATION"))
+    @JoinColumn(name = "location_id", foreignKey = @ForeignKey(name = "FK_USER_INFO_LOCATION"))
     private Location location;
 
-/*
     @ManyToOne
-    @JoinColumn(name = "role_id", nullable = false,
-            foreignKey = @ForeignKey(name = "FK_USER_ROLES"))
-    private Role roles;
-
+    @JoinColumn(name = "group_id", foreignKey = @ForeignKey(name = "FK_USER_GROUP_INFO"))
+    private Group groups;
     @OneToMany(mappedBy = "user")
-    private Set<BookRentInfo> bookRentInfos;
-
- */
+    private Set<Task> tasks;
 }

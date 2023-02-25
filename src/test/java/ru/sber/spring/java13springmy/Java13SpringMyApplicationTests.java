@@ -9,5 +9,4 @@ class Java13SpringMyApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }
