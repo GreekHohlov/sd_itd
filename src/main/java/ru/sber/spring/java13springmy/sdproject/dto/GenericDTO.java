@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public abstract class GenericDTO {
     private Long id;
-    //  private boolean isDeleted;
+    private boolean isDeleted;
     //  private LocalDateTime deletedWhen;
     //  private String deletedBy;
 }

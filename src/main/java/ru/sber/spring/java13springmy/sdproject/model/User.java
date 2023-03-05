@@ -43,7 +43,7 @@ public class User
 
     @ManyToOne
     @JoinColumn(name = "group_id", foreignKey = @ForeignKey(name = "FK_USER_GROUP_INFO"))
-    private Group groups;
+    private Group group;
     @OneToMany(mappedBy = "user")
     private Set<Task> tasks;
 }
