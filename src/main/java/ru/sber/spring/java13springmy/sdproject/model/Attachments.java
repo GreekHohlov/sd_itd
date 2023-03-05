@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
-
 @Entity
 @Table(name = "attachments")
 @Getter
@@ -16,6 +14,8 @@ import java.util.Set;
 public class Attachments extends GenericModel{
     @Column(name = "attachment_path")
     private String attachmentPath;
-    @OneToMany(mappedBy = "attachments")
-    private Set<Task> tasks;
+
+    @ManyToOne
+    @JoinColumn(name = "task_id", foreignKey = @ForeignKey(name = "FK_ATTACHMENT_INF_TASK"))
+    private Task task;
 }
