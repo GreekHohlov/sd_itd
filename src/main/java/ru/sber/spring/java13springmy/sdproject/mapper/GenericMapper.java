@@ -77,14 +77,10 @@ public abstract class GenericMapper<E extends GenericModel, D extends GenericDTO
         };
     }
 
-
     protected abstract void mapSpecificFields(D source, E destination);
 
     protected abstract void mapSpecificFields(E source, D destination);
 
     protected abstract Set<Long> getIds(E entity);
-
-    @PostConstruct
-    protected abstract void setupMapper();
 }
 
