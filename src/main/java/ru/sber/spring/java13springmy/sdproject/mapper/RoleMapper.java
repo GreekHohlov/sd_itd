@@ -4,18 +4,22 @@ import jakarta.annotation.PostConstruct;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import ru.sber.spring.java13springmy.sdproject.dto.RoleDTO;
+import ru.sber.spring.java13springmy.sdproject.model.GenericModel;
 import ru.sber.spring.java13springmy.sdproject.model.Role;
-import ru.sber.spring.java13springmy.sdproject.repository.RoleRepository;
-
-import java.util.*;
+import ru.sber.spring.java13springmy.sdproject.repository.GroupRepository;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class RoleMapper extends GenericMapper<Role, RoleDTO> {
-    private final RoleRepository roleRepository;
+    private final GroupRepository groupRepository;
 
-    protected RoleMapper(ModelMapper modelMapper, RoleRepository roleRepository) {
+    protected RoleMapper(ModelMapper modelMapper, GroupRepository groupRepository) {
         super(modelMapper, Role.class, RoleDTO.class);
-        this.roleRepository = roleRepository;
+        this.groupRepository = groupRepository;
     }
 
     @PostConstruct
@@ -28,16 +32,12 @@ public class RoleMapper extends GenericMapper<Role, RoleDTO> {
 
     @Override
     protected void mapSpecificFields(RoleDTO source, Role destination) {
-      /*
+
         if (!Objects.isNull(source.getGroupsIds())) {
-            destination.setGroups(new HashSet<>(roleRepository.findAllById(source.getGroupsIds())));
+            destination.setGroups(new HashSet<>(groupRepository.findAllById(source.getGroupsIds())));
         } else {
             destination.setGroups(Collections.emptySet());
         }
-        */
-
-
-
     }
 
     @Override
@@ -47,7 +47,10 @@ public class RoleMapper extends GenericMapper<Role, RoleDTO> {
 
     @Override
     protected Set<Long> getIds(Role entity) {
-        // дописать
-        return null;
+        return Objects.isNull(entity) || Objects.isNull(entity.getGroups())
+                ? Collections.emptySet()
+                : entity.getGroups().stream()
+                .map(GenericModel::getId)
+                .collect(Collectors.toSet());
     }
 }

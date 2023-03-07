@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "tasks")
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 @SequenceGenerator(name = "default_gen", sequenceName = "tasks_seq", allocationSize = 1)
 public class Task extends GenericModel {
     @Column(name = "name_task", nullable = false)
-    private String bookTitle;
+    private String nameTask;
     @ManyToOne
     @JoinColumn(name = "type_task", foreignKey = @ForeignKey(name = "FK_TASK_INFO_TYPE_TASK"))
     private TypeTask typeTask;
@@ -36,9 +37,8 @@ public class Task extends GenericModel {
 
     @Column(name = "end_date")
     private LocalDate endDate;
-    @ManyToOne
-    @JoinColumn(name = "attachment_id", foreignKey = @ForeignKey(name = "FK_ATTACHMENT_INF"))
-    private Attachments attachments;
+    @OneToMany(mappedBy = "task")
+    private Set<Attachments> attachments;
 
     @ManyToOne
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_TASK_INFO_USER"))

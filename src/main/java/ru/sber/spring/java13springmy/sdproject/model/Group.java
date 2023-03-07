@@ -21,6 +21,6 @@ public class Group
     @ManyToOne
     @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "FK_GROUP_ROLE_INFO"))
     private Role role;
-    @OneToMany(mappedBy = "groups")
+    @OneToMany(mappedBy = "group")
     private Set<User> user;
 }

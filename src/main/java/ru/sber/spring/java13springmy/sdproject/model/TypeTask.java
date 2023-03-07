@@ -1,16 +1,23 @@
 package ru.sber.spring.java13springmy.sdproject.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Set;
 
 @Entity
 @Table(name = "type_task")
-public class TypeTask {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+@Getter
+@Setter
+@NoArgsConstructor
+@SequenceGenerator(name = "default_gen", sequenceName = "task_type_seq", allocationSize = 1)
+public class TypeTask extends GenericModel {
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "id", nullable = false)
+//    private Long id;
 
     @Column(name = "name_type", nullable = false)
     private String nameType;
@@ -20,5 +27,5 @@ public class TypeTask {
             foreignKey = @ForeignKey(name = "FK_SLA"))
     private SLA sla;
     @OneToMany(mappedBy = "typeTask")
-    private Set<Task> task;
+    private Set<Task> tasks;
 }

@@ -13,8 +13,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @SequenceGenerator(name = "default_gen", sequenceName = "workers_seq", allocationSize = 1)
-public class Location
-        extends GenericModel {
+public class Location extends GenericModel {
 
     @Column(name = "name_lcation")
     private String nameLocation;

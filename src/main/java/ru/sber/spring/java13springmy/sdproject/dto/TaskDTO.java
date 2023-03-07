@@ -1,0 +1,25 @@
+package ru.sber.spring.java13springmy.sdproject.dto;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import ru.sber.spring.java13springmy.sdproject.model.*;
+
+import java.time.LocalDate;
+import java.util.Set;
+
+@Getter
+@Setter
+@NoArgsConstructor
+public class TaskDTO extends GenericDTO{
+    private String nameTask;
+    private Long typeTaskId;
+    private Priority priority;
+    private Long categoryId;
+    private String discription;
+    private LocalDate createDate;
+    private LocalDate endDate;
+    private Set<Long> attachmentsIds;
+    private Long userId;
+    private StatusTask statusTask;
+}
