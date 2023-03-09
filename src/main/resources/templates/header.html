@@ -1,0 +1,43 @@
+<div xmlns:th="http://www.thymeleaf.org"
+     th:fragment="header">
+      <div class="p-3 text-bg-light">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+
+          <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="#" class="nav-link px-2 text-white">
+              <img src="https://www.svgrepo.com/show/467922/add-music-collection.svg" width="106" height="37"></img>
+            </a></li>
+            <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
+            <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
+            <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
+            <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
+            <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+          </ul>
+
+          <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+            <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
+          </form>
+          <div class="dropdown">
+            <a href="#"
+               class="d-flex align-items-center justify-content-center link-dark text-decoration-none dropdown-toggle"
+               data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="https://github.com/mdo.png" alt="mdo" width="35" height="35" class="rounded-circle">
+            </a>
+            <ul class="dropdown-menu text-small shadow">
+              <li><a class="dropdown-item" href="#">New project...</a></li>
+              <li><a class="dropdown-item" href="#">Settings</a></li>
+              <li><a class="dropdown-item" href="#">Profile</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="#">Sign out</a></li>
+            </ul>
+          </div>
+          <div class="text-end">
+            <button type="button" class="btn btn-outline-dark me-2">Login</button>
+            <button type="button" class="btn btn-warning">Sign-up</button>
+          </div>
+        </div>
+      </div>
+  <script src="/docs/5.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</div>
