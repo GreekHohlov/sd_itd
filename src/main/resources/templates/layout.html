@@ -2,35 +2,86 @@
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-  <meta charset="UTF-8">
-  <title>isDesk</title>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="/docs/5.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
-  <link href="/docs/5.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>isDesk</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/docs/5.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+            crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          media="screen"/>
+    <link href="/docs/5.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
+    <style>
+
+        .btn-primary {
+            color: white;
+            background-color: #328736;
+            border-color: #328736;
+        }
+
+        .btn-primary:hover {
+            color: #699e6a;
+            background-color: #2f8e34;
+            border-color: #2f8e34;
+        }
+
+        .btn-user {
+        }
+
+        .btn-user:hover {
+            margin-left: 5px;
+
+        }
+        /*Задает параметры отображения бокового меню, надо будет потестировать без него*/
+        .column-sidebar {
+            float: right;
+            width: 138px;
+        }
+        /*Задает параметры отображения бокового меню, надо будет потестировать без него*/
+        .div-sidebar:after {
+            content: "";
+            display: table;
+            clear: both;
+
+        }
+        /*Задает параметры отображения бокового меню, надо будет потестировать без него*/
+        .list-sidebar {
+            width: 138px;
+            height: 100%;
+            background-color: #dadfe6;
+            float: left;
+        }
+        /*Задает высоту для кнопки "Новая заявка"*/
+        .sidebar-button-h {
+            height: 91px;
+        }
+        /*Задает высоту для кнопки "Новая заявка"*/
+        .sidebar-button-l {
+            height: 45px;
+        }
+        /*Убирает отступ над кнопками меню пользователя, из-за него не совпадала область кнопки и обасть ссылки*/
+        .a-tag-pad {
+            padding-top: 0;
+        }
+        /*Задает область дляотображения основного контента, иначе создается область во весь экран и смешается вниз, под
+        меню пользователя*/
+        .div-body {
+            width: 85%;
+            margin-left: 25px;
+        }
+
+    </style>
 
 </head>
-<body>
+<body style="background-color: #e7e9ed">
 <main class="content-wrapper">
-  <div th:replace="~{header :: header}"></div>
-  <table class="table">
-    <tbody>
-
-    <tr>
-      <td>
-        <div style="float: left" th:replace="~{sidebar :: sidebar}"></div>
-      </td>
-      <td>
-        <div class="container">
-          <div layout:fragment="content">
-            <h1>Статический контент будет здесь отображен</h1>
-          </div>
-        </div>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+    <div class="row">
+        <div th:replace="~{header :: header}"></div>
+        <div class="column-sidebar" th:replace="~{sidebar :: sidebar}"></div>
+        <div class="column div-body container" style="background-color: #e7e9ed" layout:fragment="content"></div>
+    </div>
 </main>
 </body>
 </html>
