@@ -1,0 +1,64 @@
+<div xmlns:th="http://www.thymeleaf.org"
+     th:fragment="header">
+    <nav class="navbar navbar-expand-lg px-0" style="background-color: #c2efc5">
+        <div class="container-fluid" style="padding-left: 0">
+            <a class="navbar-brand" href="/" style="color: darkred">
+                <img src="https://gitlab.com/GreekHohlov/sd_img/-/raw/main/logo1.png" alt="" width="140" height="50">
+            </a>
+            <!--      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"-->
+            <!--              data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"-->
+            <!--              aria-expanded="false" aria-label="Toggle navigation">-->
+            <!--        <span class="navbar-toggler-icon"></span>-->
+            <!--      </button>-->
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> <b>Заявки</b></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            <b>Отчёты</b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/locations">Отчёт1</a></li>
+                            <li><a class="dropdown-item" href="/locations">Отчёт2</a></li>
+                            <li><a class="dropdown-item" href="/sla">Отчёт2</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="/workSchedule">Основной отчёт</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            <b>Настройки</b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/locations">Пользователи</a></li>
+                            <li><a class="dropdown-item" href="/locations">Площадки</a></li>
+                            <li><a class="dropdown-item" href="/locations">Роли</a></li>
+                            <li><a class="dropdown-item" href="/sla">SLA</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="/workSchedule">График работы</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+                <form class="d-flex">
+                    <button class="btn btn-outline-success" type="submit">Новая заявка</button>
+                </form>
+
+                <form class="d-flex">
+                    <a href="/logout" class="nav-link active" aria-current="page">
+                        <img src="https://gitlab.com/GreekHohlov/sd_img/-/raw/main/exit.png" alt=""
+                             width="60" height="48">
+                    </a>
+                </form>
+            </div>
+        </div>
+    </nav>
+</div>

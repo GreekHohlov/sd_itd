@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Площадки</title>
+    <style>
+        .book-link {
+            text-decoration: none;
+        }
+
+        .book-link:hover {
+            color: #001445;
+        }
+
+        .not-enough-book {
+            color: dodgerblue;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <h4>Площадка</h4>
+    <div class="row">
+        <div class="col">
+            <a href="locations/add"
+               class="btn btn-secondary"
+               role="button"
+               style="float: right"
+               aria-disabled="true">Добавить площадку</a>
+        </div>
+    </div>
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th scope="col">Названия</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="location : ${locations}">
+            <td th:text="${location.getNameLocation()}"></td>
+            <td></td>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

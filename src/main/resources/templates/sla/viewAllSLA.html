@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>SLA</title>
+    <style>
+        .book-link {
+            text-decoration: none;
+        }
+
+        .book-link:hover {
+            color: #001445;
+        }
+
+        .not-enough-book {
+            color: dodgerblue;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <h4>SLA(Соглашение об уровне обслуживания)</h4>
+    <div class="row">
+        <div class="col">
+            <a href="sla/add"
+               class="btn btn-secondary"
+               role="button"
+               style="float: right"
+               aria-disabled="true">Добавить SLA</a>
+        </div>
+    </div>
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th scope="col">Названия</th>
+            <th scope="col">Время реакции</th>
+            <th scope="col">Время выполнения</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="SLA : ${SLA}">
+            <td th:text="${SLA.getNameSLA()}"></td>
+            <td th:text="${SLA.getResponseTime()}"></td>
+            <td th:text="${SLA.getExecutionTime()}"></td>
+            <td></td>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
