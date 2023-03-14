@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователи</title>
+    <style>
+        .book-link {
+            text-decoration: none;
+        }
+
+        .book-link:hover {
+            color: #001445;
+        }
+
+        .not-enough-book {
+            color: dodgerblue;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <h4>Пользователи</h4>
+    <div class="row">
+        <div class="col">
+            <a href="users/add"
+               class="btn btn-secondary"
+               role="button"
+               style="float: right"
+               aria-disabled="true">Добавить пользователя</a>
+        </div>
+    </div>
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th scope="col">Фамилия</th>
+            <th scope="col">Имя</th>
+            <th scope="col">Отчество</th>
+            <th scope="col">Login</th>
+            <th scope="col">Password</th>
+            <th scope="col">e-mail</th>
+            <th scope="col">Площадка</th>
+            <th scope="col">Группа</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.getLastName()}"></td>
+            <td th:text="${user.getFirstName()}"></td>
+            <td th:text="${user.getMiddleName()}"></td>
+            <td th:text="${user.getLogin()}"></td>
+            <td th:text="${user.getPassword()}"></td>
+            <td th:text="${user.getEmail()}"></td>
+            <td th:text="${user.getLocationId()}"></td>
+            <td th:text="${user.getGroupId()}"></td>
+            <td></td>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
