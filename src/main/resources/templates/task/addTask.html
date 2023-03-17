@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Создать заявку</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h3 class="mt-3 bt-3">Создать новую заявку</h3>
+    <form enctype="multipart/form-data" class="needs-validation" novalidate style="max-width: 50vw" method="post"
+          th:action="@{task/add}" th:object="${taskForm}">
+        <div class="mt-3 row g-2">
+            <div class="col-md">
+                <div class="form-floating">
+                    <input name="nameTask" type="text" class="form-control input-bg" id="nameTask" placeholder="Тема заявки"
+                           required>
+                    <label for="nameTask">Тема заявки</label>
+                    <div class="invalid-feedback">Обязательное поле для заполнения</div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3 row g2">
+            <div class="col-md">
+                <div class="form-floating mb-3">
+                    <textarea name="description" class="form-control input-bg" id="description" rows="3"
+                              placeholder="Описание проблемы" required></textarea>
+                    <label for="description" class="form-label">Описание проблемы</label>
+                    <div class="invalid-feedback">Обязательное поле для заполнения</div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3 row g2">
+            <div class="col-md">
+                <div class="mt-3 form-floating">
+                    <input name="attachments" type="file" class="form-control form-control-sm input-bg" id="attachments"
+                           placeholder="Вложение" style="padding-top: 2rem;">
+                    <label for="attachments">Вложение</label>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3 row g2">
+            <div class="col-md">
+                <div class="form-floating">
+                    <select class="form-select input-bg" name="nameType" id="nameType" required>
+                        <option selected value="default">Выберите тип заявки</option>
+                    </select>
+                    <label for="nameType">Тип заявки</label>
+                    <div class="invalid-feedback">Обязательное поле для заполнения</div>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-floating">
+                    <select class="form-select input-bg" name="priority" id="priority" required>
+                        <option selected value="default">Выберите приоритет заявки</option>
+                    </select>
+                    <label for="priority">Приоритет заявки</label>
+                    <div class="invalid-feedback">Обязательное поле для заполнения</div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3 row g2">
+            <div class="col-md">
+                <div class="form-floating">
+                    <select class="form-select input-bg" name="category" id="category" required>
+                        <option selected value="default">Выберите категорию заявки</option>
+                    </select>
+                    <label for="category">Категория заявки</label>
+                    <div class="invalid-feedback">Обязательное поле для заполнения</div>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-floating">
+                    <select class="form-select input-bg" name="subCategoryIds" id="subCategoryIds" required>
+                        <option selected value="default">Выберите подкатегорию заявки</option>
+                    </select>
+                    <label for="subCategoryIds">Подкатегория заявки</label>
+                    <div class="invalid-feedback">Обязательное поле для заполнения</div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3 row g2">
+            <div class="col-md">
+                <div class="form-floating">
+                    <select class="form-select input-bg" name="responsible" id="responsible" required>
+                        <option selected value="default">Выберите группу</option>
+                    </select>
+                    <label for="responsible">Группа</label>
+                    <div class="invalid-feedback">Обязательное поле для заполнения</div>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-floating">
+                    <select class="form-select input-bg" name="user" id="user" required>
+                        <option selected value="default">Выберите специалиста</option>
+                    </select>
+                    <label for="user">Специалист</label>
+                    <div class="invalid-feedback">Обязательное поле для заполнения</div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3 row g-2">
+            <button type="submit" class="btn btn-primary">Добавить</button>
+            <button type="button" class="btn btn-secondary" onclick="window.history.back()">Назад</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

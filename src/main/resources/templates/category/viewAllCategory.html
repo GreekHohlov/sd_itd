@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Категория</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h4>Категория</h4>
+    <div class="row">
+        <div class="col">
+            <a href="category/add"
+               class="btn btn-secondary"
+               role="button"
+               style="float: right"
+               aria-disabled="true">Добавить категорию</a>
+        </div>
+    </div>
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Название</th>
+            <th scope="col">Родительская категория</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="categories : ${category}">
+            <td th:text="${categories.getId()}"></td>
+            <td th:text="${categories.getNameCategory()}"></td>
+            <td th:text="${categories.getParentCategoryId()}"></td>
+            <td></td>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

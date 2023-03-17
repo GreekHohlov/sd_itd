@@ -4,32 +4,31 @@
       layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Локации</title>
+    <title>Тип заявки</title>
 </head>
 <body>
 <div layout:fragment="content">
-  <h4>Группы</h4>
+  <h4>Тип заявки</h4>
   <div class="row">
     <div class="col">
-      <a href="locations/add"
+      <a href="typetask/add"
          class="btn btn-secondary"
          role="button"
          style="float: right"
-         aria-disabled="true">Добавить площадку</a>
+         aria-disabled="true">Добавить тип заявки</a>
     </div>
   </div>
   <table class="table table-sm">
     <thead>
     <tr>
-      <th scope="col">ID</th>
-      <th scope="col">Название</th>
-      <th scope="col"></th>
+      <th scope="col">Названия</th>
+      <th scope="col">SLA</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="location : ${locations}">
-      <td th:text="${location.getId()}"></td>
-      <td th:text="${location.getNameLocation()}"></td>
+    <tr th:each="types : ${typeTask}">
+      <td th:text="${types.getNameType()}"></td>
+      <td th:text="${types.getSlaId()}"></td>
       <td></td>
     </tbody>
   </table>
