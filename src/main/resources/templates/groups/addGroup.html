@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить группу</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h3 class="mt-3 mb-3">Добавить группу</h3>
+    <form enctype="multipart/form-data" class="needs-validation" novalidate style="max-width: 50vw" method="POST"
+          th:action="@{/groups/add}" th:object="${groupForm}">
+        <div class="mt-3 row g-2">
+            <div class="col-md">
+                <div class="form-floating mb-3">
+                    <!--Название поля инпута должно строго соответствовать названию поля класса (DTO)-->
+                    <input name="responsible" type="text" class="form-control input-bg" id="responsible"
+                           placeholder="Название группы"
+                           required>
+                    <label for="responsible">Название</label>
+                    <div class="invalid-feedback">Обязательное поле для заполнения</div>
+                </div>
+                <div class="col-md">
+                    <div class="form-floating mb-3">
+                        <!--Название поля инпута должно строго соответствовать названию поля класса (DTO)-->
+                        <input name="role" type="text" class="form-control input-bg" id="role"
+                               placeholder="РольГруппы"
+                               required>
+                        <label for="role">Роль группы</label>
+                    </div>
+                </div>
+                <div class="mt-3 row g-2">
+                    <button type="submit" class="btn btn-primary" onclick="validateForm()">Добавить</button>
+                    <button type="button" class="btn btn-secondary" onclick="window.history.back()">Назад</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

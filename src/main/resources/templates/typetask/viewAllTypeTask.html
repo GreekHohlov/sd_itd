@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Тип заявки</title>
+</head>
+<body>
+<div layout:fragment="content">
+  <h4>Тип заявки</h4>
+  <div class="row">
+    <div class="col">
+      <a href="typetask/add"
+         class="btn btn-secondary"
+         role="button"
+         style="float: right"
+         aria-disabled="true">Добавить тип заявки</a>
+    </div>
+  </div>
+  <table class="table table-sm">
+    <thead>
+    <tr>
+      <th scope="col">Названия</th>
+      <th scope="col">SLA</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="types : ${typeTask}">
+      <td th:text="${types.getNameType()}"></td>
+      <td th:text="${types.getSlaId()}"></td>
+      <td></td>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

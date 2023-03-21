@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
-    <title>isDesk</title>
+    <title>ServiceDesk</title>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/docs/5.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
@@ -17,59 +17,52 @@
 
         .btn-primary {
             color: white;
+            background-color: #59A95DFF;
+            border-color: #59A95DFF;
+        }
+
+        .btn-primary:hover {
+            color: white;
             background-color: #328736;
             border-color: #328736;
         }
 
-        .btn-primary:hover {
-            color: #699e6a;
-            background-color: #2f8e34;
-            border-color: #2f8e34;
+        /*.btn-user:hover {*/
+        /*    margin-left: 5px;*/
+        /*    ;*/
+        /*}*/
+        /*Задаёт цвет выпадающего меню*/
+        .drop-style {
+            background-color: #c2efc5
         }
-
-        .btn-user {
+        /*Устанавливает отсупы у основно поля, чтобы не было визуального прилипания к краям*/
+        .body-style {
+            margin: 20px;
+            background-color: #e7e9ed
         }
-
-        .btn-user:hover {
-            margin-left: 5px;
-
-        }
-        /*Задает параметры отображения бокового меню, надо будет потестировать без него*/
-        .column-sidebar {
-            float: right;
-            width: 138px;
-        }
-        /*Задает параметры отображения бокового меню, надо будет потестировать без него*/
-        .div-sidebar:after {
-            content: "";
-            display: table;
-            clear: both;
-
-        }
-        /*Задает параметры отображения бокового меню, надо будет потестировать без него*/
-        .list-sidebar {
-            width: 138px;
-            height: 100%;
-            background-color: #dadfe6;
-            float: left;
-        }
-        /*Задает высоту для кнопки "Новая заявка"*/
-        .sidebar-button-h {
-            height: 91px;
-        }
-        /*Задает высоту для кнопки "Новая заявка"*/
-        .sidebar-button-l {
-            height: 45px;
-        }
-        /*Убирает отступ над кнопками меню пользователя, из-за него не совпадала область кнопки и обасть ссылки*/
-        .a-tag-pad {
+        .no-padding {
             padding-top: 0;
+            padding-bottom: 0;
         }
-        /*Задает область дляотображения основного контента, иначе создается область во весь экран и смешается вниз, под
-        меню пользователя*/
-        .div-body {
-            width: 85%;
-            margin-left: 25px;
+        .btn-profile {
+            border-radius: 50%;
+        }
+        .btn-profile:hover {
+            background-color: #4d4d4d;
+            border-radius: 50%;
+        }
+
+        .btn-exit:hover {
+            background-color: #4d4d4d;
+            border-radius: 20%;
+        }
+        .input-bg {
+            background-color: #c2efc5;
+            border-color: #4d4d4d;
+        }
+        .addTask {
+            background-color: #c2efc5;
+            color: #198754;
         }
 
     </style>
@@ -77,11 +70,13 @@
 </head>
 <body style="background-color: #e7e9ed">
 <main class="content-wrapper">
-    <div class="row">
-        <div th:replace="~{header :: header}"></div>
-        <div class="column-sidebar" th:replace="~{sidebar :: sidebar}"></div>
-        <div class="column div-body container" style="background-color: #e7e9ed" layout:fragment="content"></div>
-    </div>
+    <div th:replace="~{header :: header}"></div>
+    <div class="body-style" layout:fragment="content"></div>
+<!--    <div class="row">-->
+
+<!--        <div class="column-sidebar" th:replace="~{sidebar :: sidebar}"></div>-->
+<!--        -->
+<!--    </div>-->
 </main>
 </body>
 </html>
