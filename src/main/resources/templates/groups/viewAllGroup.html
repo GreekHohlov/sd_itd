@@ -8,8 +8,10 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <h4>Группы</h4>
     <div class="row">
+        <div class="col">
+            <h4>Группы пользователей</h4>
+        </div>
         <div class="col">
             <a href="groups/add"
                class="btn btn-secondary"
@@ -21,6 +23,7 @@
     <table class="table table-sm">
         <thead>
         <tr>
+            <th scope="col">ID</th>
             <th scope="col">Названия</th>
             <th scope="col">Роль</th>
             <th scope="col"></th>
@@ -28,9 +31,18 @@
         </thead>
         <tbody>
         <tr th:each="group : ${groups}">
+            <td th:text="${group.getId()}"></td>
             <td th:text="${group.getResponsible()}"></td>
             <td th:text="${group.getRole()}"></td>
-            <td></td>
+            <td>
+                <!--                    <div sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('LIBRARIAN'))">-->
+                <!--                    <a class="btn btn-sm btn-outline-success" th:href="'/groups/update/' + ${group.id}">Обновить</a>-->
+                <a class="btn btn-sm btn-outline-danger"
+                   th:href="'/groups/delete/' + ${group.id}"
+                   style="float: right"
+                   onclick="return confirm('Вы действительно хотите удалить группу?')">Удалить</a>
+            </td>
+        </tr>
         </tbody>
     </table>
 </div>

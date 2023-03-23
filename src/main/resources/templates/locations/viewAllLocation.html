@@ -4,35 +4,47 @@
       layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Локации</title>
+    <title>Площадки</title>
 </head>
 <body>
 <div layout:fragment="content">
-  <h4>Группы</h4>
-  <div class="row">
-    <div class="col">
-      <a href="locations/add"
-         class="btn btn-secondary"
-         role="button"
-         style="float: right"
-         aria-disabled="true">Добавить площадку</a>
+    <div class="row">
+        <div class="col">
+            <h4>Площадки</h4>
+        </div>
+        <div class="col">
+            <a href="locations/add"
+               class="btn btn-secondary"
+               role="button"
+               style="float: right"
+               aria-disabled="true">Добавить площадку</a>
+        </div>
     </div>
-  </div>
-  <table class="table table-sm">
-    <thead>
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">Название</th>
-      <th scope="col"></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="location : ${locations}">
-      <td th:text="${location.getId()}"></td>
-      <td th:text="${location.getNameLocation()}"></td>
-      <td></td>
-    </tbody>
-  </table>
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th scope="col">№ п/п</th>
+            <th scope="col">Названия</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="location : ${locations}">
+            <td th:text="${location.getId()}"></td>
+            <td th:text="${location.getNameLocation()}"></td>
+            <td>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <!--                    <div sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('LIBRARIAN'))">-->
+                    <a class="btn btn-sm btn-outline-success"
+                       th:href="'/locations/update/' + ${location.id}">Обновить</a>
+                    <a class="btn btn-sm btn-outline-danger"
+                       th:href="'/locations/delete/' + ${location.id}"
+                       onclick="return confirm('Вы действительно хотите удалить?')">Удалить</a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

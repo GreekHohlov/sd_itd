@@ -8,30 +8,48 @@
 </head>
 <body>
 <div layout:fragment="content">
-  <h4>Тип заявки</h4>
-  <div class="row">
-    <div class="col">
-      <a href="typetask/add"
-         class="btn btn-secondary"
-         role="button"
-         style="float: right"
-         aria-disabled="true">Добавить тип заявки</a>
+    <div class="row">
+        <div class="col">
+            <h4>Типы заявок</h4>
+        </div>
+        <div class="col">
+            <a href="typetask/add"
+               class="btn btn-secondary"
+               role="button"
+               style="float: right"
+               aria-disabled="true">Добавить тип заявки</a>
+        </div>
     </div>
-  </div>
-  <table class="table table-sm">
-    <thead>
-    <tr>
-      <th scope="col">Названия</th>
-      <th scope="col">SLA</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="types : ${typeTask}">
-      <td th:text="${types.getNameType()}"></td>
-      <td th:text="${types.getSlaId()}"></td>
-      <td></td>
-    </tbody>
-  </table>
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th scope="col">Названия</th>
+            <th scope="col">SLA</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="type : ${typeTask}">
+            <td th:text="${type.getNameType()}"></td>
+            <td th:text="${type.getSlaId()}"></td>
+<!--            <td>-->
+<!--                <ul>-->
+<!--                    <li th:each="SLA : ${type.getSlaId()}" th:text="${SLA}"></li>-->
+<!--                    -->
+<!--                </ul>-->
+<!--            </td>-->
+
+            <td>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <!--                    <div sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('LIBRARIAN'))">-->
+                    <a class="btn btn-sm btn-outline-success"
+                       th:href="'/typetask/update/' + ${type.id}">Обновить</a>
+                    <a class="btn btn-sm btn-outline-danger"
+                       th:href="'/typetask/delete/' + ${type.id}"
+                       onclick="return confirm('Вы действительно хотите удалить?')">Удалить</a>
+                </div>
+            </td>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

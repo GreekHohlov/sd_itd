@@ -4,12 +4,14 @@
       layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Категория</title>
+    <title>Категории</title>
 </head>
 <body>
 <div layout:fragment="content">
-    <h4>Категория</h4>
     <div class="row">
+        <div class="col">
+            <h4>Категории заявок</h4>
+        </div>
         <div class="col">
             <a href="category/add"
                class="btn btn-secondary"
@@ -21,17 +23,30 @@
     <table class="table table-sm">
         <thead>
         <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Название</th>
+            <th scope="col">№ п/п</th>
+            <th scope="col">Названия</th>
             <th scope="col">Родительская категория</th>
+            <th> </th>
+            <!--            <th scope="col">Родительская категория</th>-->
         </tr>
         </thead>
         <tbody>
         <tr th:each="categories : ${category}">
-            <td th:text="${categories.getId()}"></td>
+            <td>#</td>
             <td th:text="${categories.getNameCategory()}"></td>
-            <td th:text="${categories.getParentCategoryId()}"></td>
-            <td></td>
+<!--            <td th:text="${categories.getParentCategoryId()}"></td>-->
+            <!--            <td th:each="categories : ${categories.getId()}" th:text="${categories.getNameCategory()}"></td>-->
+            <td>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <!--                    <div sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('LIBRARIAN'))">-->
+                    <a class="btn btn-sm btn-outline-success"
+                       th:href="'/categoty/update/' + ${categories.id}">Обновить</a>
+                    <a class="btn btn-sm btn-outline-danger"
+                       th:href="'/categoty/delete/' + ${categories.id}"
+                       onclick="return confirm('Вы действительно хотите удалить?')">Удалить</a>
+                </div>
+            </td>
+        </tr>
         </tbody>
     </table>
 </div>

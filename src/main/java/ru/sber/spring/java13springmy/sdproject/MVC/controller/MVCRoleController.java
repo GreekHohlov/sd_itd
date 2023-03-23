@@ -26,6 +26,7 @@ public class MVCRoleController {
         model.addAttribute("roles", result);
         return "role/viewAllRole";
     }
+    /*
     //Рисует форму создания
     @GetMapping("/add")
     public String create() {
@@ -39,4 +40,6 @@ public class MVCRoleController {
         roleService.create(roleDTO);
         return "redirect:/role";
     }
+
+     */
 }

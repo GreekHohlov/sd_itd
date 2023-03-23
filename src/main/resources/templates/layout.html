@@ -35,18 +35,22 @@
         .drop-style {
             background-color: #c2efc5
         }
+
         /*Устанавливает отсупы у основно поля, чтобы не было визуального прилипания к краям*/
         .body-style {
             margin: 20px;
             background-color: #e7e9ed
         }
+
         .no-padding {
             padding-top: 0;
             padding-bottom: 0;
         }
+
         .btn-profile {
             border-radius: 50%;
         }
+
         .btn-profile:hover {
             background-color: #4d4d4d;
             border-radius: 50%;
@@ -56,10 +60,12 @@
             background-color: #4d4d4d;
             border-radius: 20%;
         }
+
         .input-bg {
             background-color: #c2efc5;
             border-color: #4d4d4d;
         }
+
         .addTask {
             background-color: #c2efc5;
             color: #198754;
@@ -72,11 +78,11 @@
 <main class="content-wrapper">
     <div th:replace="~{header :: header}"></div>
     <div class="body-style" layout:fragment="content"></div>
-<!--    <div class="row">-->
+    <!--    <div class="row">-->
 
-<!--        <div class="column-sidebar" th:replace="~{sidebar :: sidebar}"></div>-->
-<!--        -->
-<!--    </div>-->
+    <!--        <div class="column-sidebar" th:replace="~{sidebar :: sidebar}"></div>-->
+    <!--        -->
+    <!--    </div>-->
 </main>
 </body>
 </html>

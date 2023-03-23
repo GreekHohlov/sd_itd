@@ -1,13 +1,60 @@
 <!DOCTYPE html>
 <html lang="ru"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+
       layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Task</title>
+    <title>Заявки</title>
 </head>
 <body>
 <div layout:fragment="content">
+    <div>
+        <hr class="hr"/>
+        <h3>Поиск заявки</h3>
+        <form method="POST" th:action="@{/task/search}" th:object="${taskSearchForm}">
+            <div class="mt-0 row g-2">
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input name="nameTask" type="text" class="form-control" id="nameTask"
+                               placeholder="Название заявки">
+                        <label for="nameTask">Название заявки</label>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input name="user" type="text" class="form-control" id="user" placeholder="Инициатор">
+                        <label for="user">Инициатор</label>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input name="user1" type="text" class="form-control" id="user1" placeholder="Параметр">
+                        <label for="user1">Параметр</label>
+                    </div>
+                </div>
+                <div class="mt-0 row g-2">
+                    <div class="form-floating">
+                        <input name="user2" type="text" class="form-control" id="user2" placeholder="Параметр1">
+                        <label for="user2">Параметр1</label>
+                    </div>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Флажок по умолчанию
+                    </label>
+                </div>
+
+
+
+                <div class="row g-2">
+                    <button type="submit" class="btn btn-secondary">Найти заявку</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <hr class="mt-3 hr"/>
     <h4>Заявки</h4>
     <div class="row">
         <table class="table table">
@@ -26,15 +73,17 @@
             <tbody>
             <tr th:each="tasks : ${task}">
                 <td>
-                <a class="task-link" th:href="'/task' + ${tasks.getId()}"
-                   th:text="${tasks.getId()}">ID заявки</a>
+                    <a class="task-link" th:href="'/task' + ${tasks.getId()}"
+                       th:text="${tasks.getId()}">ID заявки</a>
                 </td>
                 <td>
                     <a class="task-link" th:href="'/task' + ${tasks.getId()}"
                        th:text="${tasks.getNameTask()}">Тема заявки</a>
                 </td>
                 <td>
-                    <a class="task-link" th:text="${tasks.getUser().getLastName() + ' ' + tasks.getUser().getFirstName() + ' ' + tasks.getUser().getMiddleName()}">Автор заявки</a>
+                    <a class="task-link"
+                       th:text="${tasks.getUser().getLastName() + ' ' + tasks.getUser().getFirstName() + ' ' + tasks.getUser().getMiddleName()}">Автор
+                        заявки</a>
                 </td>
                 <td>
                     <a class="task-link">Исполнитель</a>

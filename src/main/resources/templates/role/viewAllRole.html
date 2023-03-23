@@ -8,27 +8,29 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <h4>Роли</h4>
     <div class="row">
         <div class="col">
-            <a href="role/add"
-               class="btn btn-secondary"
-               role="button"
-               style="float: right"
-               aria-disabled="true">Добавить роль</a>
+            <h4>Роли пользователей</h4>
         </div>
+<!--        <div class="col">-->
+<!--            <a href="role/add"-->
+<!--               class="btn btn-secondary"-->
+<!--               role="button"-->
+<!--               style="float: right"-->
+<!--               aria-disabled="true">Добавить роль</a>-->
+<!--        </div>-->
     </div>
     <table class="table table-sm">
         <thead>
         <tr>
-            <th scope="col">Названия</th>
-            <th scope="col"></th>
+            <th scope="col">ID</th>
+            <th scope="col">Названия роли</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="role : ${roles}">
+            <td th:text="${role.getId()}"></td>
             <td th:text="${role.getNameRole()}"></td>
-            <td></td>
         </tbody>
     </table>
 </div>

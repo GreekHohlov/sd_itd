@@ -5,24 +5,13 @@
 <head>
     <meta charset="UTF-8">
     <title>SLA</title>
-    <style>
-        .book-link {
-            text-decoration: none;
-        }
-
-        .book-link:hover {
-            color: #001445;
-        }
-
-        .not-enough-book {
-            color: dodgerblue;
-        }
-    </style>
 </head>
 <body>
 <div layout:fragment="content">
-    <h4>SLA(Соглашение об уровне обслуживания)</h4>
     <div class="row">
+        <div class="col">
+            <h4>SLA(Соглашение об уровне обслуживания)</h4>
+        </div>
         <div class="col">
             <a href="sla/add"
                class="btn btn-secondary"
@@ -35,8 +24,8 @@
         <thead>
         <tr>
             <th scope="col">Названия</th>
-            <th scope="col">Время реакции</th>
-            <th scope="col">Время выполнения</th>
+            <th scope="col">Время реакции (час.)</th>
+            <th scope="col">Время выполнения (час.)</th>
             <th scope="col"></th>
         </tr>
         </thead>
@@ -45,7 +34,17 @@
             <td th:text="${SLA.getNameSLA()}"></td>
             <td th:text="${SLA.getResponseTime()}"></td>
             <td th:text="${SLA.getExecutionTime()}"></td>
-            <td></td>
+            <td>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <!--                    <div sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('LIBRARIAN'))">-->
+                    <a class="btn btn-sm btn-outline-success"
+                       th:href="'/sla/update/' + ${SLA.id}">Обновить</a>
+                    <a class="btn btn-sm btn-outline-danger"
+                       th:href="'/sla/delete/' + ${SLA.id}"
+                       onclick="return confirm('Вы действительно хотите удалить?')">Удалить</a>
+                </div>
+            </td>
+        </tr>
         </tbody>
     </table>
 </div>
