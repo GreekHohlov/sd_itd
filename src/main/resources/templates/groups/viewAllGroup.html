@@ -33,7 +33,11 @@
         <tr th:each="group : ${groups}">
             <td th:text="${group.getId()}"></td>
             <td th:text="${group.getResponsible()}"></td>
-            <td th:text="${group.getRole()}"></td>
+            <td>
+                <a class="task-link" th:href="'/role' + ${group.getRole()}"
+                   th:text="${group.getRole()}">Тема заявки</a>
+            </td>
+
             <td>
                 <!--                    <div sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('LIBRARIAN'))">-->
                 <!--                    <a class="btn btn-sm btn-outline-success" th:href="'/groups/update/' + ${group.id}">Обновить</a>-->

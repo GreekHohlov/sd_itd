@@ -34,6 +34,15 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         user.getTasks().add(task);
         return mapper.toDto(taskRepository.save(task));
     }
+
+    public TaskDTO addWorkerToTask(Long taskId, Long workerId){
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new NotFoundException("Заявка с id " + taskId + " не найдена"));
+        User worker = userRepository.findById(workerId)
+                .orElseThrow(() -> new NotFoundException("Исполнитель с id " + workerId + " не найден"));
+        worker.getTasks().add(task);
+        return mapper.toDto(taskRepository.save(task));
+    }
     public List<TaskWithUserDTO> getAllTaskWithUser() {
         return taskWithUserMapper.toDTOs(taskRepository.findAll());
     }

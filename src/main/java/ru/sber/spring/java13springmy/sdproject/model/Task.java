@@ -44,9 +44,9 @@ public class Task extends GenericModel {
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_TASK_INFO_USER"))
     private User user;
 
-//    @ManyToOne
-//    @JoinColumn(name = "worker_id", foreignKey = @ForeignKey(name = "FK_TASK_INFO_WORKER"))
-//    private Worker worker;
+    @ManyToOne
+    @JoinColumn(name = "worker_id", foreignKey = @ForeignKey(name = "FK_TASK_INFO_WORKER"))
+    private User worker;
 
     @Column(name = "status", nullable = false)
     @Enumerated
