@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Attachments</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h4>Вложения к заявкам</h4>
+    <div class="row">
+        <div class="col">
+            <a href="attachments/add"
+               class="btn btn-secondary"
+               role="button"
+               style="float: right"
+               aria-disabled="true">Добавить вложение</a>
+        </div>
+        <table class="table table">
+            <thead>
+            <tr>
+                <th scope="col">id вложения</th>
+                <th scope="col">id заявки</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="attachment : ${attachments}">
+                <td>
+                    <a class="attachment-link" th:href="'/attachments' + ${attachment.getId()}"
+                       th:text="${attachment.getId()}">id заявки</a>
+                </td>
+                <td>
+                    <a class="task-link" th:each="tasks : ${attachment.getTaskId()}" th:href="'/task' + ${attachment.getTaskId()}"
+                       th:text="${attachment.getTaskId()}">id заявки</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

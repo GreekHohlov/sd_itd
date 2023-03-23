@@ -5,24 +5,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Пользователи</title>
-    <style>
-        .book-link {
-            text-decoration: none;
-        }
-
-        .book-link:hover {
-            color: #001445;
-        }
-
-        .not-enough-book {
-            color: dodgerblue;
-        }
-    </style>
 </head>
 <body>
 <div layout:fragment="content">
-    <h4>Пользователи</h4>
-    <div class="row">
+      <div class="row">
+        <div class="col">
+            <h4>Пользователи</h4>
+        </div>
         <div class="col">
             <a href="users/add"
                class="btn btn-secondary"
@@ -55,7 +44,17 @@
             <td th:text="${user.getEmail()}"></td>
             <td th:text="${user.getLocationId()}"></td>
             <td th:text="${user.getGroupId()}"></td>
-            <td></td>
+            <td>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <!--                    <div sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('LIBRARIAN'))">-->
+                    <a class="btn btn-sm btn-outline-success"
+                       th:href="'/users/update/' + ${user.id}">Обновить</a>
+                    <a class="btn btn-sm btn-outline-danger"
+                       th:href="'/users/delete/' + ${user.id}"
+                       onclick="return confirm('Вы действительно хотите удалить?')">Удалить</a>
+                </div>
+            </td>
+        </tr>
         </tbody>
     </table>
 </div>

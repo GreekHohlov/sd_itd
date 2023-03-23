@@ -3,57 +3,61 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-  <meta charset="UTF-8">
-  <title>График работы </title>
-  <style>
-    .book-link {
-      text-decoration: none;
-    }
-
-    .book-link:hover {
-      color: #001445;
-    }
-
-    .not-enough-book {
-      color: dodgerblue;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>График работы </title>
 </head>
 <body>
 <div layout:fragment="content">
-  <h3>График работы</h3>
-  <div class="row">
-    <div class="col">
-      <a href="workSchedule/add"
-         class="btn btn-secondary"
-         role="button"
-         style="float: right"
-         aria-disabled="true">Заполнить график</a>
+    <div class="row">
+        <div class="col">
+            <h4>График работы</h4>
+            <a href="workSchedule/add"
+               class="btn btn-secondary me-md-2"
+               role="button"
+               style="float: left"
+               aria-disabled="true">Заполнить график (обработка)</a>
+            <a href="workSchedule/add"
+               class="btn btn-secondary me-md-2"
+               role="button"
+               style="float: left"
+               aria-disabled="true">Удалить график (обработка)</a>
+            <a href="workSchedule/add"
+               class="btn btn-secondary"
+               role="button"
+               style="float: left"
+               aria-disabled="true">Добавить в график (1 день)</a>
+        </div>
     </div>
-  </div>
-  <table class="table table-sm">
-    <thead>
-    <tr>
-      <th scope="col">Год</th>
-      <th scope="col">Месяц</th>
-      <th scope="col">День</th>
-      <th scope="col">Начало работы</th>
-      <th scope="col">Конец работы</th>
-      <th scope="col">Выходной</th>
-      <th scope="col"></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="workShedule : ${workSchedules}">
-      <td th:text="${workShedule.getYear()}"></td>
-      <td th:text="${workShedule.getMonth()}"></td>
-      <td th:text="${workShedule.getDayOfWeek()}"></td>
-      <td th:text="${workShedule.getStartEvent()}"></td>
-      <td th:text="${workShedule.getEndEvent()}"></td>
-      <td th:text="${workShedule.getDayOff()}"></td>
-      <td></td>
-    </tbody>
-  </table>
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th scope="col">Год</th>
+            <th scope="col">Месяц</th>
+            <th scope="col">День</th>
+            <th scope="col">Начало работы</th>
+            <th scope="col">Конец работы</th>
+            <th scope="col">Выходной</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="workShedule : ${workSchedules}">
+            <td th:text="${workShedule.getYear()}"></td>
+            <td th:text="${workShedule.getMonth()}"></td>
+            <td th:text="${workShedule.getDayOfWeek()}"></td>
+            <td th:text="${workShedule.getStartEvent()}"></td>
+            <td th:text="${workShedule.getEndEvent()}"></td>
+            <td th:text="${workShedule.getDayOff()}"></td>
+            <td>
+                <div>
+                    <!--                    <div sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('LIBRARIAN'))">-->
+                    <!--                    <a class="btn btn-sm btn-outline-success" th:href="'/groups/update/' + ${group.id}">Обновить</a>-->
+                    <a class="btn btn-sm btn-outline-danger" th:href="'/workShedule/delete/' + ${workShedule.id}"
+                       onclick="return confirm('Вы действительно хотите удалить ?')">Удалить</a>
+                </div>
+            </td>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

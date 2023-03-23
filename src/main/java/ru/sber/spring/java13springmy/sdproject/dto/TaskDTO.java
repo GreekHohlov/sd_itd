@@ -21,5 +21,6 @@ public class TaskDTO extends GenericDTO{
     private LocalDate endDate;
     private Set<Long> attachmentsIds;
     private Long userId;
+    private Long workerId;
     private StatusTask statusTask;
 }

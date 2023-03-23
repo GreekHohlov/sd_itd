@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить категорию</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h3 class="mt-3 mb-3">Добавить категорию</h3>
+    <form enctype="multipart/form-data" class="needs-validation" novalidate style="max-width: 50vw" method="POST"
+          th:action="@{/category/add}" th:object="${category}">
+        <div class="mt-3 row g-2">
+            <div class="col-md">
+                <div class="form-floating">
+                    <input name="nameType" type="text" class="form-control input-bg" id="nameType"
+                           placeholder="Название категории"
+                           required>
+                    <label for="nameType">Название</label>
+                    <div class="invalid-feedback">Обязательное поле для заполнения</div>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-floating">
+                    <select class="form-select input-bg" name="parentCategoryId" id="parentCategoryId" required>
+                        <option selected value="default">Выберите родительскую категорию</option>
+                    </select>
+                    <label for="parentCategoryId">Категория родитель</label>
+                    <div class="invalid-feedback">Обязательное поле для заполнения</div>
+                </div>
+            </div>
+            <div class="mt-3 row g-2">
+                <button type="submit" class="btn btn-primary" onclick="validateForm()">Добавить</button>
+                <button type="button" class="btn btn-secondary" onclick="window.history.back()">Назад</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

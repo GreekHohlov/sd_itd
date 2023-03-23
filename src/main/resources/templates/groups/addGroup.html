@@ -13,18 +13,18 @@
           th:action="@{/groups/add}" th:object="${groupForm}">
         <div class="mt-3 row g-2">
             <div class="col-md">
-                <div class="form-floating">
+                <div class="form-floating mb-3">
                     <!--Название поля инпута должно строго соответствовать названию поля класса (DTO)-->
-                    <input name="responsible" type="text" class="form-control" id="responsible"
+                    <input name="responsible" type="text" class="form-control input-bg" id="responsible"
                            placeholder="Название группы"
                            required>
                     <label for="responsible">Название</label>
                     <div class="invalid-feedback">Обязательное поле для заполнения</div>
                 </div>
                 <div class="col-md">
-                    <div class="form-floating">
+                    <div class="form-floating mb-3">
                         <!--Название поля инпута должно строго соответствовать названию поля класса (DTO)-->
-                        <input name="role" type="text" class="form-control" id="role"
+                        <input name="role" type="text" class="form-control input-bg" id="role"
                                placeholder="РольГруппы"
                                required>
                         <label for="role">Роль группы</label>
@@ -34,6 +34,8 @@
                     <button type="submit" class="btn btn-primary" onclick="validateForm()">Добавить</button>
                     <button type="button" class="btn btn-secondary" onclick="window.history.back()">Назад</button>
                 </div>
+            </div>
+        </div>
     </form>
 </div>
 </body>

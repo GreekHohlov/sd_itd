@@ -4,20 +4,20 @@
       layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Площадки</title>
+    <title>Категории</title>
 </head>
 <body>
 <div layout:fragment="content">
     <div class="row">
         <div class="col">
-            <h4>Площадки</h4>
+            <h4>Категории заявок</h4>
         </div>
         <div class="col">
-            <a href="locations/add"
+            <a href="category/add"
                class="btn btn-secondary"
                role="button"
                style="float: right"
-               aria-disabled="true">Добавить площадку</a>
+               aria-disabled="true">Добавить категорию</a>
         </div>
     </div>
     <table class="table table-sm">
@@ -25,20 +25,24 @@
         <tr>
             <th scope="col">№ п/п</th>
             <th scope="col">Названия</th>
-            <th scope="col"></th>
+            <th scope="col">Родительская категория</th>
+            <th> </th>
+            <!--            <th scope="col">Родительская категория</th>-->
         </tr>
         </thead>
         <tbody>
-        <tr th:each="location : ${locations}">
-            <td th:text="${location.getId()}"></td>
-            <td th:text="${location.getNameLocation()}"></td>
+        <tr th:each="categories : ${category}">
+            <td>#</td>
+            <td th:text="${categories.getNameCategory()}"></td>
+<!--            <td th:text="${categories.getParentCategoryId()}"></td>-->
+            <!--            <td th:each="categories : ${categories.getId()}" th:text="${categories.getNameCategory()}"></td>-->
             <td>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                     <!--                    <div sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('LIBRARIAN'))">-->
                     <a class="btn btn-sm btn-outline-success"
-                       th:href="'/locations/update/' + ${location.id}">Обновить</a>
+                       th:href="'/categoty/update/' + ${categories.id}">Обновить</a>
                     <a class="btn btn-sm btn-outline-danger"
-                       th:href="'/locations/delete/' + ${location.id}"
+                       th:href="'/categoty/delete/' + ${categories.id}"
                        onclick="return confirm('Вы действительно хотите удалить?')">Удалить</a>
                 </div>
             </td>

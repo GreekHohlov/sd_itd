@@ -15,7 +15,7 @@
             <div class="col-md">
                 <div class="form-floating">
                     <!--Название поля инпута должно строго соответствовать названию поля класса (DTO)-->
-                    <input name="nameSLA" type="text" class="form-control" id="nameSLA" placeholder="Название SLA"
+                    <input name="nameSLA" type="text" class="form-control input-bg" id="nameSLA" placeholder="Название SLA"
                            required>
                     <label for="nameSLA">Название</label>
                     <div class="invalid-feedback">Обязательное поле для заполнения</div>
@@ -24,7 +24,7 @@
             <div class="mt-3 row g-2">
                 <div class="col-md">
                     <div class="form-floating">
-                        <input name="responseTime" type="number" class="form-control" id="responseTime"
+                        <input name="responseTime" type="number" class="form-control input-bg" id="responseTime"
                                placeholder="Время реакции" value="1" required>
                         <label for="responseTime">Время реакции (час)</label>
                         <div class="invalid-feedback">Обязательное поле для заполнения</div>
@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-md">
                     <div class="form-floating">
-                        <input name="executionTime" type="number" class="form-control" id="executionTime"
+                        <input name="executionTime" type="number" class="form-control input-bg" id="executionTime"
                                placeholder="Время выполнения" value="1">
                         <label for="executionTime">Время выполнения (час)</label>
                     </div>
@@ -42,6 +42,7 @@
                 <button type="submit" class="btn btn-primary" onclick="validateForm()">Добавить</button>
                 <button type="button" class="btn btn-secondary" onclick="window.history.back()">Назад</button>
             </div>
+        </div>
     </form>
 </div>
 </body>
