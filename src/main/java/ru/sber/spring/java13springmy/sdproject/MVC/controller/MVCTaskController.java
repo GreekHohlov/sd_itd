@@ -15,7 +15,7 @@ import java.util.List;
 
 @Hidden
 @Controller
-@RequestMapping("/task")
+@RequestMapping("task")
 public class MVCTaskController {
     private final TaskService taskService;
 

@@ -32,7 +32,7 @@
         </thead>
         <tbody>
         <tr th:each="categories : ${category}">
-            <td>#</td>
+            <td th:text="${categories.getId()}">#</td>
             <td th:text="${categories.getNameCategory()}"></td>
 <!--            <td th:text="${categories.getParentCategoryId()}"></td>-->
             <!--            <td th:each="categories : ${categories.getId()}" th:text="${categories.getNameCategory()}"></td>-->
