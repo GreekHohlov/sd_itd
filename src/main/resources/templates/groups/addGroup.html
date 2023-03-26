@@ -24,9 +24,11 @@
                 <div class="col-md">
                     <div class="form-floating mb-3">
                         <!--Название поля инпута должно строго соответствовать названию поля класса (DTO)-->
-                        <input name="role" type="text" class="form-control input-bg" id="role"
-                               placeholder="РольГруппы"
-                               required>
+                        <select class="form-select input-bg" name="role" id="role" required>
+                            <option selected value="default">Выберите роль группы</option>
+                            <option th:each="role : ${roleForm}"
+                                    th:value="${role.getId()}" th:text="${role.getDescription()}"></option>
+                        </select>
                         <label for="role">Роль группы</label>
                     </div>
                 </div>

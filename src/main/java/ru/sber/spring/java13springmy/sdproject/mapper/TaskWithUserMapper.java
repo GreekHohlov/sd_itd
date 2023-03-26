@@ -18,13 +18,13 @@ public class TaskWithUserMapper extends GenericMapper<Task, TaskWithUserDTO> {
         super(modelMapper, Task.class, TaskWithUserDTO.class);
         this.userRepository = userRepository;
     }
-    @PostConstruct
-    protected void setupMapper() {
+//    @PostConstruct
+//    protected void setupMapper() {
 //        modelMapper.createTypeMap(Task.class, TaskWithUserDTO.class)
 //                .addMappings(m -> m.skip(TaskWithUserDTO::setUserId)).setPostConverter(toDtoConverter());
 //        modelMapper.createTypeMap(TaskWithUserDTO.class, Task.class)
 //                .addMappings(m -> m.skip(Task::setUser)).setPostConverter(toEntityConverter());
-    }
+//    }
     @Override
     protected void mapSpecificFields(TaskWithUserDTO source, Task destination) {
         destination.setUser(userRepository.findById(source.getUserId())

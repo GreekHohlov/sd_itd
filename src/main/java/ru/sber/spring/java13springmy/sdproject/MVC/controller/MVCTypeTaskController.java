@@ -7,38 +7,65 @@ import org.springframework.web.bind.annotation.*;
 import ru.sber.spring.java13springmy.sdproject.dto.SLADTO;
 import ru.sber.spring.java13springmy.sdproject.dto.TypeTaskDTO;
 import ru.sber.spring.java13springmy.sdproject.mapper.SLAMapper;
+import ru.sber.spring.java13springmy.sdproject.repository.SLARepository;
 import ru.sber.spring.java13springmy.sdproject.service.TypeTaskService;
 
 import java.util.List;
+
 @Hidden
 @Controller
 @RequestMapping("typetask")
 public class MVCTypeTaskController {
     private final TypeTaskService typeTaskService;
+    private final SLARepository slaRepository;
+    private final SLAMapper slaMapper;
 
-    public MVCTypeTaskController(TypeTaskService typeTaskService){
+    public MVCTypeTaskController(TypeTaskService typeTaskService,
+                                 SLARepository slaRepository,
+                                 SLAMapper slaMapper) {
         this.typeTaskService = typeTaskService;
+        this.slaRepository = slaRepository;
+        this.slaMapper = slaMapper;
     }
 
     @GetMapping("")
-    public String getAll(Model model){
+    public String getAll(Model model) {
         List<TypeTaskDTO> typeTaskDTOS = typeTaskService.listAll();
         model.addAttribute("typeTask", typeTaskDTOS);
+
         return "typetask/viewAllTypeTask";
     }
+
     @GetMapping("/add")
-    public String create(){
+    public String create(Model model) {
+        List<SLADTO> slaDTOs = slaMapper.toDTOs(slaRepository.findAll());
+        model.addAttribute("slaForm", slaDTOs);
         return "typetask/addTypeTask";
     }
+
     @PostMapping("/add")
-    public String create(@ModelAttribute("typeTaskForm") TypeTaskDTO typeTaskDTO){
+    public String create(@ModelAttribute("slaForm") TypeTaskDTO typeTaskDTO) {
         typeTaskService.create(typeTaskDTO);
         return "redirect:/typetask";
     }
-    @GetMapping("/addTypeTask/{id}")
-    public String addSLA(@PathVariable Long id, Model model) {
 
-        return "typetask/addTypeTask";
+    @GetMapping("/update/{id}")
+    public String update(@PathVariable Long id, Model model) {
+        List<SLADTO> slaDTOs = slaMapper.toDTOs(slaRepository.findAll());
+        TypeTaskDTO typeTaskDTO = typeTaskService.getOne(id);
+        System.out.println(typeTaskDTO.toString());
+        model.addAttribute("typeForm", typeTaskDTO);
+        model.addAttribute("slaForm", slaDTOs);
+        return "typetask/updateTypeTask";
     }
-
+    @PostMapping("/update")
+    public String update(@ModelAttribute("typeId") Long typeId,
+                         @ModelAttribute("nameType") String nameType,
+                              @ModelAttribute("slaId") Long slaId) {
+        TypeTaskDTO typeTaskDTOUpdate = typeTaskService.getOne(typeId);
+        typeTaskDTOUpdate.setNameType(nameType);
+        typeTaskDTOUpdate.setSlaId(slaId);
+        typeTaskService.update(typeTaskDTOUpdate);
+        return "redirect:/typetask";
+    }
 }

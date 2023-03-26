@@ -31,7 +31,7 @@ public class MVCSLAController {
 
     //Рисует форму создания
     @GetMapping("/add")
-    public String create() {
+    public String create(Model model) {
         return "sla/addSLA";
     }
 

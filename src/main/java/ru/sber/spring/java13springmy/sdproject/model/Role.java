@@ -18,6 +18,8 @@ public class Role
 
     @Column(name = "name_role", nullable = false)
     private String nameRole;
+    @Column(name = "description")
+    private String description;
     @OneToMany(mappedBy = "role")
     private Set<Group> groups;
 }

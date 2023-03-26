@@ -23,4 +23,5 @@ public class TaskDTO extends GenericDTO{
     private Long userId;
     private Long workerId;
     private StatusTask statusTask;
+    private String files;
 }

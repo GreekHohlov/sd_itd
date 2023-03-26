@@ -8,7 +8,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.sber.spring.java13springmy.sdproject.dto.GroupDTO;
 import ru.sber.spring.java13springmy.sdproject.dto.RoleDTO;
+import ru.sber.spring.java13springmy.sdproject.mapper.RoleMapper;
+import ru.sber.spring.java13springmy.sdproject.repository.GroupRepository;
+import ru.sber.spring.java13springmy.sdproject.repository.RoleRepository;
 import ru.sber.spring.java13springmy.sdproject.service.GroupService;
+import ru.sber.spring.java13springmy.sdproject.service.RoleService;
 
 import java.util.List;
 
@@ -16,26 +20,41 @@ import java.util.List;
 @RequestMapping("groups")
 public class MVCGroupController {
     private final GroupService groupService;
+    private final RoleMapper roleMapper;
+    private final RoleRepository roleRepository;
+    private final GroupRepository groupRepository;
+    private final RoleService roleService;
 
-    public MVCGroupController(GroupService groupService) {
+    public MVCGroupController(GroupService groupService, RoleMapper roleMapper, RoleRepository roleRepository,
+                              GroupRepository groupRepository, RoleService roleService) {
         this.groupService = groupService;
+        this.roleMapper = roleMapper;
+        this.roleRepository = roleRepository;
+        this.groupRepository = groupRepository;
+        this.roleService = roleService;
     }
+
     @GetMapping("")
     public String getAll(Model model) {
         List<GroupDTO> result = groupService.listAll();
         model.addAttribute("groups", result);
-        return "groups/viewAllGroup";
+          return "groups/viewAllGroup";
     }
+
     //Рисует форму создания
     @GetMapping("/add")
-    public String create() {
+    public String create(Model model) {
+        List<RoleDTO> roleDTOs = roleMapper.toDTOs(roleRepository.findAll());
+        model.addAttribute("roleForm", roleDTOs);
         return "groups/addGroup";
     }
 
     // Примит данные о созданном *** и передаст в БД
     // Потом вернёт нас на страницу со всеми ***
     @PostMapping("/add")
-    public String create(@ModelAttribute("groupForm") GroupDTO groupDTO) {
+    public String create(@ModelAttribute("groupForm") GroupDTO groupDTO,
+                         @ModelAttribute ("roleForm") Long roleId) {
+        groupDTO.setRole(roleId);
         groupService.create(groupDTO);
         return "redirect:/groups";
     }

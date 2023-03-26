@@ -11,5 +11,6 @@ import java.util.Set;
 @NoArgsConstructor
 public class RoleDTO extends GenericDTO {
     private String nameRole;
+    private String description;
     private Set<Long> groupsIds;
 }

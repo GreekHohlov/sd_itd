@@ -24,13 +24,15 @@
         <thead>
         <tr>
             <th scope="col">ID</th>
-            <th scope="col">Названия роли</th>
+            <th scope="col">Роль</th>
+            <th scope="col">Описания</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="role : ${roles}">
             <td th:text="${role.getId()}"></td>
             <td th:text="${role.getNameRole()}"></td>
+            <td th:text="${role.getDescription()}"></td>
         </tbody>
     </table>
 </div>

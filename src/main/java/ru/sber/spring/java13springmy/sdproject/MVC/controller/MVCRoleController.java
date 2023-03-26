@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ru.sber.spring.java13springmy.sdproject.constants.UserRoleConstants;
 import ru.sber.spring.java13springmy.sdproject.dto.LocationDTO;
 import ru.sber.spring.java13springmy.sdproject.dto.RoleDTO;
 import ru.sber.spring.java13springmy.sdproject.service.RoleService;
@@ -22,6 +23,7 @@ public class MVCRoleController {
     }
     @GetMapping("")
     public String getAll(Model model) {
+       // List<UserRoleConstants> res= UserRoleConstants.
         List<RoleDTO> result = roleService.listAll();
         model.addAttribute("roles", result);
         return "role/viewAllRole";

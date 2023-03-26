@@ -15,7 +15,7 @@ import java.util.Set;
 @SequenceGenerator(name = "default_gen", sequenceName = "workers_seq", allocationSize = 1)
 public class Location extends GenericModel {
 
-    @Column(name = "name_lcation")
+    @Column(name = "name_location")
     private String nameLocation;
     @OneToMany(mappedBy = "location")
     private Set<User> users;

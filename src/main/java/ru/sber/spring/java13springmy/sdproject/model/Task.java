@@ -40,6 +40,8 @@ public class Task extends GenericModel {
     @OneToMany(mappedBy = "task")
     private Set<Attachments> attachments;
 
+    @Column(name = "files")
+    private String files;
     @ManyToOne
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_TASK_INFO_USER"))
     private User user;
