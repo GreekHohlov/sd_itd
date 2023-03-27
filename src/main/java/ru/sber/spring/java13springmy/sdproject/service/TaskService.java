@@ -1,7 +1,6 @@
 package ru.sber.spring.java13springmy.sdproject.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.webjars.NotFoundException;
@@ -25,6 +24,7 @@ public class TaskService extends GenericService<Task, TaskDTO> {
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
     private final TaskWithUserMapper taskWithUserMapper;
+
     protected TaskService(TaskRepository taskRepository, TaskMapper taskMapper,
                           UserRepository userRepository, TaskWithUserMapper taskWithUserMapper) {
         super(taskRepository, taskMapper);
@@ -33,7 +33,7 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         this.taskWithUserMapper = taskWithUserMapper;
     }
 
-    public TaskDTO addUserToTask(Long taskId, Long userId){
+    public TaskDTO addUserToTask(Long taskId, Long userId) {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new NotFoundException("Заявка с id " + taskId + " не найдена"));
         User user = userRepository.findById(userId)
@@ -41,10 +41,12 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         user.getTasks().add(task);
         return mapper.toDto(taskRepository.save(task));
     }
-    public TaskWithUserDTO getTaskWithUser (Long id) {
+
+    public TaskWithUserDTO getTaskWithUser(Long id) {
         return taskWithUserMapper.toDto(mapper.toEntity(super.getOne(id)));
     }
-    public TaskDTO addWorkerToTask(Long taskId, Long workerId){
+
+    public TaskDTO addWorkerToTask(Long taskId, Long workerId) {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new NotFoundException("Заявка с id " + taskId + " не найдена"));
         User worker = userRepository.findById(workerId)
@@ -52,28 +54,22 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         worker.getTasks().add(task);
         return mapper.toDto(taskRepository.save(task));
     }
+
     public List<TaskWithUserDTO> getAllTaskWithUser() {
         return taskWithUserMapper.toDTOs(taskRepository.findAll());
     }
+
     public List<TaskWithUserDTO> findTasks(TaskSearchDTO taskSearchDTO) {
-        log.info("Вход: " + taskSearchDTO.toString());
         String taskId = taskSearchDTO.getTaskId() != null ? String.valueOf(taskSearchDTO.getTaskId()) : null;
-        String status = taskSearchDTO.getStatusTask() != null ? String.valueOf(taskSearchDTO.getStatusTask().ordinal()) :null;
-        String userFio = taskSearchDTO.getUserFio() != null ? ("%" + taskSearchDTO.getUserFio() + "%") : "%";
-        log.info("USER_FIO: " + userFio);
-        List<TaskWithUserDTO> taskTest = taskWithUserMapper.toDTOs(taskRepository.searchTasks(
-                taskId,
-                taskSearchDTO.getNameTask(),
-//                userFio,
-//                taskSearchDTO.getWorkerFio(),
-//                taskSearchDTO.getNameCategory(),
-                status
+        String status = taskSearchDTO.getStatusTask() != null ? String.valueOf(taskSearchDTO.getStatusTask().ordinal()) : null;
+        return taskWithUserMapper.toDTOs(taskRepository.searchTasks(taskId,
+                                        taskSearchDTO.getNameTask(),
+                                        taskSearchDTO.getUserFio(),
+                                        taskSearchDTO.getWorkerFio(),
+                                        taskSearchDTO.getCategory(),
+                                        status));
 
-        ));
-        log.info("Приём: " + taskTest.toString());
-        return taskTest;
     }
-
     //Создание заявкии с файлом
     public TaskDTO create(final TaskDTO object,
                           MultipartFile file) {

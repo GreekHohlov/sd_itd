@@ -1,15 +1,13 @@
 package ru.sber.spring.java13springmy.sdproject.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import ru.sber.spring.java13springmy.sdproject.model.StatusTask;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class TaskWithUserDTO extends TaskDTO{
     private UserDTO user;
     private UserDTO worker;
