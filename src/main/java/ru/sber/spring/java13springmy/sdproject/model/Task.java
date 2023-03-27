@@ -30,7 +30,7 @@ public class Task extends GenericModel {
     private Category category;
 
     @Column(name = "description", nullable = false)
-    private String discription;
+    private String description;
 
     @Column(name = "create_date", nullable = false)
     private LocalDate createDate;

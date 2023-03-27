@@ -22,16 +22,11 @@ public class MVCGroupController {
     private final GroupService groupService;
     private final RoleMapper roleMapper;
     private final RoleRepository roleRepository;
-    private final GroupRepository groupRepository;
-    private final RoleService roleService;
 
-    public MVCGroupController(GroupService groupService, RoleMapper roleMapper, RoleRepository roleRepository,
-                              GroupRepository groupRepository, RoleService roleService) {
+    public MVCGroupController(GroupService groupService, RoleMapper roleMapper, RoleRepository roleRepository) {
         this.groupService = groupService;
         this.roleMapper = roleMapper;
         this.roleRepository = roleRepository;
-        this.groupRepository = groupRepository;
-        this.roleService = roleService;
     }
 
     @GetMapping("")
@@ -53,7 +48,7 @@ public class MVCGroupController {
     // Потом вернёт нас на страницу со всеми ***
     @PostMapping("/add")
     public String create(@ModelAttribute("groupForm") GroupDTO groupDTO,
-                         @ModelAttribute ("roleForm") Long roleId) {
+                         @ModelAttribute ("role") Long roleId) {
         groupDTO.setRole(roleId);
         groupService.create(groupDTO);
         return "redirect:/groups";

@@ -27,7 +27,7 @@
                         <select class="form-select input-bg" name="role" id="role" required>
                             <option selected value="default">Выберите роль группы</option>
                             <option th:each="role : ${roleForm}"
-                                    th:value="${role.getId()}" th:text="${role.getDescription()}"></option>
+                                    th:value="${role.getId()}" th:text="${role.getNameRole()}"></option>
                         </select>
                         <label for="role">Роль группы</label>
                     </div>

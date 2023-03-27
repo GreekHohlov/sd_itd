@@ -1,10 +1,12 @@
 package ru.sber.spring.java13springmy.sdproject.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.webjars.NotFoundException;
 import ru.sber.spring.java13springmy.sdproject.dto.TaskDTO;
+import ru.sber.spring.java13springmy.sdproject.dto.TaskSearchDTO;
 import ru.sber.spring.java13springmy.sdproject.dto.TaskWithUserDTO;
 import ru.sber.spring.java13springmy.sdproject.mapper.TaskMapper;
 import ru.sber.spring.java13springmy.sdproject.mapper.TaskWithUserMapper;
@@ -14,11 +16,11 @@ import ru.sber.spring.java13springmy.sdproject.repository.TaskRepository;
 import ru.sber.spring.java13springmy.sdproject.repository.UserRepository;
 import ru.sber.spring.java13springmy.sdproject.utils.FileHelper;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@Slf4j
 public class TaskService extends GenericService<Task, TaskDTO> {
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
@@ -53,13 +55,30 @@ public class TaskService extends GenericService<Task, TaskDTO> {
     public List<TaskWithUserDTO> getAllTaskWithUser() {
         return taskWithUserMapper.toDTOs(taskRepository.findAll());
     }
+    public List<TaskWithUserDTO> findTasks(TaskSearchDTO taskSearchDTO) {
+        log.info("Вход: " + taskSearchDTO.toString());
+        String taskId = taskSearchDTO.getTaskId() != null ? String.valueOf(taskSearchDTO.getTaskId()) : null;
+        String status = taskSearchDTO.getStatusTask() != null ? String.valueOf(taskSearchDTO.getStatusTask().ordinal()) :null;
+        String userFio = taskSearchDTO.getUserFio() != null ? ("%" + taskSearchDTO.getUserFio() + "%") : "%";
+        log.info("USER_FIO: " + userFio);
+        List<TaskWithUserDTO> taskTest = taskWithUserMapper.toDTOs(taskRepository.searchTasks(
+                taskId,
+                taskSearchDTO.getNameTask(),
+//                userFio,
+//                taskSearchDTO.getWorkerFio(),
+//                taskSearchDTO.getNameCategory(),
+                status
+
+        ));
+        log.info("Приём: " + taskTest.toString());
+        return taskTest;
+    }
 
     //Создание заявкии с файлом
     public TaskDTO create(final TaskDTO object,
                           MultipartFile file) {
         String fileName = FileHelper.createFile(file, object.getId());
         object.setFiles(fileName);
-        object.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         object.setCreatedWhen(LocalDateTime.now());
         return mapper.toDto(repository.save(mapper.toEntity(object)));
     }

@@ -10,13 +10,13 @@
   <title>Регистрация</title>
 </head>
 <body>
-<div layout:fragment="content">
+<div layout:fragment="content" class="container-fluid mt-5 pt-5">
   <!--        Форма регистрации-->
   <!--        action="/registration" - url на который будут отправлены данные-->
   <!--        object="userForm" - имя объекта в котором будут хранится данные (нужно чтобы потом в контроллере их распарсить)-->
-  <h3 class="mt-3 mb-3">Регистрация нового пользователя</h3>
-  <form method="POST" class="needs-validation" novalidate style="max-width: 50vw" th:action="@{/users/registration}" th:object="${userForm}">
-    <div class="mt-3 row g-2">
+  <h3 class=" offset-md-3 m-auto" style="text-align:center">Регистрация нового пользователя</h3>
+  <form method="POST" class="needs-validation form-group offset-md-3 m-auto" novalidate style="max-width: 40vw;" th:action="@{/users/registration}" th:object="${userForm}">
+    <div class="mt-3 row g-5">
       <div class="col-md">
         <div class="form-floating">
           <input name="login" type="text" class="form-control" id="login" placeholder="Введите логин" required>

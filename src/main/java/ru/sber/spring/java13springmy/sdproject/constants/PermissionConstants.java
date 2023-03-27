@@ -25,7 +25,9 @@ public interface PermissionConstants {
     List<String> BASE_PERMISSION_LIST = List.of("/",
             "index",
             "/task",
-            "/task/add");
+            "/task/add",
+            "/task/task/add",
+            "/task/search");
     /*
     Полный доступ.
     Предоставляется группам EXECUTOR и ADMIN.
