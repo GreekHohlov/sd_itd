@@ -2,7 +2,6 @@
 <html lang="ru"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
->
 <head>
     <meta charset="UTF-8">
     <title>Создать заявку</title>
@@ -35,28 +34,15 @@
         </div>
         <div class="mt-3 row g2">
             <div class="col-md">
-                <!--                <div class="mt-3 form-floating">-->
-                <!--                    <input name="attachments1" type="file" class="form-control form-control-sm input-bg" id="attachments1"-->
-                <!--                           placeholder="Вложение" style="padding-top: 2rem;">-->
-                <!--                    <label for="attachments">Вложение</label>-->
-                <!--                </div>-->
                 <div class="input-group mb-3">
                     <input name="file" type="file" class="form-control input-bg" id="file">
-                    <!--                    <label class="input-group-text" for="inputGroupFile02">Загрузка</label>-->
                 </div>
-                <!-- тут будет загрузка файла-->
-<!--                <div class="mt-3 form-floating">-->
-<!--                    <input name="file" type="file" class="form-control form-control-sm" id="onlineCopyPath" placeholder="Файл" style="padding-top: 2rem;">-->
-<!--                    <label for="onlineCopyPath">Файл</label>-->
-<!--                </div>-->
-
             </div>
         </div>
         <div class="mt-3 row g2">
-
             <div class="col-md">
                 <div class="form-floating">
-                    <select class="form-select input-bg" name="priority" id="priority"  required>
+                    <select class="form-select input-bg" name="priority" id="priority" required>
                         <option selected value="default">Выберите приоритет заявки</option>
                         <option th:each="priority : ${T(ru.sber.spring.java13springmy.sdproject.model.Priority).values()}"
                                 th:value="${priority}" th:text="${priority.priorityTextDisplay()}"></option>
@@ -71,12 +57,11 @@
                         <option th:each="typeTask : ${typeTaskForm}"
                                 th:value="${typeTask.getId()}" th:text="${typeTask.getNameType()}"></option>
                         <option selected value="default">Выберите тип заявки</option>
+                        <div class="invalid-feedback">Обязательное поле для заполнения</div>
                     </select>
                     <label for="nameType">Тип заявки</label>
-                    <!--                    <div class="invalid-feedback">Обязательное поле для заполнения</div>-->
                 </div>
             </div>
-
         </div>
         <div class="mt-3 row g2">
             <div class="col-md">
@@ -90,42 +75,15 @@
                     <!--                    <div class="invalid-feedback">Обязательное поле для заполнения</div>-->
                 </div>
             </div>
-            <!--            <div class="col-md">-->
-            <!--                <div class="form-floating">-->
-            <!--                    <select class="form-select input-bg" name="category" id="category" required>-->
-            <!--                        <option selected value="default">Выберите категорию заявки</option>-->
-            <!--                    </select>-->
-            <!--                    <label for="category">Категория заявки</label>-->
-            <!--                    <div class="invalid-feedback">Обязательное поле для заполнения</div>-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--&lt;!&ndash;            <div class="col-md">&ndash;&gt;-->
-            <!--&lt;!&ndash;                <div class="form-floating">&ndash;&gt;-->
-            <!--&lt;!&ndash;                    <select class="form-select input-bg" name="subCategoryIds" id="subCategoryIds" required>&ndash;&gt;-->
-            <!--&lt;!&ndash;                        <option selected value="default">Выберите подкатегорию заявки</option>&ndash;&gt;-->
-            <!--&lt;!&ndash;                    </select>&ndash;&gt;-->
-            <!--&lt;!&ndash;                    <label for="subCategoryIds">Подкатегория заявки</label>&ndash;&gt;-->
-            <!--&lt;!&ndash;                    <div class="invalid-feedback">Обязательное поле для заполнения</div>&ndash;&gt;-->
-            <!--&lt;!&ndash;                </div>&ndash;&gt;-->
-            <!--&lt;!&ndash;            </div>&ndash;&gt;-->
         </div>
         <div class="mt-3 row g2">
-
-            <!--            <div class="col-md">-->
-            <!--                <div class="form-floating">-->
-            <!--                    <select class="form-select input-bg" name="responsible" id="responsible" required>-->
-            <!--                        <option selected value="default">Выберите группу</option>-->
-            <!--                    </select>-->
-            <!--                    <label for="responsible">Группа</label>-->
-            <!--                    <div class="invalid-feedback">Обязательное поле для заполнения</div>-->
-            <!--                </div>-->
-            <!--            </div>-->
             <div class="col-md">
                 <div class="form-floating">
                     <select class="form-select input-bg" name="user" id="user" required>
                         <option selected value="default">Выберите специалиста</option>
                         <option th:each="worker : ${workerForm}"
-                                th:value="${worker.getId()}" th:text="${worker.getLastName()}"></option>
+                                th:value="${worker.getId()}"
+                                th:text="${ worker.getGroupId()+ ' ' + worker.getLastName()}"></option>
                     </select>
                     <label for="user">Специалист</label>
                     <!--                    <div class="invalid-feedback">Обязательное поле для заполнения</div>-->
@@ -133,7 +91,7 @@
             </div>
         </div>
         <div class="mt-3 row g-2">
-            <button type="submit" class="btn btn-primary">Добавить</button>
+            <button type="submit" class="btn btn-primary" onclick="validateForm()">Добавить</button>
             <button type="button" class="btn btn-secondary" onclick="window.history.back()">Назад</button>
         </div>
     </form>

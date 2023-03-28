@@ -20,6 +20,7 @@ public class UserDTO extends GenericDTO {
     private String email;
     private Integer locationId;
     private Integer groupId;
+    private String changePasswordToken;
     private Set<Long> tasksIds;
     private Set<Long> tasksWorkerIds;
 }

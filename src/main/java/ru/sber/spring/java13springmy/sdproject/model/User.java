@@ -40,6 +40,9 @@ public class User
     @Column(name = "phone")
     private String phone;
 
+    @Column(name = "change_password_token")
+    private String changePasswordToken;
+
     @ManyToOne
     @JoinColumn(name = "location_id", foreignKey = @ForeignKey(name = "FK_USER_INFO_LOCATION"))
     private Location location;

@@ -13,4 +13,6 @@ public interface UserRepository extends GenericRepository<User> {
     User findUsersByEmail(String email);
 
     User findUsersByGroup(Group group);
+
+    User findUserByChangePasswordToken(String token);
 }

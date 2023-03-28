@@ -15,8 +15,8 @@ public interface PermissionConstants {
      */
     List<String> ALL_WHITE_LIST = List.of("/login",
             "/users/registration",
-            "/remember-password",
-            "/change-password");
+            "/users/remember-password",
+            "/users/change-password");
     /*
     Базовый доступ к сервису
     Главная страница, просмотр заявок, создание заявок.
