@@ -8,7 +8,7 @@
 </head>
 <body>
 <div layout:fragment="content">
-      <div class="row">
+    <div class="row">
         <div class="col">
             <h4>Пользователи</h4>
         </div>
@@ -27,7 +27,6 @@
             <th scope="col">Имя</th>
             <th scope="col">Отчество</th>
             <th scope="col">Login</th>
-            <th scope="col">Password</th>
             <th scope="col">e-mail</th>
             <th scope="col">Площадка</th>
             <th scope="col">Группа</th>
@@ -40,7 +39,6 @@
             <td th:text="${user.getFirstName()}"></td>
             <td th:text="${user.getMiddleName()}"></td>
             <td th:text="${user.getLogin()}"></td>
-            <td th:text="${user.getPassword()}"></td>
             <td th:text="${user.getEmail()}"></td>
             <td th:text="${user.getLocationId()}"></td>
             <td th:text="${user.getGroupId()}"></td>

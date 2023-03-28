@@ -35,16 +35,21 @@
             <td th:text="${group.getResponsible()}"></td>
             <td>
                 <a class="task-link" th:href="'/role' + ${group.getRole()}"
-                   th:text="${group.getRole()}">Тема заявки</a>
+                   th:text="${group.getRole()}"></a>
             </td>
-
+<!--            <td>-->
+<!--                <ul>-->
+<!--                    <li th:each="role : ${group.getRole()}" th:text="${role.getNameRole()}"></li>-->
+<!--                </ul>-->
+<!--            </td>-->
             <td>
-                <!--                    <div sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('LIBRARIAN'))">-->
-                <!--                    <a class="btn btn-sm btn-outline-success" th:href="'/groups/update/' + ${group.id}">Обновить</a>-->
-                <a class="btn btn-sm btn-outline-danger"
-                   th:href="'/groups/delete/' + ${group.id}"
-                   style="float: right"
-                   onclick="return confirm('Вы действительно хотите удалить группу?')">Удалить</a>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a class="btn btn-sm btn-outline-success"
+                       th:href="'/groups/delete/' + ${group.id}">Обновить</a>
+                    <a class="btn btn-sm btn-outline-danger"
+                       th:href="'/groups/delete/' + ${group.id}"
+                       onclick="return confirm('Вы действительно хотите удалить?')">Удалить</a>
+                </div>
             </td>
         </tr>
         </tbody>

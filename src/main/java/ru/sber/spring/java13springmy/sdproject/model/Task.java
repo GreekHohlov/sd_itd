@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -13,6 +14,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 @SequenceGenerator(name = "default_gen", sequenceName = "tasks_seq", allocationSize = 1)
 public class Task extends GenericModel {
     @Column(name = "name_task", nullable = false)
@@ -30,7 +32,7 @@ public class Task extends GenericModel {
     private Category category;
 
     @Column(name = "description", nullable = false)
-    private String discription;
+    private String description;
 
     @Column(name = "create_date", nullable = false)
     private LocalDate createDate;
@@ -40,6 +42,8 @@ public class Task extends GenericModel {
     @OneToMany(mappedBy = "task")
     private Set<Attachments> attachments;
 
+    @Column(name = "files")
+    private String files;
     @ManyToOne
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_TASK_INFO_USER"))
     private User user;

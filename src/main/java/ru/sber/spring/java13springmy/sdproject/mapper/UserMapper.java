@@ -39,12 +39,14 @@ public class UserMapper extends GenericMapper<User, UserDTO> {
         modelMapper.createTypeMap(User.class, UserDTO.class)
                 .addMappings(m -> m.skip(UserDTO::setLocationId)).setPostConverter(toDtoConverter())
                 .addMappings(m -> m.skip(UserDTO::setGroupId)).setPostConverter(toDtoConverter())
-                .addMappings(m -> m.skip(UserDTO::setTasksIds)).setPostConverter(toDtoConverter());
+                .addMappings(m -> m.skip(UserDTO::setTasksIds)).setPostConverter(toDtoConverter())
+                .addMappings(m -> m.skip(UserDTO::setTasksWorkerIds)).setPostConverter(toDtoConverter());
 
         modelMapper.createTypeMap(UserDTO.class, User.class)
                 .addMappings(m -> m.skip(User::setLocation)).setPostConverter(toEntityConverter())
                 .addMappings(m -> m.skip(User::setGroup)).setPostConverter(toEntityConverter())
-                .addMappings(m -> m.skip(User::setTasks)).setPostConverter(toEntityConverter());
+                .addMappings(m -> m.skip(User::setTasks)).setPostConverter(toEntityConverter())
+                .addMappings(m -> m.skip(User::setTasksWorker)).setPostConverter(toEntityConverter());
     }
 
     @Override
@@ -60,6 +62,11 @@ public class UserMapper extends GenericMapper<User, UserDTO> {
         } else {
             destination.setTasks(Collections.emptySet());
         }
+        if (!Objects.isNull(source.getTasksWorkerIds())) {
+            destination.setTasksWorker(new HashSet<>(taskRepository.findAllById(source.getTasksWorkerIds())));
+        } else {
+            destination.setTasksWorker(Collections.emptySet());
+        }
     }
 
     @Override
@@ -67,6 +74,7 @@ public class UserMapper extends GenericMapper<User, UserDTO> {
         destination.setLocationId(source.getLocation().getId().intValue());
         destination.setGroupId(source.getGroup().getId().intValue());
         destination.setTasksIds(getIds(source));
+        destination.setTasksWorkerIds(getWorkerIds(source));
     }
 
     @Override
@@ -74,6 +82,14 @@ public class UserMapper extends GenericMapper<User, UserDTO> {
         return Objects.isNull(entity) || Objects.isNull(entity.getTasks())
                 ? null
                 : entity.getTasks().stream()
+                .map(GenericModel::getId)
+                .collect(Collectors.toSet());
+    }
+
+    protected Set<Long> getWorkerIds(User entity) {
+        return Objects.isNull(entity) || Objects.isNull(entity.getTasksWorker())
+                ? null
+                : entity.getTasksWorker().stream()
                 .map(GenericModel::getId)
                 .collect(Collectors.toSet());
     }

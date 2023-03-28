@@ -49,4 +49,6 @@ public class User
     private Group group;
     @OneToMany(mappedBy = "user")
     private Set<Task> tasks;
+    @OneToMany(mappedBy = "worker")
+    private Set<Task> tasksWorker;
 }

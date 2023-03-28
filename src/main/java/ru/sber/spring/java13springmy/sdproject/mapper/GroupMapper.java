@@ -40,7 +40,7 @@ public class GroupMapper extends GenericMapper<Group, GroupDTO> {
 
     @Override
     protected void mapSpecificFields(GroupDTO source, Group destination) {
-        destination.setRole(roleRepository.findById(source.getRole().longValue())
+        destination.setRole(roleRepository.findById(source.getRole())
                 .orElseThrow(() -> new NotFoundException("Группа не найдена")));
 
         if (!Objects.isNull(source.getUsersIds())) {
@@ -52,7 +52,7 @@ public class GroupMapper extends GenericMapper<Group, GroupDTO> {
 
     @Override
     protected void mapSpecificFields(Group source, GroupDTO destination) {
-        destination.setRole(source.getRole().getId().intValue());
+        destination.setRole(source.getRole().getId());
         destination.setUsersIds(getIds(source));
     }
 

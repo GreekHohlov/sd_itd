@@ -32,6 +32,7 @@ public class MVCTypeTaskController {
     public String getAll(Model model) {
         List<TypeTaskDTO> typeTaskDTOS = typeTaskService.listAll();
         model.addAttribute("typeTask", typeTaskDTOS);
+
         return "typetask/viewAllTypeTask";
     }
 

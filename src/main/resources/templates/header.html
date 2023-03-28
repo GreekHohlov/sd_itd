@@ -17,7 +17,8 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/task"> <b>Заявки</b></a>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('EXECUTOR'))"
+                        class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false">
                             <b>Отчёты</b>
@@ -32,7 +33,8 @@
                             <li><a class="dropdown-item" href="/task">Еженедельный отчёт</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item dropdown drop-style">
+                    <li sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('EXECUTOR'))"
+                        class="nav-item dropdown drop-style">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false">
                             <b>Настройки</b>
@@ -67,7 +69,6 @@
                    class="d-flex nav-link active btn-profile" style="margin-left: 5px; margin-right: 5px">
                     <img src="https://gitlab.com/GreekHohlov/sd_img/-/raw/main/profile-gray.png" width="35" height="35">
                 </a>
-
                 <form class="d-flex btn-exit" style="margin-left: 15px; margin-right: 20px">
                     <a href="/logout" class="nav-link active" aria-current="page">
                         <img src="https://gitlab.com/GreekHohlov/sd_img/-/raw/main/exitNew.png"

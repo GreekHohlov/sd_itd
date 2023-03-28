@@ -1,52 +1,57 @@
 --РОЛИ
 insert into role
-values (1, 'USER'),
-       (2, 'EXECUTOR'),
-       (3, 'ADMIN');
+values (1, null, null, null, null, false, 'Пользователь', 'USER'),
+       (2, null, null, null, null, false, 'Сотрудник', 'EXECUTOR'),
+       (3, null, null, null, null, false, 'Вед. сотрудник', 'MAIN_EXECUTOR'),
+       (4, null, null, null, null, false, 'Администратор', 'ADMIN');
+
 --Группы
 insert into groups
-values (1, 'Пользователи', 1),
-       (2, 'Сотрудники', 2),
-       (3, 'Администраторы', 3);
+values (1, null, null, null, null, false, 'Пользователи', 1),
+       (2, null, null, null, null, false, 'Сотрудники', 2),
+       (3, null, null, null, null, false, 'Администраторы', 3);
 --SLA
 insert into sla
-values (1, 1, 'Инциндент (высокий)', 2),
-       (2, 1, 'Инциндент (обычный)', 4),
-       (3, 1, 'Инциндент (низкий)', 8),
-       (4, 2, 'Обслуживание (высокий)', 8),
-       (5, 4, 'Обслуживание (обычный)', 16),
-       (6, 8, 'Обслуживание (низкий)', 40),
-       (7, 4, 'Доступ', 16),
-       (8, 16, 'Приобретение', 240);
+values (1, null, null, null, null, false, 1, 'Инциндент (высокий)', 2),
+       (2, null, null, null, null, false, 1, 'Инциндент (обычный)', 4),
+       (3, null, null, null, null, false, 1, 'Инциндент (низкий)', 8),
+       (4, null, null, null, null, false, 2, 'Обслуживание (высокий)', 8),
+       (5, null, null, null, null, false, 4, 'Обслуживание (обычный)', 16),
+       (6, null, null, null, null, false, 8, 'Обслуживание (низкий)', 40),
+       (7, null, null, null, null, false, 4, 'Доступ', 16),
+       (8, null, null, null, null, false, 16, 'Приобретение', 240);
 --Типы заявок
 insert into type_task
-values (1, 'Инциндент ПО', 1),
-       (2, 'Инциндент Адм.систем', 1),
-       (3, 'Обслуживание ПО', 6),
-       (4, 'Доступ', 7),
-       (5, 'Приобретение ИТ', 8);
+values (1, null, null, null, null, false, 'Инциндент ПО', 1),
+       (2, null, null, null, null, false, 'Инциндент Адм.систем', 1),
+       (3, null, null, null, null, false, 'Обслуживание ПО', 6),
+       (4, null, null, null, null, false, 'Доступ', 7),
+       (5, null, null, null, null, false, 'Приобретение ИТ', 8);
 
 --Категории заявок
 insert into category
-values (1, 'Администрирование систем', null),
-       (2, 'Адм. серверного оброруд.', 1),
-       (3, 'Адм. сетевого оборуд.', 1),
-       (4, 'Тоговое оборудование', null),
-       (5, 'Приобретение', null);
+values (1, null, null, null, null, false, 'Администрирование систем', null),
+       (2, null, null, null, null, false, 'Адм. серверного оброруд.', 1),
+       (3, null, null, null, null, false, 'Адм. сетевого оборуд.', 1),
+       (4, null, null, null, null, false, 'Тоговое оборудование', null),
+       (5, null, null, null, null, false, 'Приобретение', null);
 
 insert into locations
-values (1, 'Центральный офис'),
-       (2, 'Главный склад'),
-       (3, 'Магазин');
+values (1, null, null, null, null, false, 'Центральный офис'),
+       (2, null, null, null, null, false, 'Главный склад'),
+       (3, null, null, null, null, false, 'Магазин');
 
 insert into users
-values (1, 'ivanov@mail.ru', 'Иван', 'Иванов', 'ivanov', 'Иванович', '123', '+79235555656', 1, 3),
-       (2, 'petrov@mail.ru', 'Петр', 'Петров', 'petrov', 'Петрович', '123', '+79235555677', 1, 3),
-       (3, 'sidorov@mail.ru', 'Сидор', 'Сидоров', 'sidorov', 'Сидорович', '123', '+79235555688', 1, 3);
+values (2, null, null, null, null, false, 'ivanov@mail.ru', 'Иван', 'Иванов', 'ivanov', 'Иванович', '123',
+        '+79235555656', 1, 3),
+       (3, null, null, null, null, false, 'petrov@mail.ru', 'Петр', 'Петров', 'petrov', 'Петрович', '123',
+        '+79235555677', 1, 3),
+       (4, null, null, null, null, false, 'sidorov@mail.ru', 'Сидор', 'Сидоров', 'sidorov', 'Сидорович', '123',
+        '+79235555688', 1, 3);
 
 insert into tasks
-values (1, '2022-11-15 13:46:11.797607', 'Не работает ноутбук, переодичеки синий экран',
-        '2022-12-15 13:46:11.797607', 'Не работает ноутбук', 2, 2, 1, 2, 1, 3);
+values (1, null, null, null, null, false, '2022-11-15 13:46:11.797607', 'Не работает ноутбук, переодичеки синий экран',
+        '2022-12-15 13:46:11.797607', null, 'Не работает ноутбук', 2, 2, 1, 2, 2, 3);
 
 
 --

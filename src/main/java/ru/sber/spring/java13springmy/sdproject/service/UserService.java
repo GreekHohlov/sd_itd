@@ -4,6 +4,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.sber.spring.java13springmy.sdproject.dto.UserDTO;
 import ru.sber.spring.java13springmy.sdproject.mapper.UserMapper;
+import ru.sber.spring.java13springmy.sdproject.model.Group;
 import ru.sber.spring.java13springmy.sdproject.model.User;
 import ru.sber.spring.java13springmy.sdproject.repository.UserRepository;
 
@@ -21,6 +22,10 @@ public class UserService extends GenericService<User, UserDTO> {
     }
     public UserDTO getUserByEmail(final String email) {
         return mapper.toDto(((UserRepository) repository).findUsersByEmail(email));
+    }
+
+    public UserDTO getWorkers(final Group groupId) {
+        return mapper.toDto(((UserRepository) repository).findUsersByGroup(groupId));
     }
     public UserDTO create(UserDTO object) {
         if (object.getGroupId() == null) {

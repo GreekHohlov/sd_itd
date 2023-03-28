@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
@@ -16,49 +16,54 @@
             <div class="mt-0 row g-2">
                 <div class="col-md">
                     <div class="form-floating">
-                        <input name="tasks_id" type="text" class="form-control " id="tasks_id"
+                        <input name="taskId" type="text" class="form-control " id="taskId"
                                placeholder="ID заявки">
-                        <label for="tasks_id">ID заявки</label>
+                        <label for="taskId">ID заявки</label>
                     </div>
                 </div>
                 <div class="col-md">
                     <div class="form-floating">
-                        <input name="name_task" type="text" class="form-control" id="name_task"
+                        <input name="nameTask" type="text" class="form-control" id="nameTask"
                                placeholder="Название заявки">
-                        <label for="name_task">Название заявки</label>
+                        <label for="nameTask">Название заявки</label>
                     </div>
                 </div>
                 <div class="col-md">
                     <div class="form-floating">
-                        <input name="user_id" type="text" class="form-control" id="user_id" placeholder="Автор заявки">
-                        <label for="user_id">Автор заявки</label>
+                        <input name="userFio" type="text" class="form-control" id="userFio" placeholder="Автор заявки">
+                        <label for="userFio">Автор заявки</label>
                     </div>
                 </div>
             </div>
             <div class="mt-0 row g-2">
                 <div class="col-md">
                     <div class="form-floating">
-                        <input name="worker_id" type="text" class="form-control" id="worker_id"
+                        <input name="workerFio" type="text" class="form-control" id="workerFio"
                                placeholder="Исполнитель">
-                        <label for="worker_id">Исполнитель</label>
+                        <label for="workerFio">Исполнитель</label>
                     </div>
                 </div>
                 <div class="col-md">
                     <div class="form-floating">
-                        <select class="form-select " name="category" id="category" required>
-                            <option selected value="default">Выберите категорию заявки</option>
+                        <select class="form-select " name="category" id="category">
+                            <option selected th:value="null">Выберите категорию заявки</option>
+                            <option th:each="categorys : ${taskSearch}"
+                                    th:value="${categorys}"
+                            th:text="${categorys}">
+
+                            </option>
                         </select>
                         <label for="category">Категория заявки</label>
                     </div>
                 </div>
                 <div class="col-md">
                     <div class="form-floating">
-                        <select class="form-select" name="status" id="status_task">
+                        <select class="form-select" name="statusTask" id="statusTask">
                             <option selected th:value="null">Выберете статус заявки</option>
                             <option th:each="status : ${T(ru.sber.spring.java13springmy.sdproject.model.StatusTask).values()}"
                                     th:value="${status}" th:text="${status.statusTaskTextDisplay()}"></option>
                         </select>
-                        <label for="status_task">Статус</label>
+                        <label for="statusTask">Статус</label>
                     </div>
 
                 </div>
@@ -82,10 +87,10 @@
             <tr>
                 <th scope="col">ID заявки</th>
                 <th scope="col">Дата заявки</th>
+                <th scope="col">Тема заявки</th>
                 <th scope="col">Тип заявки</th>
                 <th scope="col">Категория</th>
                 <th scope="col">Автор</th>
-                <th scope="col">Тема заявки</th>
                 <th scope="col">Исполнитель</th>
                 <th scope="col">Срок выполнения</th>
                 <th scope="col">Статус</th>
@@ -95,25 +100,25 @@
             <tbody>
             <tr th:each="tasks : ${task}">
                 <td>
-                    <a class="text-link text-blue" th:href="'/task' + ${tasks.getId()}"
+                    <a class="text-link text-blue" th:href="'/task/viewTask' + ${tasks.getId()}"
                        th:text="${tasks.getId()}">ID заявки</a>
                 </td>
                 <td th:text="${tasks.getCreateDate()}">Дата заявки</td>
-                <td th:text="${tasks.getTypeTaskId()}">Тип заявки</td>
-                <td th:text="${tasks.getCategoryId()}">Категория</td>
                 <td>
-                    <a class="text-link text-blue" th:href="'/users' + ${tasks.getUserId()}"
+                    <a class="task-link" th:href="'/task/viewTask' + ${tasks.getId()}"
+                       th:text="${tasks.getNameTask()}">Тема заявки</a>
+                </td>
+                <td th:text="${tasks.getTypeTask().getNameType()}">Тип заявки</td>
+                <td th:text="${tasks.getCategory().getNameCategory()}">Категория</td>
+                <td>
+                    <a class="text-link text-blue" th:href="'/users/' + ${tasks.getUser().getId()}"
                        th:text="${tasks.getUser().getLastName() + ' ' + tasks.getUser().getFirstName().charAt(0) +
                        '. ' + tasks.getUser().getMiddleName().charAt(0) + '.'}">Автор ФИО</a>
                 </td>
                 <td>
-                    <a class="task-link" th:href="'/task' + ${tasks.getId()}"
-                       th:text="${tasks.getNameTask()}">Тема заявки</a>
-                </td>
-                <td>
-                    <a class="text-link text-blue" th:href="'/users' + ${tasks.getWorkerId()}"
-                       th:text="${tasks.getUser().getLastName() + ' ' + tasks.getUser().getFirstName().charAt(0) +
-                       '. ' + tasks.getUser().getMiddleName().charAt(0) + '.'}">Исполнитель ФИО</a>
+                    <a class="text-link text-blue" th:href="'/users/' + ${tasks.getWorker().getId()}"
+                       th:text="${tasks.getWorker().getLastName() + ' ' + tasks.getWorker().getFirstName().charAt(0) +
+                       '. ' + tasks.getWorker().getMiddleName().charAt(0) + '.'}">Исполнитель ФИО</a>
                 </td>
                 <td th:text="${tasks.getEndDate()}">Дата выполнения</td>
                 <td th:text="${tasks.getStatusTask().statusTaskTextDisplay()}">Статус</td>
@@ -122,7 +127,7 @@
                         <!--                    <div sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('LIBRARIAN'))">-->
                         <a class="btn btn-sm btn-outline-success"
                            th:href="'/task/update/' + ${tasks.id}">Обновить</a>
-                        <a class="btn btn-sm btn-outline-danger"
+                        <a sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('EXECUTOR'))" class="btn btn-sm btn-outline-danger"
                            th:href="'/task/delete/' + ${tasks.id}"
                            onclick="return confirm('Вы действительно хотите удалить заявку?')">Удалить</a>
                     </div>
