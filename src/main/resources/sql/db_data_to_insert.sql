@@ -42,16 +42,16 @@ values (1, null, null, null, null, false, 'Центральный офис'),
        (3, null, null, null, null, false, 'Магазин');
 
 insert into users
-values (2, null, null, null, null, false, 'ivanov@mail.ru', 'Иван', 'Иванов', 'ivanov', 'Иванович', '123',
-        '+79235555656', 1, 3),
-       (3, null, null, null, null, false, 'petrov@mail.ru', 'Петр', 'Петров', 'petrov', 'Петрович', '123',
-        '+79235555677', 1, 3),
-       (4, null, null, null, null, false, 'sidorov@mail.ru', 'Сидор', 'Сидоров', 'sidorov', 'Сидорович', '123',
-        '+79235555688', 1, 3);
+values (2, null, null, null, null, false, null, 'ivanov@mail.ru', 'Иван', 'Иванов', 'ivanov', 'Иванович', '123',
+        '+79235555656', false, 1, 3),
+       (3, null, null, null, null, false, null,'petrov@mail.ru', 'Петр', 'Петров', 'petrov', 'Петрович', '123',
+        '+79235555677',true, 1, 3),
+       (4, null, null, null, null, false, null, 'sidorov@mail.ru', 'Сидор', 'Сидоров', 'sidorov', 'Сидорович', '123',
+        '+79235555688',false, 1, 3);
 
 insert into tasks
-values (1, null, null, null, null, false, '2022-11-15 13:46:11.797607', 'Не работает ноутбук, переодичеки синий экран',
-        '2022-12-15 13:46:11.797607', null, 'Не работает ноутбук', 2, 2, 1, 2, 2, 3);
+values (1, null, null, null, null, false, '2022-11-15 13:46:11.797607',null, 'Не работает ноутбук, переодичеки синий экран',
+         '2022-12-15 13:46:11.797607', null, 'Не работает ноутбук', 2, 2, 1, 2, 2, 3);
 
 
 --

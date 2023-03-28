@@ -71,7 +71,6 @@ public class MVCTaskController {
         List<UserDTO> workerDTOs = userMapper.toDTOs(userRepository.findAll());
         List<TypeTaskDTO> typeTaskDTOs = typeTaskMapper.toDTOs(typeTaskRepository.findAll());
         List<CategoryDTO> categoryDTOs = categoryMapper.toDTOs(categoryRepository.findAll());
-        // List<GroupDTO> groupDTOs = gro;
         model.addAttribute("workerForm", workerDTOs);
         model.addAttribute("typeTaskForm", typeTaskDTOs);
         model.addAttribute("categotyForm", categoryDTOs);
@@ -80,7 +79,7 @@ public class MVCTaskController {
 
     @PostMapping("/add")
     public String create(@ModelAttribute("taskForm") TaskDTO taskDTO,
-                         @ModelAttribute("user") Long workerId,
+                        @ModelAttribute("user") Long workerId,
                          @ModelAttribute("nameType") Long typeTaskId,
                          @ModelAttribute("category") Long categoryId,
                          @RequestParam MultipartFile file

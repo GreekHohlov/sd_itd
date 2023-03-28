@@ -54,4 +54,6 @@ public class User
     private Set<Task> tasks;
     @OneToMany(mappedBy = "worker")
     private Set<Task> tasksWorker;
+    @Column(name = "is_worker", columnDefinition = "boolean default false")
+    private Boolean worker;
 }
