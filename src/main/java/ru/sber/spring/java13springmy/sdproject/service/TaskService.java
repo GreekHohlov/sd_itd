@@ -65,22 +65,14 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         return taskWithUserMapper.toDTOs(taskRepository.findAll());
     }
     public List<TaskWithUserDTO> findTasks(TaskSearchDTO taskSearchDTO) {
-        log.info("Вход: " + taskSearchDTO.toString());
         String taskId = taskSearchDTO.getTaskId() != null ? String.valueOf(taskSearchDTO.getTaskId()) : null;
-        String status = taskSearchDTO.getStatusTask() != null ? String.valueOf(taskSearchDTO.getStatusTask().ordinal()) :null;
-        String userFio = taskSearchDTO.getUserFio() != null ? ("%" + taskSearchDTO.getUserFio() + "%") : "%";
-        log.info("USER_FIO: " + userFio);
-        List<TaskWithUserDTO> taskTest = taskWithUserMapper.toDTOs(taskRepository.searchTasks(
-                taskId,
+        String status = taskSearchDTO.getStatusTask() != null ? String.valueOf(taskSearchDTO.getStatusTask().ordinal()) : null;
+        return taskWithUserMapper.toDTOs(taskRepository.searchTasks(taskId,
                 taskSearchDTO.getNameTask(),
-//                userFio,
-//                taskSearchDTO.getWorkerFio(),
-//                taskSearchDTO.getNameCategory(),
-                status
-
-        ));
-        log.info("Приём: " + taskTest.toString());
-        return taskTest;
+                taskSearchDTO.getUserFio(),
+                taskSearchDTO.getWorkerFio(),
+                taskSearchDTO.getCategory(),
+                status));
     }
 
     //Создание заявкии с файлом
