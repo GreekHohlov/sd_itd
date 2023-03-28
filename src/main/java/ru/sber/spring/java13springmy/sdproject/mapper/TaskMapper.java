@@ -48,6 +48,8 @@ public class TaskMapper extends GenericMapper<Task, TaskDTO> {
                 .addMappings(m -> m.skip(Task::setUser)).setPostConverter(toEntityConverter())
                 .addMappings(m -> m.skip(Task::setWorker)).setPostConverter(toEntityConverter())
                 .addMappings(m -> m.skip(Task::setTypeTask)).setPostConverter(toEntityConverter());
+        //дату только в одну сторону
+        //.addMappings(m -> m.skip(Book::setPublishDate)).setPostConverter(toEntityConverter());
     }
 
     @Override
@@ -66,6 +68,8 @@ public class TaskMapper extends GenericMapper<Task, TaskDTO> {
                 .orElseThrow(() -> new NotFoundException("Исполнитель не найден")));
         destination.setTypeTask(typeTaskRepository.findById(source.getTypeTaskId())
                 .orElseThrow(() -> new NotFoundException("Тип заявки не найден")));
+        // Форматирование даты к формату РФ
+        //destination.setPublishDate(DateFormatter.formatStringToDate(source.getPublishDate()));
     }
 
     @Override

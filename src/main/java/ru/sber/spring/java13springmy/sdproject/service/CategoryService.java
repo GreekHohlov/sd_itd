@@ -5,9 +5,21 @@ import ru.sber.spring.java13springmy.sdproject.dto.CategoryDTO;
 import ru.sber.spring.java13springmy.sdproject.mapper.CategoryMapper;
 import ru.sber.spring.java13springmy.sdproject.model.Category;
 import ru.sber.spring.java13springmy.sdproject.repository.CategoryRepository;
+
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class CategoryService extends GenericService<Category, CategoryDTO> {
     protected CategoryService(CategoryRepository categoryRepository, CategoryMapper categoryMapper) {
         super(categoryRepository, categoryMapper);
+    }
+
+    public List<String> getName(List<CategoryDTO> categoryDTO) {
+        List<String> names = new ArrayList<>();
+        for (CategoryDTO name: categoryDTO) {
+            names.add(name.getNameCategory());
+        }
+        return names;
     }
 }

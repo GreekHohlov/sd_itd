@@ -1,6 +1,8 @@
 package ru.sber.spring.java13springmy.sdproject.MVC.controller;
 
 import io.swagger.v3.oas.annotations.Hidden;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,7 @@ import ru.sber.spring.java13springmy.sdproject.model.StatusTask;
 import ru.sber.spring.java13springmy.sdproject.repository.CategoryRepository;
 import ru.sber.spring.java13springmy.sdproject.repository.TypeTaskRepository;
 import ru.sber.spring.java13springmy.sdproject.repository.UserRepository;
+import ru.sber.spring.java13springmy.sdproject.service.CategoryService;
 import ru.sber.spring.java13springmy.sdproject.service.TaskService;
 
 import java.time.LocalDate;
@@ -21,33 +24,40 @@ import java.util.List;
 @Hidden
 @Controller
 @RequestMapping("task")
+@Slf4j
 public class MVCTaskController {
     private final TaskService taskService;
+    private final CategoryMapper categoryMapper;
+    private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
     private final UserMapper userMapper;
     private final UserRepository userRepository;
     private final TypeTaskMapper typeTaskMapper;
     private final TypeTaskRepository typeTaskRepository;
-    private final CategoryMapper categoryMapper;
-    private final CategoryRepository categoryRepository;
-
 
     public MVCTaskController(TaskService taskService,
+                             CategoryMapper categoryMapper,
+                             CategoryRepository categoryRepository,
+                             CategoryService categoryService,
                              UserMapper userMapper,
                              UserRepository userRepository,
                              TypeTaskMapper typeTaskMapper,
-                             TypeTaskRepository typeTaskRepository, CategoryMapper categoryMapper, CategoryRepository categoryRepository) {
+                             TypeTaskRepository typeTaskRepository) {
         this.taskService = taskService;
+        this.categoryMapper = categoryMapper;
+        this.categoryRepository = categoryRepository;
+        this.categoryService = categoryService;
         this.userMapper = userMapper;
         this.userRepository = userRepository;
         this.typeTaskMapper = typeTaskMapper;
         this.typeTaskRepository = typeTaskRepository;
-        this.categoryMapper = categoryMapper;
-        this.categoryRepository = categoryRepository;
     }
 
     @GetMapping("")
     public String getAll(Model model) {
         List<TaskWithUserDTO> taskWithUserDTOList = taskService.getAllTaskWithUser();
+        List<String> categoryDTOS = categoryService.getName(categoryMapper.toDTOs(categoryRepository.findAll()));
+        model.addAttribute("taskSearch", categoryDTOS);
         model.addAttribute("task", taskWithUserDTOList);
         return "task/viewAllTask";
     }
@@ -72,21 +82,32 @@ public class MVCTaskController {
 
     @PostMapping("/add")
     public String create(@ModelAttribute("taskForm") TaskDTO taskDTO,
-                         @ModelAttribute("workerForm") Long workerId,
-                         @ModelAttribute("typeTaskForm") Long typeTaskId,
-                         @ModelAttribute("categoryForm") Long categoryId,
-                         @RequestParam MultipartFile file) {
-        taskDTO.setWorkerId(workerId);
-        taskDTO.setTypeTaskId(typeTaskId);
+                         @ModelAttribute("user") Long workerId,
+                         @ModelAttribute("nameType") Long typeTaskId,
+                         @ModelAttribute("category") Long categoryId,
+                         @RequestParam MultipartFile file
+    ) {
         taskDTO.setCategoryId(categoryId);
-        taskDTO.setCreateDate(LocalDate.now());
-        taskDTO.setStatusTask(StatusTask.OPEN);
+        taskDTO.setTypeTaskId(typeTaskId);
+        taskDTO.setWorkerId(workerId);
+
         if (file != null && file.getSize() > 0) {
             taskService.create(taskDTO, file);
         } else {
             taskService.create(taskDTO);
         }
         return "redirect:/task";
+    }
+
+    @PostMapping("/search")
+    public String searchTask(@ModelAttribute("taskSearchForm") TaskSearchDTO taskSearchDTO,
+                             Model model) {
+        log.info("данные переданы" + taskSearchDTO.toString());
+        List<String> categoryDTOS = categoryService.getName(categoryMapper.toDTOs(categoryRepository.findAll()));
+        model.addAttribute("taskSearch", categoryDTOS);
+        model.addAttribute("task", taskService.findTasks(taskSearchDTO));
+
+        return "task/viewAllTask";
     }
 
 }

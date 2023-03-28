@@ -10,7 +10,7 @@
 </head>
 <body>
 <div layout:fragment="content" class="container-fluid mt-5 pt-5">
-  <form method="POST" th:action="@{/login}">
+  <form method="POST" th:action="@{/login}" class="offset-md-3 m-auto">
     <div th:if="${param.error}">
       <div class="alert alert-danger">
         <p style="float: bottom">Неверный логин/пароль</p>
