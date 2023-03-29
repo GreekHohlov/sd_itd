@@ -1,5 +1,6 @@
 package ru.sber.spring.java13springmy.sdproject.MVC.controller;
 
+import jakarta.websocket.server.PathParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,6 +12,7 @@ import ru.sber.spring.java13springmy.sdproject.dto.UserDTO;
 import ru.sber.spring.java13springmy.sdproject.service.UserService;
 
 import java.util.List;
+import java.util.Objects;
 
 import static ru.sber.spring.java13springmy.sdproject.constants.UserRoleConstants.ADMIN;
 
@@ -63,5 +65,35 @@ public class MVCUserController {
         }
         userService.create(userDTO);
         return "redirect:login";
+    }
+
+    @GetMapping("/remember-password")
+    public String rememberPassword() {
+        return "users/rememberPassword";
+    }
+    @PostMapping("/remember-password")
+    public String rememberPassword(@ModelAttribute("changePasswordForm") UserDTO userDTO) {
+        userDTO = userService.getUserByEmail(userDTO.getEmail());
+        if (Objects.isNull(userDTO)) {
+            return "redirect:/error/error-message?message=Пользователя с данным email не существует!";
+        }
+        else {
+            userService.sendChangePasswordEmail(userDTO);
+            return "redirect:/login";
+        }
+    }
+
+    @GetMapping("/change-password")
+    public String changePassword(@PathParam(value = "uuid") String uuid,
+                                 Model model) {
+        model.addAttribute("uuid", uuid);
+        return "users/changePassword";
+    }
+
+    @PostMapping("/change-password")
+    public String changePassword(@PathParam(value = "uuid") String uuid,
+                                 @ModelAttribute("changePasswordForm") UserDTO userDTO) {
+        userService.changePassword(uuid, userDTO.getPassword());
+        return "redirect:/login";
     }
 }

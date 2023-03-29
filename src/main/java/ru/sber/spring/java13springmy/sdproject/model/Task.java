@@ -55,4 +55,7 @@ public class Task extends GenericModel {
     @Column(name = "status", nullable = false)
     @Enumerated
     private StatusTask statusTask;
+
+    @Column(name = "decision")
+    private String decision;
 }

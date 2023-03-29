@@ -30,6 +30,7 @@ public class TaskService extends GenericService<Task, TaskDTO> {
     private final UserRepository userRepository;
     private final TaskWithUserMapper taskWithUserMapper;
     private final TypeTaskService typeTaskService;
+
     protected TaskService(TaskRepository taskRepository,
                           TaskMapper taskMapper,
                           UserRepository userRepository,
@@ -42,7 +43,7 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         this.typeTaskService = typeTaskService;
     }
 
-    public TaskDTO addUserToTask(Long taskId, Long userId){
+    public TaskDTO addUserToTask(Long taskId, Long userId) {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new NotFoundException("Заявка с id " + taskId + " не найдена"));
         User user = userRepository.findById(userId)
@@ -50,10 +51,12 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         user.getTasks().add(task);
         return mapper.toDto(taskRepository.save(task));
     }
-    public TaskWithUserDTO getTaskWithUser (Long id) {
+
+    public TaskWithUserDTO getTaskWithUser(Long id) {
         return taskWithUserMapper.toDto(mapper.toEntity(super.getOne(id)));
     }
-    public TaskDTO addWorkerToTask(Long taskId, Long workerId){
+
+    public TaskDTO addWorkerToTask(Long taskId, Long workerId) {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new NotFoundException("Заявка с id " + taskId + " не найдена"));
         User worker = userRepository.findById(workerId)
@@ -61,9 +64,11 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         worker.getTasks().add(task);
         return mapper.toDto(taskRepository.save(task));
     }
+
     public List<TaskWithUserDTO> getAllTaskWithUser() {
         return taskWithUserMapper.toDTOs(taskRepository.findAll());
     }
+
     public List<TaskWithUserDTO> findTasks(TaskSearchDTO taskSearchDTO) {
         String taskId = taskSearchDTO.getTaskId() != null ? String.valueOf(taskSearchDTO.getTaskId()) : null;
         String status = taskSearchDTO.getStatusTask() != null ? String.valueOf(taskSearchDTO.getStatusTask().ordinal()) : null;
@@ -83,7 +88,6 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         taskDTO.setCreatedWhen(LocalDateTime.now());
         taskDTO.setCreateDate(LocalDate.now());
         taskDTO.setEndDate(LocalDate.now().plusDays(1L)); //времено так, далее обработка
-
 //        if (taskDTO.getTypeTaskId() != null) {
 //            TypeTaskDTO typeTaskDTO =  typeTaskService.getOne(taskDTO.getTypeTaskId());
 //            taskDTO.setEndDate(LocalDateTime.now().plusHours(typeTaskDTO.getSlaId()));
@@ -92,7 +96,18 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         taskDTO.setFiles(fileName);
         taskDTO.setUserId(userRepository.findUsersByLogin((SecurityContextHolder.getContext()
                 .getAuthentication().getName())).getId());
+        return mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
+    }
 
+    public TaskDTO create(final TaskDTO taskDTO) {
+        taskDTO.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        taskDTO.setCreatedWhen(LocalDateTime.now());
+        taskDTO.setCreateDate(LocalDate.now());
+
+        taskDTO.setEndDate(LocalDate.now().plusDays(1L)); //времено так, далее обработка
+        taskDTO.setStatusTask(StatusTask.OPEN);
+        taskDTO.setUserId(userRepository.findUsersByLogin((SecurityContextHolder.getContext()
+                .getAuthentication().getName())).getId());
         return mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
     }
 
