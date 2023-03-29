@@ -71,7 +71,6 @@ public class MVCTaskController {
         List<UserDTO> workerDTOs = userMapper.toDTOs(userRepository.findAll());
         List<TypeTaskDTO> typeTaskDTOs = typeTaskMapper.toDTOs(typeTaskRepository.findAll());
         List<CategoryDTO> categoryDTOs = categoryMapper.toDTOs(categoryRepository.findAll());
-        // List<GroupDTO> groupDTOs = gro;
         model.addAttribute("workerForm", workerDTOs);
         model.addAttribute("typeTaskForm", typeTaskDTOs);
         model.addAttribute("categotyForm", categoryDTOs);
@@ -98,15 +97,26 @@ public class MVCTaskController {
     }
 
     @GetMapping("/update/{id}")
-    public String update(@PathVariable Long id,
-                         Model model) {
+    public String update(@PathVariable Long id, Model model) {
+        List<TypeTaskDTO> typeTaskDTOs = typeTaskMapper.toDTOs(typeTaskRepository.findAll());
+        List<CategoryDTO> categoryDTOs = categoryMapper.toDTOs(categoryRepository.findAll());
+        List<UserDTO> workerDTOs = userMapper.toDTOs(userRepository.findAll());
+        model.addAttribute("workerForm", workerDTOs);
+        model.addAttribute("typeTaskForm", typeTaskDTOs);
+        model.addAttribute("categotyForm", categoryDTOs);
         model.addAttribute("task", taskService.getOne(id));
         return "task/updateTask";
     }
 
     @PostMapping("/update")
     public String update(@ModelAttribute("taskForm") TaskDTO taskDTO,
+                         @ModelAttribute("nameType") Long typeTaskId,
+                         @ModelAttribute("category") Long categoryId,
+                         @ModelAttribute("worker") Long workerId,
                          @RequestParam MultipartFile file) {
+        taskDTO.setCategoryId(categoryId);
+        taskDTO.setTypeTaskId(typeTaskId);
+        taskDTO.setWorkerId(workerId);
         if (file != null && file.getSize() > 0) {
             taskService.create(taskDTO, file);
         } else {

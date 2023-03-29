@@ -74,8 +74,16 @@
                     Просроченные заявки
                 </label>
             </div>
-            <div class="row g-2">
-                <button type="submit" class="btn btn-secondary">Найти заявку</button>
+            <div class="col-md">
+                <div class="row g-2">
+                    <button type="submit" class="btn btn-secondary">Найти</button>
+                    <button sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('EXECUTOR'))"
+                            type="my_applications" class="btn btn-secondary">Мои заявки
+                    </button>
+                    <button sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('EXECUTOR'))"
+                            type="im_doing" class="btn btn-secondary">Назначенные на меня
+                    </button>
+                </div>
             </div>
         </form>
     </div>
