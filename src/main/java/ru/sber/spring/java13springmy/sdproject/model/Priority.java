@@ -1,9 +1,9 @@
 package ru.sber.spring.java13springmy.sdproject.model;
 
 public enum Priority {
-    LOW("Низкий"),
+    HIGH("Высокий"),
     MIDDLE("Средний"),
-    HIGH("Высокий");
+    LOW("Низкий");
 
     private final String priorityTextDisplay;
 

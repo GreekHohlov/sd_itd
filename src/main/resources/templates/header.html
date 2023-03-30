@@ -62,7 +62,8 @@
 
                 </ul>
                 <form class="d-flex" style="margin-right: 20px">
-                    <a class="btn btn-primary addTask" href="/task/add" role="button">Новая заявка</a>
+                    <a class="btn btn-primary addTask" sec:authorize="isAuthenticated() && (!hasRole('ADMIN'))"
+                       href="/task/add" role="button">Новая заявка</a>
                 </form>
                 <a sec:authorize="isAuthenticated() && !hasRole('ADMIN')"
                    th:href="'/users/profile/' + ${#authentication.getPrincipal().getUserId()}"

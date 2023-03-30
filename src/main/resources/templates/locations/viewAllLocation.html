@@ -23,7 +23,7 @@
     <table class="table table-sm">
         <thead>
         <tr>
-            <th scope="col">№ п/п</th>
+            <th scope="col">ID</th>
             <th scope="col">Названия</th>
             <th scope="col"></th>
         </tr>
@@ -34,9 +34,8 @@
             <td th:text="${location.getNameLocation()}"></td>
             <td>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <!--                    <div sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('LIBRARIAN'))">-->
-                    <a class="btn btn-sm btn-outline-success"
-                       th:href="'/locations/update/' + ${location.id}">Обновить</a>
+<!--                    <a class="btn btn-sm btn-outline-success"-->
+<!--                       th:href="'/locations/update/' + ${location.id}">Обновить</a>-->
                     <a class="btn btn-sm btn-outline-danger"
                        th:href="'/locations/delete/' + ${location.id}"
                        onclick="return confirm('Вы действительно хотите удалить?')">Удалить</a>

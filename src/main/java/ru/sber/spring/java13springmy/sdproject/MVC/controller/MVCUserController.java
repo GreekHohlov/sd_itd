@@ -1,13 +1,14 @@
 package ru.sber.spring.java13springmy.sdproject.MVC.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import jakarta.websocket.server.PathParam;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.sber.spring.java13springmy.sdproject.dto.UserDTO;
 import ru.sber.spring.java13springmy.sdproject.service.UserService;
 
@@ -26,8 +27,11 @@ public class MVCUserController {
     }
 
     @GetMapping("")
-    public String getAll(Model model) {
-        List<UserDTO> result = userService.listAll();
+    public String getAll(@RequestParam(value = "page", defaultValue = "1") int page,
+                         @RequestParam(value = "size", defaultValue = "5") int pageSize,
+                         Model model) {
+        PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "lastName"));
+        Page<UserDTO> result = userService.listAll(pageRequest);
         model.addAttribute("users", result);
         return "users/viewAllUser";
     }

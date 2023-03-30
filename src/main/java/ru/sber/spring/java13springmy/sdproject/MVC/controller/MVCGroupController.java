@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ru.sber.spring.java13springmy.sdproject.dto.GroupDTO;
 import ru.sber.spring.java13springmy.sdproject.dto.RoleDTO;
 import ru.sber.spring.java13springmy.sdproject.mapper.RoleMapper;
-import ru.sber.spring.java13springmy.sdproject.repository.GroupRepository;
 import ru.sber.spring.java13springmy.sdproject.repository.RoleRepository;
 import ru.sber.spring.java13springmy.sdproject.service.GroupService;
 import ru.sber.spring.java13springmy.sdproject.service.RoleService;
@@ -22,16 +21,21 @@ public class MVCGroupController {
     private final GroupService groupService;
     private final RoleMapper roleMapper;
     private final RoleRepository roleRepository;
+    private final RoleService roleService;
 
-    public MVCGroupController(GroupService groupService, RoleMapper roleMapper, RoleRepository roleRepository) {
+
+    public MVCGroupController(GroupService groupService, RoleMapper roleMapper, RoleRepository roleRepository, RoleService roleService) {
         this.groupService = groupService;
         this.roleMapper = roleMapper;
         this.roleRepository = roleRepository;
+        this.roleService = roleService;
     }
 
     @GetMapping("")
     public String getAll(Model model) {
         List<GroupDTO> result = groupService.listAll();
+        List<RoleDTO> roleDTOs = roleService.listAll();
+       model.addAttribute("roleForm", roleDTOs);
         model.addAttribute("groups", result);
           return "groups/viewAllGroup";
     }
