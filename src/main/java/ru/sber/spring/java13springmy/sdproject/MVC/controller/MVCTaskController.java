@@ -60,7 +60,7 @@ public class MVCTaskController {
     public String getAll(@RequestParam(value = "page", defaultValue = "1") int page,
                          @RequestParam(value = "size", defaultValue = "5") int pageSize,
                          Model model) {
-        PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "id"));
+        PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "id"));
         Page<TaskWithUserDTO> taskWithUserDTOList = taskService.getAllTaskWithUser(pageRequest);
         List<String> categoryDTOS = categoryService.getName(categoryMapper.toDTOs(categoryRepository.findAll()));
         model.addAttribute("taskSearch", categoryDTOS);
@@ -88,16 +88,16 @@ public class MVCTaskController {
 
     @PostMapping("/add")
     public String create(@ModelAttribute("taskForm") TaskDTO taskDTO,
-                         @ModelAttribute("user") String workerId,
+                        @ModelAttribute("user") String workerId,
                          @ModelAttribute("nameType") Long typeTaskId,
                          @ModelAttribute("category") String categoryId,
                          @RequestParam MultipartFile file) {
-        if (workerId.equals("default") || workerId.equals("")) {
+        if (workerId.equals("default") || workerId.equals("")){
 
         } else {
             taskDTO.setWorkerId(Long.valueOf(workerId));
         }
-        if (categoryId.equals("default") || categoryId.equals("")) {
+        if (categoryId.equals("default") || categoryId.equals("")){
 
         } else {
             taskDTO.setCategoryId(Long.valueOf(categoryId));
@@ -161,6 +161,7 @@ public class MVCTaskController {
         List<String> categoryDTOS = categoryService.getName(categoryMapper.toDTOs(categoryRepository.findAll()));
         model.addAttribute("taskSearch", categoryDTOS);
         model.addAttribute("task", taskService.findTasks(taskSearchDTO, pageRequest));
+
         return "task/viewAllTask";
     }
 
