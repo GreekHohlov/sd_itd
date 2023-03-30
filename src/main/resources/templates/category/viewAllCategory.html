@@ -23,24 +23,22 @@
     <table class="table table-sm">
         <thead>
         <tr>
-            <th scope="col">№ п/п</th>
+            <th scope="col">ID</th>
             <th scope="col">Названия</th>
-            <th scope="col">Родительская категория</th>
-            <th> </th>
             <!--            <th scope="col">Родительская категория</th>-->
+            <th></th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="categories : ${category}">
             <td th:text="${categories.getId()}">#</td>
             <td th:text="${categories.getNameCategory()}"></td>
-<!--            <td th:text="${categories.getParentCategoryId()}"></td>-->
+            <!--            <td th:text="${categories.getParentCategoryId()}"></td>-->
             <!--            <td th:each="categories : ${categories.getId()}" th:text="${categories.getNameCategory()}"></td>-->
             <td>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <!--                    <div sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('LIBRARIAN'))">-->
-                    <a class="btn btn-sm btn-outline-success"
-                       th:href="'/categoty/update/' + ${categories.id}">Обновить</a>
+<!--                    <a class="btn btn-sm btn-outline-success"-->
+<!--                       th:href="'/categoty/update/' + ${categories.id}">Обновить</a>-->
                     <a class="btn btn-sm btn-outline-danger"
                        th:href="'/categoty/delete/' + ${categories.id}"
                        onclick="return confirm('Вы действительно хотите удалить?')">Удалить</a>

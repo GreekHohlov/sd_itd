@@ -10,7 +10,7 @@
 <body>
 <div layout:fragment="content">
     <div>
-        <!--        <hr class="hr"/>-->
+<!--                <hr class="hr"/>-->
         <h5>Поиск заявки</h5>
         <form method="POST" th:action="@{/task/search}" th:object="${taskSearchForm}">
             <div class="mt-0 row g-2">
@@ -50,7 +50,6 @@
                             <option th:each="categorys : ${taskSearch}"
                                     th:value="${categorys}"
                                     th:text="${categorys}">
-
                             </option>
                         </select>
                         <label for="category">Категория заявки</label>
@@ -69,36 +68,27 @@
                 </div>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">
-                    Просроченные заявки
-                </label>
+<!--                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">-->
+<!--                <label class="form-check-label" for="flexCheckDefault">-->
+<!--                    Просроченные заявки-->
+<!--                </label>-->
             </div>
             <div class="col-md">
                 <div class="row g-2">
                     <button type="submit" class="btn btn-secondary">Найти</button>
-                    <!--                    <div class="row g-2">-->
-                    <!--                    <button sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('EXECUTOR'))"-->
-                    <!--                            type="my_applications" class="btn btn-secondary">Мои заявки-->
-                    <!--                    </button>-->
-                    <!--                    <button sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('EXECUTOR'))"-->
-                    <!--                            type="im_doing" class="btn btn-secondary">Назначенные на меня-->
-                    <!--                    </button>-->
-                    <!--                    </div>-->
                     <div sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('EXECUTOR'))">
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <button class="btn btn-sm btn-outline-danger" type="button">Нераспределённые заявки</button>
-                            <button class="btn btn-primary addTask" type="button">Назначенные на меня</button>
+                            <button class="btn btn-sm btn-outline-success" type="button">Нераспределённые</button>
+                            <button class="btn btn-sm btn-outline-danger" type="button">Просроченные</button>
+                            <button class="btn btn-primary " type="button">Назначенные на меня</button>
                             <button class="btn btn-primary " type="button">Мои заявки</button>
                         </div>
                     </div>
                 </div>
             </div>
-
         </form>
     </div>
     <hr class="mt-3 hr"/>
-
     <div class="row">
         <table class="table table">
             <thead>
@@ -112,14 +102,14 @@
                 <th scope="col">Исполнитель</th>
                 <th scope="col">Срок выполнения</th>
                 <th scope="col">Статус</th>
-                <th></th>
+<!--                <th></th>-->
             </tr>
             </thead>
             <tbody>
             <tr th:each="tasks : ${task}">
                 <td>
-                    <a class="text-link text-blue" th:href="'/task/' + ${tasks.getId()}"
-                       th:text="${tasks.getId()}">ID заявки</a>
+<!--                    <a class="text-link text-blue" th:href="'/task/' + ${tasks.getId()}"-->
+                       <a th:text="${tasks.getId()}">ID заявки</a>
                 </td>
                 <td th:text="${tasks.getCreateDate()}">Дата заявки</td>
                 <td>
@@ -129,13 +119,13 @@
                 <td th:text="${tasks.getTypeTask().getNameType()}">Тип заявки</td>
                 <td th:text="${tasks.getCategory().getNameCategory()}">Категория</td>
                 <td>
-                    <a class="text-link text-blue" th:href="'/users/' + ${tasks.getUser().getId()}"
-                       th:text="${tasks.getUser().getLastName() + ' ' + tasks.getUser().getFirstName().charAt(0) +
+<!--                    <a class="text-link text-blue" th:href="'/users/' + ${tasks.getUser().getId()}"-->
+                    <a th:text="${tasks.getUser().getLastName() + ' ' + tasks.getUser().getFirstName().charAt(0) +
                        '. ' + tasks.getUser().getMiddleName().charAt(0) + '.'}">Автор ФИО</a>
                 </td>
                 <td>
-                    <a class="text-link text-blue" th:href="'/users/' + ${tasks.getWorker().getId()}"
-                       th:text="${tasks.getWorker().getLastName() + ' ' + tasks.getWorker().getFirstName().charAt(0) +
+<!--                    <a class="text-link text-blue" th:href="'/users/' + ${tasks.getWorker().getId()}"-->
+                    <a th:text="${tasks.getWorker().getLastName() + ' ' + tasks.getWorker().getFirstName().charAt(0) +
                        '. ' + tasks.getWorker().getMiddleName().charAt(0) + '.'}">Исполнитель ФИО</a>
                 </td>
                 <td th:text="${tasks.getEndDate()}">Дата выполнения</td>
@@ -151,9 +141,7 @@
                            onclick="return confirm('Вы действительно хотите удалить заявку?')">Удалить</a>
                     </div>
                 </td>
-
             </tr>
-
             </tbody>
         </table>
     </div>

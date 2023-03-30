@@ -25,7 +25,7 @@
         <tr>
             <th scope="col">ID</th>
             <th scope="col">Названия</th>
-            <th scope="col">Роль</th>
+            <th scope="col">Роль ID</th>
             <th scope="col"></th>
         </tr>
         </thead>
@@ -33,19 +33,14 @@
         <tr th:each="group : ${groups}">
             <td th:text="${group.getId()}"></td>
             <td th:text="${group.getResponsible()}"></td>
-            <td>
-                <a class="task-link" th:href="'/role' + ${group.getRole()}"
-                   th:text="${group.getRole()}"></a>
+            <td
+
+              th:text="${group.getRole()}">
             </td>
-<!--            <td>-->
-<!--                <ul>-->
-<!--                    <li th:each="role : ${group.getRole()}" th:text="${role.getNameRole()}"></li>-->
-<!--                </ul>-->
-<!--            </td>-->
             <td>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a class="btn btn-sm btn-outline-success"
-                       th:href="'/groups/delete/' + ${group.id}">Обновить</a>
+                    <!--                    <a class="btn btn-sm btn-outline-success"-->
+                    <!--                       th:href="'/groups/delete/' + ${group.id}">Обновить</a>-->
                     <a class="btn btn-sm btn-outline-danger"
                        th:href="'/groups/delete/' + ${group.id}"
                        onclick="return confirm('Вы действительно хотите удалить?')">Удалить</a>
