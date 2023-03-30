@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
@@ -13,6 +14,7 @@
           th:action="@{/task/update}" th:object="${taskForm}">
         <input type="hidden" name="id"
                th:value="${task.getId()}">
+        <div>
         <div class="mt-3 row g-2">
             <div class="col-md">
                 <div class="form-floating">
@@ -41,7 +43,8 @@
                th:text="${task.getFiles()} == null ?  'Файл отсуствует ':'Файл: ' +${task.getFiles()} "></p>
         </div>
         <hr class="hr"/>
-        <div>
+        </div>
+        <div sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('EXECUTOR'))" class="mt-3 row g2">
             <div class="mt-3 row g2">
                 <div class="col-md">
                     <div class="form-floating">
@@ -106,19 +109,17 @@
                 </div>
             </div>
 
-
             <div class="mt-3 row g3">
                 <div class="col-md">
                     <div class="form-floating">
-                        <select class="form-select input-bg" name="priority" id="priority1" required th:object="${task}"
-                                th:field="*{priority}">
-                            <option th:value="default">Выберете приоритет заявки</option>
-                            <option th:selected="${task.getPriority().priorityTextDisplay()}"
-                                    th:each="priority : ${T(ru.sber.spring.java13springmy.sdproject.model.Priority).values()}"
-                                    th:value="${priority}" th:text="${priority.priorityTextDisplay()}"></option>
+                        <select class="form-select input-bg" name="user" id="user" required>
+                            <option th:each="user : ${taskU}"
+                                    th:value="${user.getUser().getId()}" th:text="${user.getUser().getLastName()+ ' ' + user.getUser().getFirstName().charAt(0) +
+                       '. ' + user.getUser().getMiddleName().charAt(0) + '.'}"></option>
+                            <option selected value="default">Выберите автора заявки</option>
+                            <div class="invalid-feedback">Обязательное поле для заполнения</div>
                         </select>
-                        <label for="priority">Приоритет</label>
-                        <div class="invalid-feedback">Обязательное поле для заполнения</div>
+                        <label for="nameType">Автор заявки</label>
                     </div>
                 </div>
                 <div class="col-md">
@@ -131,6 +132,16 @@
                             <div class="invalid-feedback">Обязательное поле для заполнения</div>
                         </select>
                         <label for="nameType">Исполнитель</label>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-3 row g2">
+                <div class="col-md">
+                    <div class="form-floating mb-3">
+                        <input name="decision" th:value="${task.getDecision()}" class="form-control input-bg"
+                               id="decision" rows="5" placeholder="Решение по заявки" required>
+                        <label for="description">Решение по заявки</label>
+                        <div class="invalid-feedback">Обязательное поле для заполнения</div>
                     </div>
                 </div>
             </div>

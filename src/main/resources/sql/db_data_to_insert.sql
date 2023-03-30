@@ -22,7 +22,7 @@ values (1, null, null, null, null, false, 1, 'Инциндент (высокий
        (8, null, null, null, null, false, 16, 'Приобретение', 240);
 --Типы заявок
 insert into type_task
-values (1, null, null, null, null, false, 'Инциндент ПО', 1),
+values (1, null, null, null, null, false, 'Инциндент Общий', 1),
        (2, null, null, null, null, false, 'Инциндент Адм.систем', 1),
        (3, null, null, null, null, false, 'Обслуживание ПО', 6),
        (4, null, null, null, null, false, 'Доступ', 7),

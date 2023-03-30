@@ -88,10 +88,6 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         taskDTO.setCreatedWhen(LocalDateTime.now());
         taskDTO.setCreateDate(LocalDate.now());
         taskDTO.setEndDate(LocalDate.now().plusDays(1L)); //времено так, далее обработка
-//        if (taskDTO.getTypeTaskId() != null) {
-//            TypeTaskDTO typeTaskDTO =  typeTaskService.getOne(taskDTO.getTypeTaskId());
-//            taskDTO.setEndDate(LocalDateTime.now().plusHours(typeTaskDTO.getSlaId()));
-//        } ;
         taskDTO.setStatusTask(StatusTask.OPEN);
         taskDTO.setFiles(fileName);
         taskDTO.setUserId(userRepository.findUsersByLogin((SecurityContextHolder.getContext()

@@ -2,6 +2,7 @@ package ru.sber.spring.java13springmy.sdproject.MVC.controller;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -73,19 +74,19 @@ public class MVCTaskController {
         List<CategoryDTO> categoryDTOs = categoryMapper.toDTOs(categoryRepository.findAll());
         model.addAttribute("workerForm", workerDTOs);
         model.addAttribute("typeTaskForm", typeTaskDTOs);
-        model.addAttribute("categotyForm", categoryDTOs);
+        model.addAttribute("categoryForm", categoryDTOs);
         return "task/addTask";
     }
 
     @PostMapping("/add")
     public String create(@ModelAttribute("taskForm") TaskDTO taskDTO,
-                        @ModelAttribute("user") Long workerId,
+                         @ModelAttribute("user") Long workerId,
                          @ModelAttribute("nameType") Long typeTaskId,
                          @ModelAttribute("category") Long categoryId,
                          @RequestParam MultipartFile file
     ) {
-        taskDTO.setCategoryId(categoryId);
         taskDTO.setTypeTaskId(typeTaskId);
+        taskDTO.setCategoryId(categoryId);
         taskDTO.setWorkerId(workerId);
 
         if (file != null && file.getSize() > 0) {
@@ -101,9 +102,11 @@ public class MVCTaskController {
         List<TypeTaskDTO> typeTaskDTOs = typeTaskMapper.toDTOs(typeTaskRepository.findAll());
         List<CategoryDTO> categoryDTOs = categoryMapper.toDTOs(categoryRepository.findAll());
         List<UserDTO> workerDTOs = userMapper.toDTOs(userRepository.findAll());
+        List<TaskWithUserDTO> taskWithUserDTOList = taskService.getAllTaskWithUser();
         model.addAttribute("workerForm", workerDTOs);
         model.addAttribute("typeTaskForm", typeTaskDTOs);
         model.addAttribute("categotyForm", categoryDTOs);
+        model.addAttribute("taskU", taskWithUserDTOList);
         model.addAttribute("task", taskService.getOne(id));
         return "task/updateTask";
     }
@@ -113,10 +116,12 @@ public class MVCTaskController {
                          @ModelAttribute("nameType") Long typeTaskId,
                          @ModelAttribute("category") Long categoryId,
                          @ModelAttribute("worker") Long workerId,
+                         @ModelAttribute("User") Long userId,
                          @RequestParam MultipartFile file) {
         taskDTO.setCategoryId(categoryId);
         taskDTO.setTypeTaskId(typeTaskId);
         taskDTO.setWorkerId(workerId);
+        taskDTO.setUserId(userId);
         if (file != null && file.getSize() > 0) {
             taskService.create(taskDTO, file);
         } else {
