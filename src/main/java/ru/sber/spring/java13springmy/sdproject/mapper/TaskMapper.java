@@ -40,14 +40,14 @@ public class TaskMapper extends GenericMapper<Task, TaskDTO> {
                 .addMappings(m -> m.skip(TaskDTO::setAttachmentsIds)).setPostConverter(toDtoConverter())
                 .addMappings(m -> m.skip(TaskDTO::setCategoryId)).setPostConverter(toDtoConverter())
                 .addMappings(m -> m.skip(TaskDTO::setUserId)).setPostConverter(toDtoConverter())
-                .addMappings(m -> m.skip(TaskDTO::setWorkerId)).setPostConverter(toDtoConverter())
-                .addMappings(m -> m.skip(TaskDTO::setTypeTaskId)).setPostConverter(toDtoConverter());
+                .addMappings(m -> m.skip(TaskDTO::setTypeTaskId)).setPostConverter(toDtoConverter())
+                .addMappings(m -> m.skip(TaskDTO::setWorkerId)).setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(TaskDTO.class, Task.class)
                 .addMappings(m -> m.skip(Task::setAttachments)).setPostConverter(toEntityConverter())
                 .addMappings(m -> m.skip(Task::setCategory)).setPostConverter(toEntityConverter())
                 .addMappings(m -> m.skip(Task::setUser)).setPostConverter(toEntityConverter())
-                .addMappings(m -> m.skip(Task::setWorker)).setPostConverter(toEntityConverter())
-                .addMappings(m -> m.skip(Task::setTypeTask)).setPostConverter(toEntityConverter());
+                .addMappings(m -> m.skip(Task::setTypeTask)).setPostConverter(toEntityConverter())
+                .addMappings(m -> m.skip(Task::setWorker)).setPostConverter(toEntityConverter());
         //дату только в одну сторону
         //.addMappings(m -> m.skip(Book::setPublishDate)).setPostConverter(toEntityConverter());
     }
@@ -60,12 +60,14 @@ public class TaskMapper extends GenericMapper<Task, TaskDTO> {
         else {
             destination.setAttachments(Collections.emptySet());
         }
-        destination.setCategory(categoryRepository.findById(source.getCategoryId())
-                .orElseThrow(() -> new NotFoundException("Категория не найдена")));
+        if (!Objects.isNull(source.getWorkerId())){
+            destination.setWorker(userRepository.findById(source.getWorkerId()).orElseThrow());
+        }
+        if (!Objects.isNull(source.getCategoryId())){
+            destination.setCategory(categoryRepository.findById(source.getCategoryId()).orElseThrow());
+        }
         destination.setUser(userRepository.findById(source.getUserId())
                 .orElseThrow(() -> new NotFoundException("Пользователь не найден")));
-        destination.setWorker(userRepository.findById(source.getWorkerId())
-                .orElseThrow(() -> new NotFoundException("Исполнитель не найден")));
         destination.setTypeTask(typeTaskRepository.findById(source.getTypeTaskId())
                 .orElseThrow(() -> new NotFoundException("Тип заявки не найден")));
         // Форматирование даты к формату РФ
@@ -75,10 +77,14 @@ public class TaskMapper extends GenericMapper<Task, TaskDTO> {
     @Override
     protected void mapSpecificFields(Task source, TaskDTO destination) {
         destination.setAttachmentsIds(getIds(source));
-        destination.setCategoryId(source.getCategory().getId());
         destination.setUserId(source.getUser().getId());
-        destination.setWorkerId(source.getWorker().getId());
         destination.setTypeTaskId(source.getTypeTask().getId());
+        if (!Objects.isNull(source.getCategory())) {
+            destination.setCategoryId(source.getCategory().getId());
+        }
+        if (!Objects.isNull(source.getWorker())) {
+            destination.setWorkerId(source.getWorker().getId());
+        }
     }
 
     @Override

@@ -8,6 +8,7 @@ public interface PermissionConstants {
     Настройка доступа к ресурсам
     */
     List<String> RESOURCES_WHITE_LIST = List.of("/resources/**",
+            "/js/**",
             "/templates/**",
             "/swagger-ui/**");
     /*
@@ -26,7 +27,7 @@ public interface PermissionConstants {
             "index",
             "/task",
             "/task/add",
-            "/task/task/add",
+            "/task/add",
             "/task/search");
     /*
     Полный доступ.

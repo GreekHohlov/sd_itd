@@ -1,5 +1,7 @@
 package ru.sber.spring.java13springmy.sdproject.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,6 +15,8 @@ import ru.sber.spring.java13springmy.sdproject.repository.UserRepository;
 import ru.sber.spring.java13springmy.sdproject.utils.MailUtils;
 
 import java.util.UUID;
+
+import java.util.List;
 
 @Service
 public class UserService extends GenericService<User, UserDTO> {

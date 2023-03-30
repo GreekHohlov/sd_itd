@@ -11,7 +11,8 @@ import java.util.List;
 
 @Service
 public class CategoryService extends GenericService<Category, CategoryDTO> {
-    protected CategoryService(CategoryRepository categoryRepository, CategoryMapper categoryMapper) {
+    protected CategoryService(CategoryRepository categoryRepository,
+                              CategoryMapper categoryMapper) {
         super(categoryRepository, categoryMapper);
     }
 
