@@ -1,6 +1,8 @@
 package ru.sber.spring.java13springmy.sdproject.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -8,7 +10,7 @@ import org.webjars.NotFoundException;
 import ru.sber.spring.java13springmy.sdproject.dto.TaskDTO;
 import ru.sber.spring.java13springmy.sdproject.dto.TaskSearchDTO;
 import ru.sber.spring.java13springmy.sdproject.dto.TaskWithUserDTO;
-import ru.sber.spring.java13springmy.sdproject.dto.TypeTaskDTO;
+import org.springframework.data.domain.Pageable;
 import ru.sber.spring.java13springmy.sdproject.mapper.TaskMapper;
 import ru.sber.spring.java13springmy.sdproject.mapper.TaskWithUserMapper;
 import ru.sber.spring.java13springmy.sdproject.model.StatusTask;
@@ -18,6 +20,7 @@ import ru.sber.spring.java13springmy.sdproject.model.User;
 import ru.sber.spring.java13springmy.sdproject.repository.TaskRepository;
 import ru.sber.spring.java13springmy.sdproject.repository.UserRepository;
 import ru.sber.spring.java13springmy.sdproject.utils.FileHelper;
+
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,18 +32,15 @@ public class TaskService extends GenericService<Task, TaskDTO> {
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
     private final TaskWithUserMapper taskWithUserMapper;
-    private final TypeTaskService typeTaskService;
 
     protected TaskService(TaskRepository taskRepository,
                           TaskMapper taskMapper,
                           UserRepository userRepository,
-                          TaskWithUserMapper taskWithUserMapper,
-                          TypeTaskService typeTaskService) {
+                          TaskWithUserMapper taskWithUserMapper) {
         super(taskRepository, taskMapper);
         this.taskRepository = taskRepository;
         this.userRepository = userRepository;
         this.taskWithUserMapper = taskWithUserMapper;
-        this.typeTaskService = typeTaskService;
     }
 
     public TaskDTO addUserToTask(Long taskId, Long userId) {
@@ -64,20 +64,27 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         worker.getTasks().add(task);
         return mapper.toDto(taskRepository.save(task));
     }
-
-    public List<TaskWithUserDTO> getAllTaskWithUser() {
-        return taskWithUserMapper.toDTOs(taskRepository.findAll());
+    public Page<TaskWithUserDTO> getAllTaskWithUser(Pageable pageable) {
+        Page<Task> tasksPaginated = repository.findAll(pageable);
+        List<TaskWithUserDTO> result = taskWithUserMapper.toDTOs(tasksPaginated.getContent());
+        return new PageImpl<>(result, pageable, tasksPaginated.getTotalElements());
     }
 
-    public List<TaskWithUserDTO> findTasks(TaskSearchDTO taskSearchDTO) {
+    public Page<TaskWithUserDTO> findTasks(TaskSearchDTO taskSearchDTO,
+                                           Pageable pageable) {
         String taskId = taskSearchDTO.getTaskId() != null ? String.valueOf(taskSearchDTO.getTaskId()) : null;
         String status = taskSearchDTO.getStatusTask() != null ? String.valueOf(taskSearchDTO.getStatusTask().ordinal()) : null;
-        return taskWithUserMapper.toDTOs(taskRepository.searchTasks(taskId,
+        String worker = taskSearchDTO.getWorkerFio().equals("") ? null : (taskSearchDTO.getWorkerFio());
+        String category = taskSearchDTO.getCategory() != null ? (taskSearchDTO.getCategory()) : null;
+        Page<Task> tasksPaginated = taskRepository.searchTasks(taskId,
                 taskSearchDTO.getNameTask(),
                 taskSearchDTO.getUserFio(),
-                taskSearchDTO.getWorkerFio(),
-                taskSearchDTO.getCategory(),
-                status));
+                worker,
+                category,
+                status,
+                pageable);
+        List<TaskWithUserDTO> result = taskWithUserMapper.toDTOs(tasksPaginated.getContent());
+        return new PageImpl<>(result, pageable, tasksPaginated.getTotalElements());
     }
 
     //Создание заявкии с файлом

@@ -4,14 +4,9 @@
     <nav sec:authorize="isAuthenticated()" class="navbar navbar-expand-lg px-0 no-padding"
          style="background-color: #c2efc5">
         <div class="container-fluid" style="padding-left: 0">
-            <a class="navbar-brand no-padding" href="/" style="color: darkred">
+            <a class="navbar-brand no-padding" href="/task" style="color: darkred">
                 <img src="https://gitlab.com/GreekHohlov/sd_img/-/raw/main/logo1.png" alt="" width="140" height="76">
             </a>
-            <!--                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse"-->
-            <!--                          data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"-->
-            <!--                          aria-expanded="false" aria-label="Toggle navigation">-->
-            <!--                    <span class="navbar-toggler-icon"></span>-->
-            <!--                  </button>-->
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
@@ -59,20 +54,23 @@
                             <li><a class="dropdown-item" href="/workSchedule">График работы</a></li>
                         </ul>
                     </li>
-
                 </ul>
                 <form class="d-flex" style="margin-right: 20px">
-                    <a class="btn btn-primary addTask" href="/task/add" role="button">Новая заявка</a>
+                    <a class="btn btn-primary addTask" sec:authorize="isAuthenticated() && (!hasRole('ADMIN'))"
+                       href="/task/add" role="button">Новая заявка</a>
                 </form>
                 <a sec:authorize="isAuthenticated() && !hasRole('ADMIN')"
                    th:href="'/users/profile/' + ${#authentication.getPrincipal().getUserId()}"
                    class="d-flex nav-link active btn-profile" style="margin-left: 5px; margin-right: 5px">
-                    <img src="https://gitlab.com/GreekHohlov/sd_img/-/raw/main/profile-gray.png" width="35" height="35">
+                    <img src="https://gitlab.com/GreekHohlov/sd_img/-/raw/main/profile-gray.png" width="35" height="35" alt="">
                 </a>
+                <form class="d-flex" sec:authorize="isAuthenticated()">
+                    <span th:text="${#authentication.getPrincipal().getUsername()}"></span>
+                </form>
                 <form class="d-flex btn-exit" style="margin-left: 15px; margin-right: 20px">
                     <a href="/logout" class="nav-link active" aria-current="page">
                         <img src="https://gitlab.com/GreekHohlov/sd_img/-/raw/main/exitNew.png"
-                             width="30" height="30">
+                             width="30" height="30" alt="">
                     </a>
                 </form>
             </div>

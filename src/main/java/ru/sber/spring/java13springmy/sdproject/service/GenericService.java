@@ -1,5 +1,8 @@
 package ru.sber.spring.java13springmy.sdproject.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 import ru.sber.spring.java13springmy.sdproject.dto.GenericDTO;
@@ -34,6 +37,12 @@ public abstract class GenericService<T extends GenericModel, N extends GenericDT
     public List<N> listAll() {
         return mapper.toDTOs(repository.findAll());
     }
+    public Page<N> listAll(Pageable pageable) {
+        Page<T> objects = repository.findAll(pageable);
+        List<N> result = mapper.toDTOs(objects.getContent());
+        return new PageImpl<>(result, pageable, objects.getTotalElements());
+    }
+
 
     public N getOne(Long id) {
         return mapper.toDto(repository.findById(id).orElseThrow(() -> new NotFoundException("Данных по заданному id: " + id + " не найдены")));
