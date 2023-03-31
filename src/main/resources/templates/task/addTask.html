@@ -71,6 +71,7 @@
                 <hr class="hr"/>
                 <div class="form-floating">
                     <select class="form-select input-bg" name="category" id="category" required>
+                        <option selected value="default">Выберите категорию заявки</option>
                         <option th:each="category : ${categoryForm}"
                                 th:value="${category.getId()}" th:text="${category.getNameCategory()}"></option>
                         <option selected value="default">Выберите категорию заявки</option>
@@ -86,8 +87,8 @@
                     <select class="form-select input-bg" name="user" id="user" required>
                         <option selected value="default">Выберите специалиста</option>
                         <option th:each="worker : ${workerForm}"
-                                th:value="${worker.getId()}" th:text="${worker.getLastName()+ ' ' + worker.getFirstName().charAt(0) +
-                       '. ' + worker.getMiddleName().charAt(0) + '.'}"></option>
+                                th:value="${worker.getId()}" th:text="${worker.getLastName()+ ' ' + worker.getFirstName() +
+                       ' ' + worker.getMiddleName()}"></option>
                     </select>
                     <label for="user">Специалист</label>
                     <!--                    <div class="invalid-feedback">Обязательное поле для заполнения</div>-->

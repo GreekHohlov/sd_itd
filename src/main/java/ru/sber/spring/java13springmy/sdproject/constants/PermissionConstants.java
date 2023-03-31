@@ -28,7 +28,8 @@ public interface PermissionConstants {
             "/task",
             "/task/add",
             "/task/add",
-            "/task/search");
+            "/task/search",
+            "/error");
     /*
     Полный доступ.
     Предоставляется группам EXECUTOR и ADMIN.

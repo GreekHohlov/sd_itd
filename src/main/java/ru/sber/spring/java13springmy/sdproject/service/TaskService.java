@@ -3,6 +3,7 @@ package ru.sber.spring.java13springmy.sdproject.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,17 +11,13 @@ import org.webjars.NotFoundException;
 import ru.sber.spring.java13springmy.sdproject.dto.TaskDTO;
 import ru.sber.spring.java13springmy.sdproject.dto.TaskSearchDTO;
 import ru.sber.spring.java13springmy.sdproject.dto.TaskWithUserDTO;
-import org.springframework.data.domain.Pageable;
 import ru.sber.spring.java13springmy.sdproject.mapper.TaskMapper;
 import ru.sber.spring.java13springmy.sdproject.mapper.TaskWithUserMapper;
-import ru.sber.spring.java13springmy.sdproject.model.StatusTask;
 import ru.sber.spring.java13springmy.sdproject.model.Task;
-import ru.sber.spring.java13springmy.sdproject.model.TypeTask;
 import ru.sber.spring.java13springmy.sdproject.model.User;
 import ru.sber.spring.java13springmy.sdproject.repository.TaskRepository;
 import ru.sber.spring.java13springmy.sdproject.repository.UserRepository;
 import ru.sber.spring.java13springmy.sdproject.utils.FileHelper;
-
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -64,6 +61,9 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         worker.getTasks().add(task);
         return mapper.toDto(taskRepository.save(task));
     }
+    public List<TaskWithUserDTO> getAllTaskWithUser() {
+        return taskWithUserMapper.toDTOs(taskRepository.findAll());
+    }
     public Page<TaskWithUserDTO> getAllTaskWithUser(Pageable pageable) {
         Page<Task> tasksPaginated = repository.findAll(pageable);
         List<TaskWithUserDTO> result = taskWithUserMapper.toDTOs(tasksPaginated.getContent());
@@ -95,10 +95,7 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         taskDTO.setCreatedWhen(LocalDateTime.now());
         taskDTO.setCreateDate(LocalDate.now());
         taskDTO.setEndDate(LocalDate.now().plusDays(1L)); //времено так, далее обработка
-        taskDTO.setStatusTask(StatusTask.OPEN);
         taskDTO.setFiles(fileName);
-        taskDTO.setUserId(userRepository.findUsersByLogin((SecurityContextHolder.getContext()
-                .getAuthentication().getName())).getId());
         return mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
     }
 
@@ -106,12 +103,7 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         taskDTO.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         taskDTO.setCreatedWhen(LocalDateTime.now());
         taskDTO.setCreateDate(LocalDate.now());
-
         taskDTO.setEndDate(LocalDate.now().plusDays(1L)); //времено так, далее обработка
-        taskDTO.setStatusTask(StatusTask.OPEN);
-        taskDTO.setUserId(userRepository.findUsersByLogin((SecurityContextHolder.getContext()
-                .getAuthentication().getName())).getId());
         return mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
     }
-
 }

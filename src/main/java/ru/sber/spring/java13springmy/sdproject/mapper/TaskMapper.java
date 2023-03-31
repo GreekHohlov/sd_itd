@@ -62,9 +62,13 @@ public class TaskMapper extends GenericMapper<Task, TaskDTO> {
         }
         if (!Objects.isNull(source.getWorkerId())){
             destination.setWorker(userRepository.findById(source.getWorkerId()).orElseThrow());
+        } else {
+            destination.setWorker((userRepository.findById(1L)).orElseThrow());
         }
         if (!Objects.isNull(source.getCategoryId())){
             destination.setCategory(categoryRepository.findById(source.getCategoryId()).orElseThrow());
+        } else {
+            destination.setCategory(categoryRepository.findById(1L).orElseThrow());
         }
         destination.setUser(userRepository.findById(source.getUserId())
                 .orElseThrow(() -> new NotFoundException("Пользователь не найден")));

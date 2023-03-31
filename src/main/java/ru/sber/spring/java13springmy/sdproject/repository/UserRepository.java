@@ -19,6 +19,13 @@ public interface UserRepository extends GenericRepository<User> {
     User findUsersByEmail(String email);
 
     User findUsersByGroup(Group group);
+    @Query(nativeQuery = true,
+    value = """
+            SELECT *
+            from users u
+            where u.is_worker is true
+            """)
+    List<User> findUserIsWorker();
 
     User findUserByChangePasswordToken(String token);
 

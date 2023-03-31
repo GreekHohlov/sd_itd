@@ -99,7 +99,7 @@
                 <div class="col-md">
                     <div class="form-floating mb-3">
                         <select class="form-select input-bg" name="category" id="category" required>
-                            <option th:each="category : ${categotyForm}"
+                            <option th:each="category : ${categoryForm}"
                                     th:value="${category.getId()}" th:text="${category.getNameCategory()}"></option>
                             <option selected value="default">Выберите категорию заявки</option>
                             <div class="invalid-feedback">Обязательное поле для заполнения</div>
@@ -113,9 +113,9 @@
                 <div class="col-md">
                     <div class="form-floating">
                         <select class="form-select input-bg" name="user" id="user" required>
-                            <option th:each="user : ${taskU}"
-                                    th:value="${user.getUser().getId()}" th:text="${user.getUser().getLastName()+ ' ' + user.getUser().getFirstName().charAt(0) +
-                       '. ' + user.getUser().getMiddleName().charAt(0) + '.'}"></option>
+                            <option th:each="user : ${taskWithUser}"
+                                    th:value="${user.getUser().getId()}" th:text="${user.getUser().getLastName()+ ' ' + user.getUser().getFirstName() +
+                       ' ' + user.getUser().getMiddleName()}"></option>
                             <option selected value="default">Выберите автора заявки</option>
                             <div class="invalid-feedback">Обязательное поле для заполнения</div>
                         </select>
@@ -126,7 +126,7 @@
                     <div class="form-floating">
                         <select class="form-select input-bg" name="worker" id="worker" required>
                             <option th:each="worker : ${workerForm}"
-                                    th:value="${worker.getId()}" th:text="${worker.getLastName()+ ' ' + worker.getFirstName().charAt(0) +
+                                    th:value="${worker.getId()}" th:text="${worker.getId()} == 1 ? 'Не назначена' : ${worker.getLastName()+ ' ' + worker.getFirstName().charAt(0) +
                        '. ' + worker.getMiddleName().charAt(0) + '.'}"></option>
                             <option selected value="default">Выберите Исполнителя</option>
                             <div class="invalid-feedback">Обязательное поле для заполнения</div>
@@ -140,7 +140,7 @@
                     <div class="form-floating mb-3">
                         <input name="decision" th:value="${task.getDecision()}" class="form-control input-bg"
                                id="decision" rows="5" placeholder="Решение по заявки" required>
-                        <label for="description">Решение по заявки</label>
+                        <label for="description">Решение по заявке</label>
                         <div class="invalid-feedback">Обязательное поле для заполнения</div>
                     </div>
                 </div>

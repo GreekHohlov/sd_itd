@@ -1,0 +1,8 @@
+service
+D1plom$54
+Системная
+учетная
+запись
+admin@servicedesk.ru
+
+$2a$10$HHdPd716i5B6Ci5qdNJMoe.Yhl7it3MxX8rU0JzPeRAc4kd5HpqNu
