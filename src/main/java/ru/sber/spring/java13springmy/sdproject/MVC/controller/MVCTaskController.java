@@ -161,7 +161,6 @@ public class MVCTaskController {
         List<String> categoryDTOS = categoryService.getName(categoryMapper.toDTOs(categoryRepository.findAll()));
         model.addAttribute("taskSearch", categoryDTOS);
         model.addAttribute("task", taskService.findTasks(taskSearchDTO, pageRequest));
-
         return "task/viewAllTask";
     }
 
