@@ -3,6 +3,7 @@ package ru.sber.spring.java13springmy.sdproject.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -153,5 +154,11 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         String fileName = FileHelper.createFile(file);
         taskDTO.setFiles(fileName);
         return mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
+    }
+
+    public Page<TaskWithUserDTO> findAllTaskByLogin(String login, PageRequest pageRequest) {
+        Page<Task> tasks = taskRepository.findAllTaskByLogin(login, pageRequest);
+        List<TaskWithUserDTO> result = taskWithUserMapper.toDTOs(tasks.getContent());
+        return new PageImpl<>(result, pageRequest, tasks.getTotalElements());
     }
 }

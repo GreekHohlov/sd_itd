@@ -25,6 +25,7 @@ import ru.sber.spring.java13springmy.sdproject.exception.MyDeleteException;
 import ru.sber.spring.java13springmy.sdproject.mapper.CategoryMapper;
 import ru.sber.spring.java13springmy.sdproject.mapper.TypeTaskMapper;
 import ru.sber.spring.java13springmy.sdproject.mapper.UserMapper;
+import ru.sber.spring.java13springmy.sdproject.model.Priority;
 import ru.sber.spring.java13springmy.sdproject.model.StatusTask;
 import ru.sber.spring.java13springmy.sdproject.repository.CategoryRepository;
 import ru.sber.spring.java13springmy.sdproject.repository.TypeTaskRepository;
@@ -77,12 +78,18 @@ public class MVCTaskController {
     public String getAll(@RequestParam(value = "page", defaultValue = "1") int page,
                          @RequestParam(value = "size", defaultValue = "5") int pageSize,
                          Model model) {
-        log.info("Роль вошедшего: " + SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString());
+        String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        String login = SecurityContextHolder.getContext().getAuthentication().getName().toString();
         PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "id"));
-        Page<TaskWithUserDTO> taskWithUserDTOList = taskService.getAllTaskWithUser(pageRequest);
+        if (role.equals("[ROLE_USER]")) {
+            Page<TaskWithUserDTO> result = taskService.findAllTaskByLogin(login, pageRequest);
+            model.addAttribute("task", result);
+        } else {
+            Page<TaskWithUserDTO> result = taskService.getAllTaskWithUser(pageRequest);
+            model.addAttribute("task", result);
+        }
         List<String> categoryDTOS = categoryService.getName(categoryMapper.toDTOs(categoryRepository.findAll()));
         model.addAttribute("taskSearch", categoryDTOS);
-        model.addAttribute("task", taskWithUserDTOList);
         return "task/viewAllTask";
     }
 
@@ -110,12 +117,12 @@ public class MVCTaskController {
                          @ModelAttribute("nameType") Long typeTaskId,
                          @ModelAttribute("category") String categoryId,
                          @RequestParam MultipartFile file) {
-        if (workerId.equals("default") || workerId.equals("")){
+        if (workerId.equals("default") || workerId.equals("")) {
             taskDTO.setWorkerId(1L);
         } else {
             taskDTO.setWorkerId(Long.valueOf(workerId));
         }
-        if (categoryId.equals("default") || categoryId.equals("")){
+        if (categoryId.equals("default") || categoryId.equals("")) {
             taskDTO.setCategoryId(1L);
         } else {
             taskDTO.setCategoryId(Long.valueOf(categoryId));
@@ -140,6 +147,8 @@ public class MVCTaskController {
         List<UserDTO> workerDTOs = userMapper.toDTOs(userRepository.findUserIsWorker());
         List<UserDTO> userDTOs = userMapper.toDTOs(userRepository.findAll());
         List<TaskWithUserDTO> taskWithUserDTOList = taskService.getAllTaskWithUser();
+        String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        log.info("GET_MAPPING.ROLE: " + role);
         log.info("GET_MAPPING. Заявка: " + id);
         log.info("typeTaskDTOs: " + typeTaskDTOs);
         log.info("categoryDTOs: " + categoryDTOs);
@@ -163,29 +172,42 @@ public class MVCTaskController {
                          @ModelAttribute("user") String userId,
                          @RequestParam MultipartFile file) {
         TaskDTO tempDTO = taskService.getOne(taskDTO.getId());
-        if (typeTaskId.equals("default")){
+        String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        log.info("POST_MAPPING.ROLE: " + role);
+        log.info("POST_MAPPING.TASK_DTO: " + taskDTO.toString());
+        if (role.equals("[ROLE_USER]")) {
+            taskDTO.setEndDate(tempDTO.getEndDate());
+            taskDTO.setStatusTask(tempDTO.getStatusTask());
+            taskDTO.setPriority(tempDTO.getPriority());
             taskDTO.setTypeTaskId(tempDTO.getTypeTaskId());
-        } else {
-            taskDTO.setTypeTaskId(Long.valueOf(typeTaskId));
-        }
-        if (categoryId.equals("default")){
             taskDTO.setCategoryId(tempDTO.getCategoryId());
-        } else {
-            taskDTO.setCategoryId(Long.valueOf(categoryId));
-        }
-        if (workerId.equals("default")){
             taskDTO.setWorkerId(tempDTO.getWorkerId());
-        } else {
-            taskDTO.setWorkerId(Long.valueOf(workerId));
-        }
-        if (userId.equals("default")){
             taskDTO.setUserId(tempDTO.getUserId());
         } else {
-            taskDTO.setUserId(Long.valueOf(userId));
+            if (typeTaskId.equals("default")) {
+                taskDTO.setTypeTaskId(tempDTO.getTypeTaskId());
+            } else {
+                taskDTO.setTypeTaskId(Long.valueOf(typeTaskId));
+            }
+            if (categoryId.equals("default")) {
+                taskDTO.setCategoryId(tempDTO.getCategoryId());
+            } else {
+                taskDTO.setCategoryId(Long.valueOf(categoryId));
+            }
+            if (workerId.equals("default")) {
+                taskDTO.setWorkerId(tempDTO.getWorkerId());
+            } else {
+                taskDTO.setWorkerId(Long.valueOf(workerId));
+            }
+            if (userId.equals("default")) {
+                taskDTO.setUserId(tempDTO.getUserId());
+            } else {
+                taskDTO.setUserId(Long.valueOf(userId));
+            }
         }
+        log.info("POST_MAPPING.TASK_DTO: " + taskDTO.toString());
         taskDTO.setCreateDate(LocalDate.now());
         taskDTO.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-        log.info("DTO_FULL:" + taskDTO);
         if (file != null && file.getSize() > 0) {
             taskService.update(taskDTO, file);
         } else {
@@ -203,17 +225,17 @@ public class MVCTaskController {
         List<String> categoryDTOS = categoryService.getName(categoryMapper.toDTOs(categoryRepository.findAll()));
         Page<TaskWithUserDTO> result;
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (ADMIN.equalsIgnoreCase(userName)) {
+        if (ADMIN.equalsIgnoreCase(SecurityContextHolder.getContext().getAuthentication().getName())) {
             result = taskService.getAllTasksWithUsers(pageRequest);
-        }
-        else {
+        } else {
             result = taskService.getAllNotDeletedTasksWithUsers(pageRequest);
         }
-       //model.addAttribute("books", result);
+        //model.addAttribute("books", result);
         model.addAttribute("taskSearch", categoryDTOS);
         model.addAttribute("task", result);
         return "task/viewAllTask";
     }
+
     @GetMapping(value = "/download", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseBody
     public ResponseEntity<Resource> downloadFile(@Param(value = "taskId") Long taskId) throws IOException {
