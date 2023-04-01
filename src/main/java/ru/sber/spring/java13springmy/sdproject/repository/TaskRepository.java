@@ -32,4 +32,5 @@ public interface TaskRepository extends GenericRepository<Task> {
                            @Param(value = "statusTask") String statusTask,
                            Pageable pageable);
 
+    Page<Task> findAllByIsDeletedFalse(Pageable pageable);
 }

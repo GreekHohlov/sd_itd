@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import ru.sber.spring.java13springmy.sdproject.model.Group;
+import ru.sber.spring.java13springmy.sdproject.model.Location;
 
 import java.util.Set;
 
@@ -26,5 +28,9 @@ public class UserDTO extends GenericDTO {
     private Boolean worker;
     private Set<Long> tasksIds;
     private Set<Long> tasksWorkerIds;
+
+    private Group group;
+//    private GroupDTO groupDTO;
+    private Location location;
     private boolean isDeleted;
 }

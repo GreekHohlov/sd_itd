@@ -7,31 +7,23 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import jakarta.websocket.server.PathParam;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import ru.sber.spring.java13springmy.sdproject.constants.Errors;
-import org.springframework.web.bind.annotation.*;
 import ru.sber.spring.java13springmy.sdproject.dto.UserDTO;
+import ru.sber.spring.java13springmy.sdproject.exception.MyDeleteException;
 import ru.sber.spring.java13springmy.sdproject.service.UserService;
 import ru.sber.spring.java13springmy.sdproject.service.userdetails.CustomUserDetails;
 
 import java.util.Objects;
+import java.util.UUID;
 
 import static ru.sber.spring.java13springmy.sdproject.constants.UserRoleConstants.ADMIN;
 
@@ -108,6 +100,17 @@ public class MVCUserController {
         }
     }
 
+//TODO Метод по смене пароля не отробатывает
+    @GetMapping("/change-password/user")
+    public String changePassword(Model model) {
+        CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDTO userDTO = userService.getOne(Long.valueOf(customUserDetails.getUserId()));
+        UUID uuid = UUID.randomUUID();
+        userDTO.setChangePasswordToken(uuid.toString());
+        userService.update(userDTO);
+        model.addAttribute("uuid", uuid);
+        return "users/changePassword";
+    }
 
     @GetMapping("/change-password")
     public String changePassword(@PathParam(value = "uuid") String uuid,
@@ -219,17 +222,16 @@ public class MVCUserController {
         userService.create(userDTO);
         return "redirect:/users/list";
     }
-//
-//    @GetMapping("/delete/{id}")
-//    public String delete(@PathVariable Long id) throws MyDeleteException {
-//        userService.delete(id);
-//        return "redirect:/users/list";
-//    }
-//
-//    @GetMapping("/restore/{id}")
-//    public String restore(@PathVariable Long id) {
-//        userService.restore(id);
-//        return "redirect:/users/list";
-//    }
 
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id) throws MyDeleteException {
+        userService.delete(id);
+        return "redirect:/users/list";
+    }
+
+    @GetMapping("/restore/{id}")
+    public String restore(@PathVariable Long id) {
+        userService.restore(id);
+        return "redirect:/users/list";
+    }
 }

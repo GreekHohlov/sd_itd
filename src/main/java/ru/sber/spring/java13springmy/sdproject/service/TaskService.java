@@ -11,6 +11,7 @@ import org.webjars.NotFoundException;
 import ru.sber.spring.java13springmy.sdproject.dto.TaskDTO;
 import ru.sber.spring.java13springmy.sdproject.dto.TaskSearchDTO;
 import ru.sber.spring.java13springmy.sdproject.dto.TaskWithUserDTO;
+import ru.sber.spring.java13springmy.sdproject.exception.MyDeleteException;
 import ru.sber.spring.java13springmy.sdproject.mapper.TaskMapper;
 import ru.sber.spring.java13springmy.sdproject.mapper.TaskWithUserMapper;
 import ru.sber.spring.java13springmy.sdproject.model.Task;
@@ -38,6 +39,18 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         this.taskRepository = taskRepository;
         this.userRepository = userRepository;
         this.taskWithUserMapper = taskWithUserMapper;
+    }
+
+    public Page<TaskWithUserDTO> getAllTasksWithUsers(Pageable pageable) {
+        Page<Task> tasksPaginated = taskRepository.findAll(pageable);
+        List<TaskWithUserDTO> result = taskWithUserMapper.toDTOs(tasksPaginated.getContent());
+        return new PageImpl<>(result, pageable, tasksPaginated.getTotalElements());
+    }
+
+    public Page<TaskWithUserDTO> getAllNotDeletedTasksWithUsers(Pageable pageable) {
+        Page<Task> tasksPaginated = taskRepository.findAllByIsDeletedFalse(pageable);
+        List<TaskWithUserDTO> result = taskWithUserMapper.toDTOs(tasksPaginated.getContent());
+        return new PageImpl<>(result, pageable, tasksPaginated.getTotalElements());
     }
 
     public TaskDTO addUserToTask(Long taskId, Long userId) {
@@ -105,5 +118,33 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         taskDTO.setCreateDate(LocalDate.now());
         taskDTO.setEndDate(LocalDate.now().plusDays(1L)); //времено так, далее обработка
         return mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
+    }
+
+    @Override
+    public void delete(Long id) throws MyDeleteException {
+        Task task = repository.findById(id).orElseThrow(
+                () -> new NotFoundException("Заявки с заданным ID=" + id + " не существует"));
+//        boolean bookCanBeDeleted = repository.findBookByIdAndBookRentInfosReturnedFalseAndIsDeletedFalse(id) == null;
+      //  boolean bookCanBeDeleted = repository.checkBookForDeletion(id);
+//        if (bookCanBeDeleted) {
+
+        //TODO Уаляет файл при удалении заявки, назад не востанавливает, пока отключим
+
+//            if (task.getFiles() != null && !task.getFiles().isEmpty()) {
+//                FileHelper.deleteFile(task.getFiles());
+//            }
+            markAsDeleted(task);
+            repository.save(task);
+
+//        else {
+//            throw new MyDeleteException(Errors.Books.BOOK_DELETE_ERROR);
+//        }
+    }
+
+    public void restore(Long objectId) {
+        Task task= repository.findById(objectId).orElseThrow(
+                () -> new NotFoundException("Заявки с заданным ID=" + objectId + " не существует"));
+        unMarkAsDeleted(task);
+        repository.save(task);
     }
 }

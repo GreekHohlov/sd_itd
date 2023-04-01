@@ -19,21 +19,25 @@
                 </div>
             </div>
             <div class="mb-2 row">
-                <label for="userName" class="col-sm-2 col-form-label no-border">Имя:</label>
+                <label for="lastName" class="col-sm-2 col-form-label no-border">Фамилия:</label>
                 <div class="col-sm-10">
-                    <p th:text="${user.getFirstName()}" type="text" readonly class="form-control-plaintext" id="userName">
+                    <p th:text="${user.getLastName()}" type="text" readonly class="form-control-plaintext"
+                       id="lastName">
                 </div>
             </div>
             <div class="mb-2 row">
-                <label for="lastName" class="col-sm-2 col-form-label no-border">Фамилия:</label>
+                <label for="userName" class="col-sm-2 col-form-label no-border">Имя:</label>
                 <div class="col-sm-10">
-                    <p th:text="${user.getLastName()}" type="text" readonly class="form-control-plaintext" id="lastName">
+                    <p th:text="${user.getFirstName()}" type="text" readonly class="form-control-plaintext"
+                       id="userName">
                 </div>
             </div>
+
             <div class="mb-2 row">
                 <label for="middleName" class="col-sm-2 col-form-label no-border">Отчество:</label>
                 <div class="col-sm-10">
-                    <p th:text="${user.getMiddleName()}" type="text" readonly class="form-control-plaintext" id="middleName">
+                    <p th:text="${user.getMiddleName()}" type="text" readonly class="form-control-plaintext"
+                       id="middleName">
                 </div>
             </div>
             <div class="mb-2 row">
@@ -42,24 +46,40 @@
                     <p th:text="${user.getEmail()}" type="text" readonly class="form-control-plaintext" id="email">
                 </div>
             </div>
-<!--            <div class="mb-2 row">-->
-<!--                <label for="birthDate" class="col-sm-2 col-form-label no-border">Дата рождения:</label>-->
-<!--                <div class="col-sm-10">-->
-<!--                    <p th:text="${user.getBirthDate()}" type="text" readonly class="form-control-plaintext" id="birthDate">-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="mb-2 row">-->
-<!--                <label for="phone" class="col-sm-2 col-form-label no-border">Телефон:</label>-->
-<!--                <div class="col-sm-10">-->
-<!--                    <p th:text="${user.getPhone()}" type="text" readonly class="form-control-plaintext" id="phone">-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="mb-2 row">-->
-<!--                <label for="address" class="col-sm-2 col-form-label no-border">Адрес:</label>-->
-<!--                <div class="col-sm-10">-->
-<!--                    <p th:text="${user.getAddress()}" type="text" readonly class="form-control-plaintext" id="address">-->
-<!--                </div>-->
-<!--            </div>-->
+            <div class="mb-2 row">
+                <label for="phone" class="col-sm-2 col-form-label no-border">Телефон:</label>
+                <div class="col-sm-10">
+                    <p th:text="${user.getPhone()}" type="text" readonly class="form-control-plaintext" id="phone">
+                </div>
+            </div>
+            <div class="mb-2 row">
+                <label for="role" class="col-sm-2 col-form-label no-border">Роль:</label>
+                <div class="col-sm-10">
+                    <p th:text="${user.getRole().getDescription()}" type="text" readonly class="form-control-plaintext"
+                       id="role">
+                </div>
+            </div>
+            <div class="mb-2 row">
+                <label for="group" class="col-sm-2 col-form-label no-border">Группа пользователей:</label>
+                <div class="col-sm-10">
+                    <p th:text="${user.getGroup().getResponsible()}" type="text" readonly class="form-control-plaintext"
+                       id="group">
+                </div>
+            </div>
+            <div class="mb-2 row">
+                <label for="location" class="col-sm-2 col-form-label no-border">Площадка:</label>
+                <div class="col-sm-10">
+                    <p th:text="${user.getLocation().getNameLocation()}" type="text" readonly class="form-control-plaintext"
+                       id="location">
+                </div>
+            </div>
+            <div class="mb-2 row">
+                <label for="isDeleted" class="col-sm-2 col-form-label no-border">Заблокирован:</label>
+                <div class="col-sm-10">
+                    <p th:text="${user.isDeleted()} ? 'Да' : 'Нет'" type="text" readonly class="form-control-plaintext"
+                       id="isDeleted">
+                </div>
+            </div>
         </form>
         <div class="mt-2">
             <a sec:authorize="isAuthenticated() && !(hasRole('ADMIN'))"
@@ -69,10 +89,10 @@
                th:href="'/users/change-password/user'"
                class="btn btn-warning"
                aria-disabled="true">Изменить пароль</a>
-<!--            <a sec:authorize="isAuthenticated() && (hasRole('ADMIN'))"-->
-<!--               th:href="'/rent/user-books/' + ${user.id}"-->
-<!--               class="btn btn-primary"-->
-<!--               aria-disabled="true">Арендованные книги</a>-->
+            <!--            <a sec:authorize="isAuthenticated() && (hasRole('ADMIN'))"-->
+            <!--               th:href="'/rent/user-books/' + ${user.id}"-->
+            <!--               class="btn btn-primary"-->
+            <!--               aria-disabled="true">Арендованные книги</a>-->
             <button type="button" class="btn btn-secondary" onclick="window.history.back()">Назад</button>
         </div>
     </div>

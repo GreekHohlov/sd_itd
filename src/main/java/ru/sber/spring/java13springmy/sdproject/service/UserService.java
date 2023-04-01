@@ -8,9 +8,11 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 import ru.sber.spring.java13springmy.sdproject.constants.MailConstants;
 import ru.sber.spring.java13springmy.sdproject.dto.RoleDTO;
 import ru.sber.spring.java13springmy.sdproject.dto.UserDTO;
+import ru.sber.spring.java13springmy.sdproject.exception.MyDeleteException;
 import ru.sber.spring.java13springmy.sdproject.mapper.UserMapper;
 import ru.sber.spring.java13springmy.sdproject.model.Group;
 import ru.sber.spring.java13springmy.sdproject.model.User;
@@ -46,6 +48,7 @@ public class UserService extends GenericService<User, UserDTO> {
     public UserDTO getWorkers(final Group groupId) {
         return mapper.toDto(((UserRepository) repository).findUsersByGroup(groupId));
     }
+
     public List<UserDTO> getAllWorekers() {
         return mapper.toDTOs(((UserRepository) repository).findUserIsWorker());
     }
@@ -101,8 +104,21 @@ public class UserService extends GenericService<User, UserDTO> {
         return new PageImpl<>(result, pageable, users.getTotalElements());
     }
 
-//    public List<String> getUserEmailsWithDelayedRentDate() {
+    //    public List<String> getUserEmailsWithDelayedRentDate() {
 //        return ((UserRepository) repository).getDelayedEmails();
 //    }
+    @Override
+    public void delete(Long id) throws MyDeleteException {
+        User user = repository.findById(id).orElseThrow(
+                () -> new NotFoundException("Пользователя с заданным ID=" + id + " не существует"));
+        markAsDeleted(user);
+        repository.save(user);
+    }
 
+    public void restore(Long objectId) {
+        User user = repository.findById(objectId).orElseThrow(
+                () -> new NotFoundException("Пользователя с заданным ID=" + objectId + " не существует"));
+        unMarkAsDeleted(user);
+        repository.save(user);
+    }
 }

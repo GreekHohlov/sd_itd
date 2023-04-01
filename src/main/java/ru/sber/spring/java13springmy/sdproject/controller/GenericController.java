@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.sber.spring.java13springmy.sdproject.dto.GenericDTO;
+import ru.sber.spring.java13springmy.sdproject.exception.MyDeleteException;
 import ru.sber.spring.java13springmy.sdproject.model.GenericModel;
 import ru.sber.spring.java13springmy.sdproject.service.GenericService;
 
@@ -62,7 +63,7 @@ public abstract class GenericController<T extends GenericModel, N extends Generi
 
     @Operation(description = "Удалить запись по ID", method = "delete")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable(value = "id") Long id) {
+    public void delete(@PathVariable(value = "id") Long id) throws MyDeleteException {
         service.delete(id);
     }
 }

@@ -65,12 +65,15 @@
                 <thead>
                 <tr>
                     <th scope="col">Логин</th>
+                    <th scope="col">Площадка</th>
                     <th scope="col">Имя</th>
                     <th scope="col">Фамилия</th>
                     <th scope="col">Отчество</th>
                     <th scope="col">Почта</th>
-                    <!--                    <th scope="col">Дата рождения</th>-->
-                    <!--                    <th scope="col">Телефон</th>-->
+                    <th scope="col">Телефон</th>
+                    <th scope="col">Группа пользователей</th>
+                    <th scope="col">Роль</th>
+                    <th scope="col">Исполнитель</th>
                     <th scope="col">Заблокирован</th>
                     <th scope="col"></th>
                 </tr>
@@ -81,17 +84,22 @@
                         <a class="text-link text-blue" th:href="'/users/profile/' + ${user.getId()}"
                            th:text="${user.getLogin()}"></a>
                     </td>
+                    <td th:text="${user.location.getNameLocation()}"></td>
                     <td th:text="${user.getFirstName()}"></td>
                     <td th:text="${user.getLastName()}"></td>
                     <td th:text="${user.getMiddleName()}"></td>
                     <td th:text="${user.getEmail()}"></td>
-                    <!--&lt;!&ndash;                    <td th:text="${user.getBirthDate()}"></td>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                    <td th:text="${user.getPhone()}"></td>&ndash;&gt;-->
+                    <td th:text="${user.getPhone()}"></td>
+                    <td th:text="${user.group.getResponsible()}"></td>
+                    <td th:text="${user.getRole().getDescription()}"></td>
+                    <td th:text="${user.worker} ? 'Да' : 'Нет'"></td>
                     <td th:text="${user.isDeleted()} ? 'Да' : 'Нет'"></td>
                     <td></td>
                     <td>
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                             <div sec:authorize="isAuthenticated() && (hasRole('ADMIN'))">
+                                <a class="btn btn-sm btn-outline-success"
+                                   th:href="'/users/add/' + ${user.id}">Обновить</a>
                                 <a th:if="${!user.isDeleted()}" class="btn btn-sm btn-outline-danger"
                                    th:href="'/users/delete/' + ${user.getId()}"
                                    onclick="return confirm('Вы действительно хотите удалить пользователя?');">Удалить</a>

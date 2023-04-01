@@ -17,6 +17,7 @@ public interface PermissionConstants {
     List<String> ALL_WHITE_LIST = List.of("/login",
             "/users/registration",
             "/users/remember-password",
+            "/users/change-password/user",
             "/users/change-password");
     /*
     Базовый доступ к сервису
@@ -29,6 +30,7 @@ public interface PermissionConstants {
             "/task/add",
             "/task/add",
             "/task/search",
+            "/task/download/{taskId}",
             "/error");
     /*
     Полный доступ.
@@ -38,6 +40,7 @@ public interface PermissionConstants {
             "/users/add",
             "/users/update",
             "/users/delete",
+            "/users/restore",
             "/users",
             "/task/add",
             "/task/update",

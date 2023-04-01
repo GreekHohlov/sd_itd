@@ -43,9 +43,12 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity
-                .csrf(csrf -> csrf
-                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                )
+                //TODO Для учебных целей пока отключим
+
+//                .csrf(csrf -> csrf
+//                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+//                )
+
                 .authorizeHttpRequests((requests) -> requests
                                 .requestMatchers(RESOURCES_WHITE_LIST.toArray(String[]::new)).permitAll()
                                 .requestMatchers(ALL_WHITE_LIST.toArray(String[]::new)).anonymous()
