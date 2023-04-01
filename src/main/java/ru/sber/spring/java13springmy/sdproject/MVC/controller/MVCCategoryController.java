@@ -44,6 +44,6 @@ public class MVCCategoryController {
     public String create(@ModelAttribute("categoryForm") CategoryDTO categoryDTO){
 
         categoryService.create(categoryDTO);
-        return "redirect:/category";
+        return "redirect:category";
     }
 }
