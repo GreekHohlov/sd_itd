@@ -17,12 +17,11 @@ import ru.sber.spring.java13springmy.sdproject.model.User;
 import ru.sber.spring.java13springmy.sdproject.repository.UserRepository;
 import ru.sber.spring.java13springmy.sdproject.utils.MailUtils;
 
-import static ru.sber.spring.java13springmy.sdproject.constants.UserRoleConstants.ADMIN;
-
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
-import java.util.List;
+import static ru.sber.spring.java13springmy.sdproject.constants.UserRoleConstants.ADMIN;
 
 @Service
 public class UserService extends GenericService<User, UserDTO> {
@@ -46,6 +45,9 @@ public class UserService extends GenericService<User, UserDTO> {
 
     public UserDTO getWorkers(final Group groupId) {
         return mapper.toDto(((UserRepository) repository).findUsersByGroup(groupId));
+    }
+    public List<UserDTO> getAllWorekers() {
+        return mapper.toDTOs(((UserRepository) repository).findUserIsWorker());
     }
 
     @Override

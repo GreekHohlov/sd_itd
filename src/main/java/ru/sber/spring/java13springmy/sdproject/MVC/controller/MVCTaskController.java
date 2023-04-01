@@ -60,7 +60,7 @@ public class MVCTaskController {
     public String getAll(@RequestParam(value = "page", defaultValue = "1") int page,
                          @RequestParam(value = "size", defaultValue = "5") int pageSize,
                          Model model) {
-        PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "id"));
+        PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "id"));
         Page<TaskWithUserDTO> taskWithUserDTOList = taskService.getAllTaskWithUser(pageRequest);
         List<String> categoryDTOS = categoryService.getName(categoryMapper.toDTOs(categoryRepository.findAll()));
         model.addAttribute("taskSearch", categoryDTOS);
@@ -77,7 +77,7 @@ public class MVCTaskController {
 
     @GetMapping("/add")
     public String create(Model model) {
-        List<UserDTO> workerDTOs = userMapper.toDTOs(userRepository.findAll());
+        List<UserDTO> workerDTOs = userMapper.toDTOs(userRepository.findUserIsWorker());
         List<TypeTaskDTO> typeTaskDTOs = typeTaskMapper.toDTOs(typeTaskRepository.findAll());
         List<CategoryDTO> categoryDTOs = categoryMapper.toDTOs(categoryRepository.findAll());
         model.addAttribute("workerForm", workerDTOs);
@@ -92,13 +92,17 @@ public class MVCTaskController {
                          @ModelAttribute("nameType") Long typeTaskId,
                          @ModelAttribute("category") String categoryId,
                          @RequestParam MultipartFile file) {
-        if (workerId.equals("default") || workerId.equals("")) {
-
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("USER")){
+            taskDTO.setWorkerId(1L);
+            taskDTO.setCategoryId(1L);
+        }
+        if (workerId.equals("default")){
+            taskDTO.setWorkerId(1L);
         } else {
             taskDTO.setWorkerId(Long.valueOf(workerId));
         }
-        if (categoryId.equals("default") || categoryId.equals("")) {
-
+        if (categoryId.equals("default")){
+            taskDTO.setCategoryId(1L);
         } else {
             taskDTO.setCategoryId(Long.valueOf(categoryId));
         }
@@ -116,18 +120,17 @@ public class MVCTaskController {
 
     @GetMapping("/update/{id}")
     public String update(@PathVariable Long id,
-                         @RequestParam(value = "page", defaultValue = "1") int page,
-                         @RequestParam(value = "size", defaultValue = "5") int pageSize,
                          Model model) {
-        PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "id"));
         List<TypeTaskDTO> typeTaskDTOs = typeTaskMapper.toDTOs(typeTaskRepository.findAll());
         List<CategoryDTO> categoryDTOs = categoryMapper.toDTOs(categoryRepository.findAll());
-        List<UserDTO> workerDTOs = userMapper.toDTOs(userRepository.findAll());
-        Page<TaskWithUserDTO> taskWithUserDTOList = taskService.getAllTaskWithUser(pageRequest);
+        List<UserDTO> workerDTOs = userMapper.toDTOs(userRepository.findUserIsWorker());
+        List<UserDTO> userDTOs = userMapper.toDTOs(userRepository.findAll());
+        List<TaskWithUserDTO> taskWithUserDTOList = taskService.getAllTaskWithUser();
         model.addAttribute("workerForm", workerDTOs);
         model.addAttribute("typeTaskForm", typeTaskDTOs);
-        model.addAttribute("categotyForm", categoryDTOs);
-        model.addAttribute("taskU", taskWithUserDTOList);
+        model.addAttribute("categoryForm", categoryDTOs);
+        model.addAttribute("taskU", userDTOs);
+        model.addAttribute("taskWithUser", taskWithUserDTOList);
         model.addAttribute("task", taskService.getOne(id));
         return "task/updateTask";
     }
@@ -138,6 +141,7 @@ public class MVCTaskController {
                          @ModelAttribute("category") Long categoryId,
                          @ModelAttribute("worker") Long workerId,
                          @ModelAttribute("User") Long userId,
+                         @ModelAttribute("update") Long taskId,
                          @RequestParam MultipartFile file) {
         taskDTO.setCategoryId(categoryId);
         taskDTO.setTypeTaskId(typeTaskId);
@@ -156,7 +160,6 @@ public class MVCTaskController {
                              @RequestParam(value = "size", defaultValue = "5") int pageSize,
                              @ModelAttribute("taskSearchForm") TaskSearchDTO taskSearchDTO,
                              Model model) {
-        log.info("TASK_SEARCH_DTO: " + taskSearchDTO);
         PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "id"));
         List<String> categoryDTOS = categoryService.getName(categoryMapper.toDTOs(categoryRepository.findAll()));
         model.addAttribute("taskSearch", categoryDTOS);

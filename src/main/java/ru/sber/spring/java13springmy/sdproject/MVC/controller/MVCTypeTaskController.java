@@ -58,10 +58,11 @@ public class MVCTypeTaskController {
         model.addAttribute("slaForm", slaDTOs);
         return "typetask/updateTypeTask";
     }
+
     @PostMapping("/update")
     public String update(@ModelAttribute("typeId") Long typeId,
                          @ModelAttribute("nameType") String nameType,
-                              @ModelAttribute("slaId") Long slaId) {
+                         @ModelAttribute("slaId") Long slaId) {
         TypeTaskDTO typeTaskDTOUpdate = typeTaskService.getOne(typeId);
         typeTaskDTOUpdate.setNameType(nameType);
         typeTaskDTOUpdate.setSlaId(slaId);

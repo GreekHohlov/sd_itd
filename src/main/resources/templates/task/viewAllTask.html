@@ -123,14 +123,14 @@
                     <a th:text="${tasks.getUser().getLastName() + ' ' + tasks.getUser().getFirstName().charAt(0) +
                        '. ' + tasks.getUser().getMiddleName().charAt(0) + '.'}">Автор ФИО</a>
                 </td>
-                <td th:text="${tasks.getWorker()} == null ? 'Не назначена' : ${tasks.getWorker().getLastName() + ' ' + tasks.getWorker().getFirstName().charAt(0) +
+                <td th:text="${tasks.getWorker().getId()} == 1 ? 'Не назначена' : ${tasks.getWorker().getLastName() + ' ' + tasks.getWorker().getFirstName().charAt(0) +
                        '. ' + tasks.getWorker().getMiddleName().charAt(0) + '.'}">ФИО исполнителя</td>
                 <td th:text="${tasks.getEndDate()}">Дата выполнения</td>
                 <td th:text="${tasks.getStatusTask().statusTaskTextDisplay()}">Статус</td>
                 <td>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <!--                    <div sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('LIBRARIAN'))">-->
-                        <a class="btn btn-sm btn-outline-success"
+                        <a class="btn btn-sm btn-outline-success" id="update"
                            th:href="'/task/update/' + ${tasks.id}">Обновить</a>
                         <a sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('EXECUTOR'))"
                            class="btn btn-sm btn-outline-danger"
