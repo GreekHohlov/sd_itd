@@ -77,6 +77,7 @@ public class MVCTaskController {
     public String getAll(@RequestParam(value = "page", defaultValue = "1") int page,
                          @RequestParam(value = "size", defaultValue = "5") int pageSize,
                          Model model) {
+        log.info("Роль вошедшего: " + SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString());
         PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "id"));
         Page<TaskWithUserDTO> taskWithUserDTOList = taskService.getAllTaskWithUser(pageRequest);
         List<String> categoryDTOS = categoryService.getName(categoryMapper.toDTOs(categoryRepository.findAll()));
@@ -109,10 +110,6 @@ public class MVCTaskController {
                          @ModelAttribute("nameType") Long typeTaskId,
                          @ModelAttribute("category") String categoryId,
                          @RequestParam MultipartFile file) {
-//        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("USER")){
-//            taskDTO.setWorkerId(1L);
-//            taskDTO.setCategoryId(1L);
-//        }
         if (workerId.equals("default") || workerId.equals("")){
             taskDTO.setWorkerId(1L);
         } else {
@@ -143,6 +140,12 @@ public class MVCTaskController {
         List<UserDTO> workerDTOs = userMapper.toDTOs(userRepository.findUserIsWorker());
         List<UserDTO> userDTOs = userMapper.toDTOs(userRepository.findAll());
         List<TaskWithUserDTO> taskWithUserDTOList = taskService.getAllTaskWithUser();
+        log.info("GET_MAPPING. Заявка: " + id);
+        log.info("typeTaskDTOs: " + typeTaskDTOs);
+        log.info("categoryDTOs: " + categoryDTOs);
+        log.info("workerDTOs: " + workerDTOs);
+        log.info("userDTOs: " + userDTOs);
+        log.info("taskWithUserDTOList: " + taskWithUserDTOList);
         model.addAttribute("workerForm", workerDTOs);
         model.addAttribute("typeTaskForm", typeTaskDTOs);
         model.addAttribute("categoryForm", categoryDTOs);
@@ -154,20 +157,39 @@ public class MVCTaskController {
 
     @PostMapping("/update")
     public String update(@ModelAttribute("taskForm") TaskDTO taskDTO,
-                         @ModelAttribute("nameType") Long typeTaskId,
-                         @ModelAttribute("category") Long categoryId,
-                         @ModelAttribute("worker") Long workerId,
-                         @ModelAttribute("User") Long userId,
-                         @ModelAttribute("update") Long taskId,
+                         @ModelAttribute("nameType") String typeTaskId,
+                         @ModelAttribute("category") String categoryId,
+                         @ModelAttribute("worker") String workerId,
+                         @ModelAttribute("user") String userId,
                          @RequestParam MultipartFile file) {
-        taskDTO.setCategoryId(categoryId);
-        taskDTO.setTypeTaskId(typeTaskId);
-        taskDTO.setWorkerId(workerId);
-        taskDTO.setUserId(userId);
-        if (file != null && file.getSize() > 0) {
-            taskService.create(taskDTO, file);
+        TaskDTO tempDTO = taskService.getOne(taskDTO.getId());
+        if (typeTaskId.equals("default")){
+            taskDTO.setTypeTaskId(tempDTO.getTypeTaskId());
         } else {
-            taskService.create(taskDTO);
+            taskDTO.setTypeTaskId(Long.valueOf(typeTaskId));
+        }
+        if (categoryId.equals("default")){
+            taskDTO.setCategoryId(tempDTO.getCategoryId());
+        } else {
+            taskDTO.setCategoryId(Long.valueOf(categoryId));
+        }
+        if (workerId.equals("default")){
+            taskDTO.setWorkerId(tempDTO.getWorkerId());
+        } else {
+            taskDTO.setWorkerId(Long.valueOf(workerId));
+        }
+        if (userId.equals("default")){
+            taskDTO.setUserId(tempDTO.getUserId());
+        } else {
+            taskDTO.setUserId(Long.valueOf(userId));
+        }
+        taskDTO.setCreateDate(LocalDate.now());
+        taskDTO.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        log.info("DTO_FULL:" + taskDTO);
+        if (file != null && file.getSize() > 0) {
+            taskService.update(taskDTO, file);
+        } else {
+            taskService.update(taskDTO);
         }
         return "redirect:/task";
     }

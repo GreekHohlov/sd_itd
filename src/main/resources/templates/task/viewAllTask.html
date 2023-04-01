@@ -120,6 +120,7 @@
                 <td th:text="${tasks.getCategory()} == null ? 'Категория не выбрана' : ${tasks.getCategory().getNameCategory()}">
                     Категория
                 </td>
+                <td th:text="${tasks.getCategory().getId()} == 1 ? 'Категория не выбрана' : ${tasks.getCategory().getNameCategory()}">Категория</td>
                 <td>
                     <!--                    <a class="text-link text-blue" th:href="'/users/' + ${tasks.getUser().getId()}"-->
                     <a th:text="${tasks.getUser().getLastName() + ' ' + tasks.getUser().getFirstName().charAt(0) +

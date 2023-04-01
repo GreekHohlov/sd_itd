@@ -113,9 +113,9 @@
                 <div class="col-md">
                     <div class="form-floating">
                         <select class="form-select input-bg" name="user" id="user" required>
-                            <option th:each="user : ${taskWithUser}"
-                                    th:value="${user.getUser().getId()}" th:text="${user.getUser().getLastName()+ ' ' + user.getUser().getFirstName() +
-                       ' ' + user.getUser().getMiddleName()}"></option>
+                            <option th:each="user : ${taskU}"
+                                    th:value="${user.getId()}" th:text="${user.getLastName()+ ' ' + user.getFirstName() +
+                       ' ' + user.getMiddleName()}"></option>
                             <option selected value="default">Выберите автора заявки</option>
                             <div class="invalid-feedback">Обязательное поле для заполнения</div>
                         </select>
