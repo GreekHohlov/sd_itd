@@ -50,10 +50,19 @@ public class User
     @ManyToOne
     @JoinColumn(name = "group_id", foreignKey = @ForeignKey(name = "FK_USER_GROUP_INFO"))
     private Group group;
+
     @OneToMany(mappedBy = "user")
     private Set<Task> tasks;
+
     @OneToMany(mappedBy = "worker")
     private Set<Task> tasksWorker;
+
     @Column(name = "is_worker", columnDefinition = "boolean default false")
     private Boolean worker;
+
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "role_id", nullable = false,
+            foreignKey = @ForeignKey(name = "FK_USER_ROLES"))
+    private Role role;
+
 }

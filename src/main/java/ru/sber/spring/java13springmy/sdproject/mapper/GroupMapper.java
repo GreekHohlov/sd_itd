@@ -30,18 +30,18 @@ public class GroupMapper extends GenericMapper<Group, GroupDTO> {
     @PostConstruct
     public void setupMapper() {
         modelMapper.createTypeMap(Group.class, GroupDTO.class)
-                .addMappings(m -> m.skip(GroupDTO::setRole)).setPostConverter(toDtoConverter())
+//                .addMappings(m -> m.skip(GroupDTO::setRole)).setPostConverter(toDtoConverter())
                 .addMappings(m -> m.skip(GroupDTO::setUsersIds)).setPostConverter(toDtoConverter());
 
         modelMapper.createTypeMap(GroupDTO.class, Group.class)
-                .addMappings(m -> m.skip(Group::setRole)).setPostConverter(toEntityConverter())
+//                .addMappings(m -> m.skip(Group::setRole)).setPostConverter(toEntityConverter())
                 .addMappings(m -> m.skip(Group::setUser)).setPostConverter(toEntityConverter());
     }
 
     @Override
     protected void mapSpecificFields(GroupDTO source, Group destination) {
-        destination.setRole(roleRepository.findById(source.getRole())
-                .orElseThrow(() -> new NotFoundException("Группа не найдена")));
+//        destination.setRole(roleRepository.findById(source.getRole())
+//                .orElseThrow(() -> new NotFoundException("Группа не найдена")));
 
         if (!Objects.isNull(source.getUsersIds())) {
             destination.setUser(new HashSet<>(userRepository.findAllById(source.getUsersIds())));
@@ -52,7 +52,7 @@ public class GroupMapper extends GenericMapper<Group, GroupDTO> {
 
     @Override
     protected void mapSpecificFields(Group source, GroupDTO destination) {
-        destination.setRole(source.getRole().getId());
+        //destination.setRole(source.getRole().getId());
         destination.setUsersIds(getIds(source));
     }
 

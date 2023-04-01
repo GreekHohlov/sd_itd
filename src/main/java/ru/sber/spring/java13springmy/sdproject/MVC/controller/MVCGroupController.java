@@ -42,18 +42,17 @@ public class MVCGroupController {
 
     //Рисует форму создания
     @GetMapping("/add")
-    public String create(Model model) {
-        List<RoleDTO> roleDTOs = roleMapper.toDTOs(roleRepository.findAll());
-        model.addAttribute("roleForm", roleDTOs);
+    public String create() {
+//        List<RoleDTO> roleDTOs = roleMapper.toDTOs(roleRepository.findAll());
+//        model.addAttribute("roleForm", roleDTOs);
         return "groups/addGroup";
     }
 
     // Примит данные о созданном *** и передаст в БД
     // Потом вернёт нас на страницу со всеми ***
     @PostMapping("/add")
-    public String create(@ModelAttribute("groupForm") GroupDTO groupDTO,
-                         @ModelAttribute ("role") Long roleId) {
-        groupDTO.setRole(roleId);
+    public String create(@ModelAttribute("groupForm") GroupDTO groupDTO) {
+       // groupDTO.setRole(roleId);
         groupService.create(groupDTO);
         return "redirect:/groups";
     }

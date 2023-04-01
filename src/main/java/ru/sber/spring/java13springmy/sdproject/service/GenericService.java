@@ -3,13 +3,16 @@ package ru.sber.spring.java13springmy.sdproject.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 import ru.sber.spring.java13springmy.sdproject.dto.GenericDTO;
+import ru.sber.spring.java13springmy.sdproject.exception.MyDeleteException;
 import ru.sber.spring.java13springmy.sdproject.mapper.GenericMapper;
 import ru.sber.spring.java13springmy.sdproject.model.GenericModel;
 import ru.sber.spring.java13springmy.sdproject.repository.GenericRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -37,6 +40,7 @@ public abstract class GenericService<T extends GenericModel, N extends GenericDT
     public List<N> listAll() {
         return mapper.toDTOs(repository.findAll());
     }
+
     public Page<N> listAll(Pageable pageable) {
         Page<T> objects = repository.findAll(pageable);
         List<N> result = mapper.toDTOs(objects.getContent());
@@ -56,7 +60,19 @@ public abstract class GenericService<T extends GenericModel, N extends GenericDT
         return mapper.toDto(repository.save(mapper.toEntity(object)));
     }
 
-    public void delete(Long id) {
+    public void delete(Long id) throws MyDeleteException {
         repository.deleteById(id);
+    }
+
+    public void markAsDeleted(GenericModel genericModel) {
+        genericModel.setDeleted(true);
+        genericModel.setDeletedWhen(LocalDateTime.now());
+        genericModel.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+    }
+
+    public void unMarkAsDeleted(GenericModel genericModel) {
+        genericModel.setDeleted(false);
+        genericModel.setDeletedWhen(null);
+        genericModel.setDeletedBy(null);
     }
 }

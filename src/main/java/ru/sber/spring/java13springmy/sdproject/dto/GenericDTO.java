@@ -14,4 +14,6 @@ public abstract class GenericDTO {
 
     //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private LocalDateTime createdWhen;
+
+    private boolean isDeleted;
 }

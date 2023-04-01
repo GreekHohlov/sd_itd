@@ -26,31 +26,32 @@ public class RoleMapper extends GenericMapper<Role, RoleDTO> {
     protected void setupMapper() {
         modelMapper.createTypeMap(Role.class, RoleDTO.class)
                 .addMappings(m -> m.skip(RoleDTO::setGroupsIds)).setPostConverter(toDtoConverter());
-        modelMapper.createTypeMap(RoleDTO.class, Role.class)
-                .addMappings(m -> m.skip(Role::setGroups)).setPostConverter(toEntityConverter());
+//        modelMapper.createTypeMap(RoleDTO.class, Role.class)
+//                .addMappings(m -> m.skip(Role::setGroups)).setPostConverter(toEntityConverter());
     }
 
     @Override
     protected void mapSpecificFields(RoleDTO source, Role destination) {
 
-        if (!Objects.isNull(source.getGroupsIds())) {
-            destination.setGroups(new HashSet<>(groupRepository.findAllById(source.getGroupsIds())));
-        } else {
-            destination.setGroups(Collections.emptySet());
-        }
+//        if (!Objects.isNull(source.getGroupsIds())) {
+//            destination.setGroups(new HashSet<>(groupRepository.findAllById(source.getGroupsIds())));
+//        } else {
+//            destination.setGroups(Collections.emptySet());
+//        }
     }
 
     @Override
     protected void mapSpecificFields(Role source, RoleDTO destination) {
-        destination.setGroupsIds(getIds(source));
+//        destination.setGroupsIds(getIds(source));
     }
 
     @Override
     protected Set<Long> getIds(Role entity) {
-        return Objects.isNull(entity) || Objects.isNull(entity.getGroups())
-                ? Collections.emptySet()
-                : entity.getGroups().stream()
-                .map(GenericModel::getId)
-                .collect(Collectors.toSet());
+//        return Objects.isNull(entity) || Objects.isNull(entity.getGroups())
+//                ? Collections.emptySet()
+//                : entity.getGroups().stream()
+//                .map(GenericModel::getId)
+//                .collect(Collectors.toSet());
+        throw new UnsupportedOperationException("Метод недоступен");
     }
 }
