@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import ru.sber.spring.java13springmy.sdproject.constants.UserRoleConstants;
 import ru.sber.spring.java13springmy.sdproject.model.User;
 import ru.sber.spring.java13springmy.sdproject.repository.UserRepository;
 
@@ -33,12 +34,19 @@ public class CustomUserDetailsService implements UserDetailsService {
             return new CustomUserDetails(null, username, adminUserPassword,
                     List.of(new SimpleGrantedAuthority("ROLE_" + adminUserRole)));
         } else {
-            User user = userRepository.findUsersByLogin(username);
-            String role = user.getGroup().getRole().getNameRole();
-            System.out.println(role);
+         User user = userRepository.findUserByLoginAndIsDeletedFalse(username);
+//            User user = userRepository.findUsersByLogin(username);
             List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
+            authorities.add(new SimpleGrantedAuthority(user.getRole().getId() == 1L ? "ROLE_" + UserRoleConstants.USER :
+                    "ROLE_" + UserRoleConstants.EXECUTOR));
             return new CustomUserDetails(user.getId().intValue(), username, user.getPassword(), authorities);
+
+//            User user = userRepository.findUsersByLogin(username);
+//            String role = user.getGroup().getRole().getNameRole();
+//            System.out.println("Вход: "+ role);
+//            List<GrantedAuthority> authorities = new ArrayList<>();
+//            authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
+//            return new CustomUserDetails(user.getId().intValue(), username, user.getPassword(), authorities);
         }
     }
 }

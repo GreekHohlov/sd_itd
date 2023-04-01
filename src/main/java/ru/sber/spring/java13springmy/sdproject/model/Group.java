@@ -18,9 +18,9 @@ public class Group
 
     @Column(name = "responsible", nullable = false)
     private String responsible;
-    @ManyToOne
-    @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "FK_GROUP_ROLE_INFO"))
-    private Role role;
+//    @ManyToOne
+//    @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "FK_GROUP_ROLE_INFO"))
+//    private Role role;
     @OneToMany(mappedBy = "group")
     private Set<User> user;
 }

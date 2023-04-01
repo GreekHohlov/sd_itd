@@ -37,6 +37,8 @@ public interface PermissionConstants {
             "/users/add",
             "/users/update",
             "/users/delete",
+            "/users",
+            "/task/add",
             "/task/update",
             "/task/delete",
             "/locations",
@@ -68,5 +70,4 @@ public interface PermissionConstants {
             "/workSchedule/update",
             "/workSchedule/delete",
             "/reports");
-
 }

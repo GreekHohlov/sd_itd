@@ -7,9 +7,9 @@ values (1, null, null, null, null, false, 'Пользователь', 'USER'),
 
 --Группы
 insert into groups
-values (1, null, null, null, null, false, 'Пользователи', 1),
-       (2, null, null, null, null, false, 'Сотрудники', 2),
-       (3, null, null, null, null, false, 'Администраторы', 3);
+values (1, null, null, null, null, false, 'Пользователи'),
+       (2, null, null, null, null, false, 'Сотрудники'),
+       (3, null, null, null, null, false, 'Администраторы');
 --SLA
 insert into sla
 values (1, null, null, null, null, false, 1, 'Инциндент (высокий)', 2),
@@ -43,11 +43,11 @@ values (1, null, null, null, null, false, 'Центральный офис'),
 
 insert into users
 values (2, null, null, null, null, false, null, 'ivanov@mail.ru', 'Иван', 'Иванов', 'ivanov', 'Иванович', '123',
-        '+79235555656', false, 1, 3),
+        '+79235555656', false, 1, 3, 1),
        (3, null, null, null, null, false, null,'petrov@mail.ru', 'Петр', 'Петров', 'petrov', 'Петрович', '123',
-        '+79235555677',true, 1, 3),
+        '+79235555677',true, 1, 3, 1),
        (4, null, null, null, null, false, null, 'sidorov@mail.ru', 'Сидор', 'Сидоров', 'sidorov', 'Сидорович', '123',
-        '+79235555688',false, 1, 3);
+        '+79235555688',false, 1, 3, 1);
 
 insert into tasks
 values (1, null, null, null, null, false, '2022-11-15 13:46:11.797607',null, 'Не работает ноутбук, переодичеки синий экран',

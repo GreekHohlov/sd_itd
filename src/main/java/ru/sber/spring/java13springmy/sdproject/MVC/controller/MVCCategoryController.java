@@ -42,7 +42,8 @@ public class MVCCategoryController {
     }
     @PostMapping("add")
     public String create(@ModelAttribute("categoryForm") CategoryDTO categoryDTO){
+
         categoryService.create(categoryDTO);
-        return "redirect:category";
+        return "redirect:/category";
     }
 }

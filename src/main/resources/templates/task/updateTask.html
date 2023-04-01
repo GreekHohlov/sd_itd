@@ -122,18 +122,18 @@
                         <label for="nameType">Автор заявки</label>
                     </div>
                 </div>
-                <div class="col-md">
-                    <div class="form-floating">
-                        <select class="form-select input-bg" name="worker" id="worker" required>
-                            <option th:each="worker : ${workerForm}"
-                                    th:value="${worker.getId()}" th:text="${worker.getLastName()+ ' ' + worker.getFirstName().charAt(0) +
-                       '. ' + worker.getMiddleName().charAt(0) + '.'}"></option>
-                            <option selected value="default">Выберите Исполнителя</option>
-                            <div class="invalid-feedback">Обязательное поле для заполнения</div>
-                        </select>
-                        <label for="nameType">Исполнитель</label>
-                    </div>
-                </div>
+<!--                <div class="col-md">-->
+<!--                    <div class="form-floating">-->
+<!--                        <select class="form-select input-bg" name="worker" id="worker" required>-->
+<!--                            <option th:each="worker : ${workerForm}"-->
+<!--                                    th:value="${worker.getId()}" th:text="${worker.getLastName()+ ' ' + worker.getFirstName().charAt(0) +-->
+<!--                       '. ' + worker.getMiddleName().charAt(0) + '.'}"></option>-->
+<!--                            <option selected value="default">Выберите Исполнителя</option>-->
+<!--                            <div class="invalid-feedback">Обязательное поле для заполнения</div>-->
+<!--                        </select>-->
+<!--                        <label for="nameType">Исполнитель</label>-->
+<!--                    </div>-->
+<!--                </div>-->
             </div>
             <div class="mt-3 row g2">
                 <div class="col-md">

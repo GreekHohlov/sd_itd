@@ -11,6 +11,6 @@ import java.util.Set;
 @NoArgsConstructor
 public class GroupDTO extends GenericDTO {
     private String responsible;
-    private Long role;
+//    private Long role;
     private Set<Long> usersIds;
 }
