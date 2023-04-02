@@ -15,9 +15,7 @@ import java.util.List;
 @RequestMapping("groups")
 public class MVCGroupController {
     private final GroupService groupService;
-
     private final RoleService roleService;
-
 
     public MVCGroupController(GroupService groupService,
                               RoleService roleService) {
@@ -41,7 +39,6 @@ public class MVCGroupController {
 
     @PostMapping("/add")
     public String create(@ModelAttribute("groupForm") GroupDTO groupDTO) {
-        // groupDTO.setRole(roleId);
         groupService.create(groupDTO);
         return "redirect:/groups";
     }

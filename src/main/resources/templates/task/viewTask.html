@@ -4,66 +4,121 @@
       layout:decorate="~{layout}"
       lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Просмотр заявки</title>
+    <meta charset="UTF-8">
+    <title>Просмотр заявки</title>
 </head>
 <body>
 <form layout:fragment="content">
-  <div>
-    <h3 th:text="'Информация о Заявки № ' + ${task.getId()} + ' от '+ ${task.getCreateDate()}"></h3>
-    <form class="row g-1">
-      <div class="mb-2 row">
-        <label for="nameTask" class="col-sm-2 col-form-label no-border">Тема заявки:</label>
-        <div class="col-sm-10">
-          <p th:text="${task.getNameTask()}" type="text" readonly class="form-control-plaintext" id="nameTask">
-        </div>
-      </div>
-      <div class="mb-2 row">
-        <label for="description" class="col-sm-2 col-form-label no-border">Описание:</label>
-        <div class="col-sm-10">
-          <p th:text="${task.getDescription()}" type="text" readonly class="form-control-plaintext" id="description">
-        </div>
-      </div>
-
-    </form>
-    <hr class="hr"/>
-    <form class="row g-1">
-      <h4 class="mt-3 mb-3" th:text="'Информация '"></h4>
-      <td>
-        <div sec:authorize="isAuthenticated()">
-          <a class="text-link text-blue" th:if="${task.getFiles()} != null" th:href="@{|/task/download?taskId=${task.id}|}">
-            <span>Скачать файлы</span>
-          </a>
-        </div>
-      </td>
-<!--      <div th:each="user: ${task.getUser()}">-->
-<!--        <div class="mb-2 row">-->
-<!--          <label for="user" class="col-sm-2 col-form-label">ФИО:</label>-->
-<!--          <div class="col-sm-10">-->
-<!--            <a  th:text="${user}" id="user"></a>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="mb-2 row">-->
-<!--          <label for="date_birth" class="col-sm-2 col-form-label">Дата рождения:</label>-->
-<!--          <div class="col-sm-10">-->
-<!--            <p th:text="${author.getBirthDate()}" class="form-control-plaintext" id="date_birth">-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="mb-2 row">-->
-<!--          <label for="desc_author" class="col-sm-2 col-form-label">Описание:</label>-->
-<!--          <div class="col-sm-10">-->
-<!--            <p th:text="${author.getDescription()}" class="form-control-plaintext" id="desc_author">-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-    </form>
-    <hr class="hr"/>
-    <div class="mt-2">
-<!--      <a th:if="${book.getAmount() > 0}" class="btn btn-primary"-->
-<!--         th:href="'/publish/get-book/' + ${book.id}">Арендовать книгу</a>-->
-<!--      <button type="button" class="btn btn-secondary" onclick="window.history.back()">Назад</button>-->
-    </div>
-  </div>
-</form>
+    <div>
+        <h3 th:text="'Информация о Заявки № ' + ${task.getId()} + ' от '+ ${task.getCreateDate()}"></h3>
+        <form class="row g-1">
+            <div class="mb-2 row">
+                <label for="nameTask" class="col-sm-2 col-form-label no-border">Текущий статус:</label>
+                <div class="col-sm-10">
+                    <p th:text="${task.getStatusTask().statusTaskTextDisplay()}"
+                       type="text" readonly class="form-control-plaintext" id="statusTask">
+                </div>
+            </div>
+            <div class="mb-2 row">
+                <label for="nameTask" class="col-sm-2 col-form-label no-border">Тема заявки:</label>
+                <div class="col-sm-10">
+                    <p th:text="${task.getNameTask()}" type="text" readonly class="form-control-plaintext"
+                       id="nameTask">
+                </div>
+            </div>
+            <div class="mb-2 row">
+                <label for="description" class="col-sm-2 col-form-label no-border">Описание:</label>
+                <div class="col-sm-10">
+                    <p th:text="${task.getDescription()}" type="text" readonly class="form-control-plaintext"
+                       id="description">
+                </div>
+            </div>
+            <div class="mb-2 row">
+                <label for="description" class="col-sm-2 col-form-label no-border">Файл:</label>
+                <div class="col-sm-10">
+                    <div sec:authorize="isAuthenticated()">
+                        <a class="text-link text-blue" th:if="${task.getFiles()} != null"
+                           th:href="@{|/task/download?taskId=${task.id}|}">
+                            <span>Скачать файлы</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-2 row">
+                <label for="description" class="col-sm-2 col-form-label no-border">Автор:</label>
+                <div class="col-sm-10">
+                    <p th:text="${task.getUser().getLastName()+ ' ' + task.getUser().getFirstName().charAt(0) +
+                       '. ' + task.getUser().getMiddleName().charAt(0) + '.'}"
+                       type="text" readonly class="form-control-plaintext" id="lastName">
+                </div>
+            </div>
+            <div class="mb-2 row">
+                <label for="description" class="col-sm-2 col-form-label no-border">Информация:</label>
+                <div class="col-sm-10">
+                    <p th:text="${task.getDecision()}" type="text" readonly class="form-control-plaintext"
+                       id="decision">
+                </div>
+            </div>
+        </form>
+        <hr class="hr"/>
+        <form class="row g-1">
+            <h4 class="mt-3 mb-3" th:text="'Служебная информация '"></h4>
+            <form class="row g-1">
+                <div class="mb-2 row">
+                    <label for="nameTask" class="col-sm-2 col-form-label no-border">Тип заявки:</label>
+                    <div class="col-sm-10">
+                        <p th:text="${task.getTypeTask().getNameType()}" type="text" readonly
+                           class="form-control-plaintext"
+                           id="typeTask">
+                    </div>
+                </div>
+                <div class="mb-2 row">
+                    <label for="nameTask" class="col-sm-2 col-form-label no-border">Категория:</label>
+                    <div class="col-sm-10">
+                        <p th:text="${task.getCategory().getNameCategory()}" type="text" readonly
+                           class="form-control-plaintext"
+                           id="category">
+                    </div>
+                </div>
+                <div class="mb-2 row">
+                    <label for="nameTask" class="col-sm-2 col-form-label no-border">Срок выполнения:</label>
+                    <div class="col-sm-10">
+                        <p th:text="${task.getEndDate()}" type="text" readonly
+                           class="form-control-plaintext"
+                           id="endDate">
+                    </div>
+                </div>
+                <div class="mb-2 row">
+                    <label for="description" class="col-sm-2 col-form-label no-border">Исполнитель:</label>
+                    <div class="col-sm-10">
+                        <p th:text="${task.getWorker().getLastName()+ ' ' + task.getWorker().getFirstName().charAt(0) +
+                       '. ' + task.getWorker().getMiddleName().charAt(0) + '.'}"
+                           type="text" readonly class="form-control-plaintext" id="worker">
+                    </div>
+                </div>
+                <div class="mb-2 row">
+                    <label for="description" class="col-sm-2 col-form-label no-border">Контакты:</label>
+                    <div class="col-sm-10">
+                        <p th:text="${task.getWorker().getPhone()+ ' (' + task.getWorker().getEmail() + ')'}"
+                           type="text" readonly class="form-control-plaintext" id="contacts">
+                    </div>
+                </div>
+            </form>
+            <hr class="hr"/>
+            <div class="mt-2">
+                <div sec:authorize="isAuthenticated() && (hasRole('EXECUTOR')|| hasRole('MAIN_EXECUTOR'))">
+                    <div class="btn-group" role="group" aria-label="Basic  example">
+                        <button type="button" class="btn btn-sm btn-success">Взять</button>
+                        <button type="button" class="btn btn-sm btn-danger">Остановить</button>
+                        <button type="button" class="btn btn-sm btn-warning">Выполнить</button>
+                    </div>
+                    <a class="btn btn-sm btn-success" id="update"
+                       th:href="'/task/update/' + ${task.id}">Обновить</a>
+                </div>
+            </div>
+            <div class="mt-2">
+                <button type="button" class="btn btn-secondary" onclick="window.history.back()">Назад</button>
+            </div>
+        </form>
 </body>
 </html>

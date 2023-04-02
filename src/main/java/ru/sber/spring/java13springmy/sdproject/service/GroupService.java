@@ -12,6 +12,7 @@ import ru.sber.spring.java13springmy.sdproject.repository.GroupRepository;
 import ru.sber.spring.java13springmy.sdproject.repository.RoleRepository;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class GroupService extends GenericService<Group, GroupDTO> {
@@ -27,8 +28,7 @@ public class GroupService extends GenericService<Group, GroupDTO> {
         this.roleRepository = roleRepository;
     }
 
-
-    public void deleteSoft(Long id) throws MyDeleteException {
+    public void deleteSoft(Long id) {
         Group group = repository.findById(id).orElseThrow(
                 () -> new NotFoundException("Группы с заданным ID=" + id + " не существует"));
         markAsDeleted(group);

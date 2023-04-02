@@ -102,7 +102,7 @@
                 <th scope="col">Исполнитель</th>
                 <th scope="col">Срок выполнения</th>
                 <th scope="col">Статус</th>
-                <!--                <th></th>-->
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -133,8 +133,13 @@
                 <td>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <div sec:authorize="isAuthenticated() && (hasRole('EXECUTOR')|| hasRole('MAIN_EXECUTOR'))">
-                            <a class="btn btn-sm btn-warning"
-                               th:href="'/task/restore/' + ${tasks.getId()}">Решить</a>
+<!--                            <a class="btn btn-sm btn-warning"-->
+<!--                               th:href="'/task/restore/' + ${tasks.getId()}">Решить</a>-->
+                            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                <button type="button" class="btn btn-sm btn-outline-success">Взять</button>
+                                <button type="button" class="btn btn-sm btn-outline-danger">Остановить</button>
+                                <button type="button" class="btn btn-sm btn-outline-warning">Выполнить</button>
+                            </div>
                             <a class="btn btn-sm btn-outline-success" id="update"
                                th:href="'/task/update/' + ${tasks.id}">Обновить</a>
                         </div>

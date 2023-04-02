@@ -62,7 +62,7 @@ values (nextval('workers_seq'), null, null, null, null, false, 'Централь
        (nextval('workers_seq'), null, null, null, null, false, 'Магазин');
 
 insert into users
-values (nextval('users_seq'), null, null, null, null, false, null, 'admin@servicedesk.ru', 'Системная', 'учётная', 'service', 'запись',
+values (nextval('users_seq'), null, null, null, null, false, null, 'admin@servicedesk.ru', 'Системная', 'Учётная', 'service', 'Запись',
         '$2a$10$HHdPd716i5B6Ci5qdNJMoe.Yhl7it3MxX8rU0JzPeRAc4kd5HpqNu', '+7991991919', true, 1, 1, 2),
        (nextval('users_seq'), null, null, null, null, false, null, 'ivanov@mail.ru', 'Иван', 'Иванов', 'ivanov', 'Иванович',
         '$2a$10$6ZdDup03pD/2d2WqozOEtuGDU6yHj28jcUqQk.ocNGAYQNJ0c4NNq', '+79235555656', false, 1, 3, 1),
