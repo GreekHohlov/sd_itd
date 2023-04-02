@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
@@ -12,7 +13,7 @@
         <div class="col">
             <h4>Типы заявок</h4>
         </div>
-        <div class="col">
+        <div class="col" sec:authorize="isAuthenticated() && (hasRole('ADMIN'))">
             <a href="typetask/add"
                class="btn btn-secondary"
                role="button"
@@ -23,29 +24,36 @@
     <table class="table table-sm">
         <thead>
         <tr>
+            <th scope="col">ID</th>
             <th scope="col">Названия</th>
             <th scope="col">SLA</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="type : ${typeTask}">
+            <td th:text="${type.getId()}"></td>
             <td th:text="${type.getNameType()}"></td>
-            <td th:text="${type.getSlaId()}"></td>
+            <td th:text="${type.sla.getNameSLA()}"></td>
 <!--            <td>-->
-<!--                <ul>-->
-<!--                    <li th:each="SLA : ${type.getSlaId()}" th:text="${SLA}"></li>-->
-<!--                    -->
-<!--                </ul>-->
+<!--                <div class="d-grid gap-2 d-md-flex justify-content-md-end">-->
+<!--                    &lt;!&ndash;                    <div sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('LIBRARIAN'))">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <a class="btn btn-sm btn-outline-success"&ndash;&gt;-->
+<!--&lt;!&ndash;                       th:href="'/typetask/update/' + ${type.id}">Обновить</a>&ndash;&gt;-->
+<!--                    <a class="btn btn-sm btn-outline-danger"-->
+<!--                       th:href="'/typetask/delete/' + ${type.id}"-->
+<!--                       onclick="return confirm('Вы действительно хотите удалить?')">Удалить</a>-->
+<!--                </div>-->
 <!--            </td>-->
-
             <td>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <!--                    <div sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('LIBRARIAN'))">-->
-<!--                    <a class="btn btn-sm btn-outline-success"-->
-<!--                       th:href="'/typetask/update/' + ${type.id}">Обновить</a>-->
-                    <a class="btn btn-sm btn-outline-danger"
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end"
+                     sec:authorize="isAuthenticated() && (hasRole('ADMIN'))">
+                    <a th:if="${!type.isDeleted()}" class="btn btn-sm btn-outline-danger"
+                       th:href="'/typetask/deleteSoft/' + ${type.id}">Пометка на уд.</a>
+                    <a th:if="${!type.isDeleted()}" class="btn btn-sm btn-danger"
                        th:href="'/typetask/delete/' + ${type.id}"
-                       onclick="return confirm('Вы действительно хотите удалить?')">Удалить</a>
+                       onclick="return confirm('Вы действительно хотите полностью удалить?')">Удалить</a>
+                    <a th:if="${type.isDeleted()}" class="btn btn-sm btn-outline-warning"
+                       th:href="'/typetask/restore/' + ${type.id}">Восстановить</a>
                 </div>
             </td>
         </tbody>

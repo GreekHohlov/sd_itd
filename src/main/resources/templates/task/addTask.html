@@ -56,6 +56,7 @@
                 <div class="form-floating">
                     <select class="form-select input-bg" name="nameType" id="nameType" required>
                         <option th:each="typeTask : ${typeTaskForm}"
+                                th:if="${!typeTask.isDeleted()}"
                                 th:value="${typeTask.getId()}" th:text="${typeTask.getNameType()}"></option>
 <!--                        <option selected th:value="${typeTask.getId(2)}">Выберите тип заявки</option>-->
                         <div class="invalid-feedback">Обязательное поле для заполнения</div>

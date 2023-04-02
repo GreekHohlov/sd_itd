@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.sber.spring.java13springmy.sdproject.dto.SLADTO;
 import ru.sber.spring.java13springmy.sdproject.dto.TypeTaskDTO;
+import ru.sber.spring.java13springmy.sdproject.exception.MyDeleteException;
 import ru.sber.spring.java13springmy.sdproject.mapper.SLAMapper;
 import ru.sber.spring.java13springmy.sdproject.repository.SLARepository;
 import ru.sber.spring.java13springmy.sdproject.service.TypeTaskService;
@@ -67,6 +68,24 @@ public class MVCTypeTaskController {
         typeTaskDTOUpdate.setNameType(nameType);
         typeTaskDTOUpdate.setSlaId(slaId);
         typeTaskService.update(typeTaskDTOUpdate);
+        return "redirect:/typetask";
+    }
+
+    @GetMapping("/deleteSoft/{id}")
+    public String deleteSoft(@PathVariable Long id) {
+        typeTaskService.deleteSoft(id);
+        return "redirect:/typetask";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id) throws MyDeleteException {
+        typeTaskService.delete(id);
+        return "redirect:/typetask";
+    }
+
+    @GetMapping("/restore/{id}")
+    public String restore(@PathVariable Long id) {
+        typeTaskService.restore(id);
         return "redirect:/typetask";
     }
 }

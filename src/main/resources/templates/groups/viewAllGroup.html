@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
@@ -12,7 +13,7 @@
         <div class="col">
             <h4>Группы пользователей</h4>
         </div>
-        <div class="col">
+        <div class="col" sec:authorize="isAuthenticated() && (hasRole('ADMIN'))">
             <a href="groups/add"
                class="btn btn-secondary"
                role="button"
@@ -25,7 +26,7 @@
         <tr>
             <th scope="col">ID</th>
             <th scope="col">Названия</th>
-<!--            <th scope="col">Роль ID</th>-->
+            <th scope="col">Пометка на удаления</th>
             <th scope="col"></th>
         </tr>
         </thead>
@@ -33,17 +34,17 @@
         <tr th:each="group : ${groups}">
             <td th:text="${group.getId()}"></td>
             <td th:text="${group.getResponsible()}"></td>
-<!--            <td-->
-
-<!--              th:text="${group.getRole()}">-->
-<!--            </td>-->
+            <td th:text="${group.isDeleted()}"></td>
             <td>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <!--                    <a class="btn btn-sm btn-outline-success"-->
-                    <!--                       th:href="'/groups/delete/' + ${group.id}">Обновить</a>-->
-                    <a class="btn btn-sm btn-outline-danger"
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end"
+                     sec:authorize="isAuthenticated() && (hasRole('ADMIN'))">
+                    <a th:if="${!group.isDeleted()}" class="btn btn-sm btn-outline-danger"
+                       th:href="'/groups/deleteSoft/' + ${group.id}">Пометка на уд.</a>
+                    <a th:if="${!group.isDeleted()}" class="btn btn-sm btn-danger"
                        th:href="'/groups/delete/' + ${group.id}"
-                       onclick="return confirm('Вы действительно хотите удалить?')">Удалить</a>
+                       onclick="return confirm('Вы действительно хотите полностью удалить?')">Удалить</a>
+                    <a th:if="${group.isDeleted()}" class="btn btn-sm btn-outline-warning"
+                       th:href="'/groups/restore/' + ${group.getId()}">Восстановить</a>
                 </div>
             </td>
         </tr>
