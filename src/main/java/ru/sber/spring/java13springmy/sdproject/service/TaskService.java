@@ -147,4 +147,11 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         unMarkAsDeleted(task);
         repository.save(task);
     }
+
+    public TaskDTO update(final TaskDTO taskDTO,
+                          MultipartFile file) {
+        String fileName = FileHelper.createFile(file);
+        taskDTO.setFiles(fileName);
+        return mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
+    }
 }

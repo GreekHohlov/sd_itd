@@ -18,13 +18,10 @@ import java.util.List;
 public class MVCCategoryController {
 
     private final CategoryService categoryService;
-    private final CategoryMapper categoryMapper;
 
 
-    public MVCCategoryController(CategoryService categoryService,
-                                 CategoryMapper categoryMapper){
+    public MVCCategoryController(CategoryService categoryService){
         this.categoryService = categoryService;
-        this.categoryMapper = categoryMapper;
     }
 
     @GetMapping("")
@@ -40,10 +37,11 @@ public class MVCCategoryController {
         model.addAttribute("categoryForm", categoryDTO);
         return "category/addCategory";
     }
-    @PostMapping("add")
-    public String create(@ModelAttribute("categoryForm") CategoryDTO categoryDTO){
 
+
+    @PostMapping("/add")
+    public String create(@ModelAttribute("categoryForm") CategoryDTO categoryDTO){
         categoryService.create(categoryDTO);
-        return "redirect:category";
+        return "redirect:/category";
     }
 }

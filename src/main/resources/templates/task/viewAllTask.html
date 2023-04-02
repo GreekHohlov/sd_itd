@@ -132,12 +132,13 @@
                 <td th:text="${tasks.getStatusTask().statusTaskTextDisplay()}">Статус</td>
                 <td>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a class="btn btn-sm btn-outline-success" id="update"
-                           th:href="'/task/update/' + ${tasks.id}">Обновить</a>
-                        <!--                        <a sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('EXECUTOR'))"-->
-                        <!--                           class="btn btn-sm btn-outline-danger"-->
-                        <!--                           th:href="'/task/delete/' + ${tasks.id}"-->
-                        <!--                           onclick="return confirm('Вы действительно хотите удалить заявку?')">Удалить</a>-->
+                        <div sec:authorize="isAuthenticated() && (hasRole('EXECUTOR')|| hasRole('MAIN_EXECUTOR'))">
+                            <a class="btn btn-sm btn-warning"
+                               th:href="'/task/restore/' + ${tasks.getId()}">Решить</a>
+                            <a class="btn btn-sm btn-outline-success" id="update"
+                               th:href="'/task/update/' + ${tasks.id}">Обновить</a>
+                        </div>
+
                         <div sec:authorize="isAuthenticated() && (hasRole('ADMIN')|| hasRole('MAIN_EXECUTOR'))">
                             <a th:if="${!tasks.isDeleted()}" class="btn btn-sm btn-outline-danger"
                                th:href="'/task/delete/' + ${tasks.id}"

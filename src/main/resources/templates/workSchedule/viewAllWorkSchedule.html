@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
@@ -11,21 +12,22 @@
     <div class="row">
         <div class="col">
             <h4>Графики работы</h4>
-            <a href="/workSchedule"
-               class="btn btn-secondary me-md-2"
-               role="button"
-               style="float: left"
-               aria-disabled="true">Заполнить график (обработка)</a>
-            <a href="/workSchedule"
-               class="btn btn-secondary me-md-2"
-               role="button"
-               style="float: left"
-               aria-disabled="true">Удалить график (обработка)</a>
-            <a href="/workSchedule"
-               class="btn btn-secondary"
-               role="button"
-               style="float: left"
-               aria-disabled="true">Добавить в график (1 день)</a>
+            <div sec:authorize="isAuthenticated() && (hasRole('ADMIN'))">
+                <a class="btn btn-secondary me-md-2"
+                   role="button"
+                   style="float: left"
+                   aria-disabled="true">Заполнить график (обработка)</a>
+                <a href="/workSchedule"
+                   class="btn btn-secondary me-md-2"
+                   role="button"
+                   style="float: left"
+                   aria-disabled="true">Удалить график (обработка)</a>
+                <a href="/workSchedule"
+                   class="btn btn-secondary"
+                   role="button"
+                   style="float: left"
+                   aria-disabled="true">Добавить в график (1 день)</a>
+            </div>
         </div>
     </div>
     <table class="table table-sm">
@@ -50,8 +52,6 @@
             <td th:text="${workShedule.getDayOff()}"></td>
             <td>
                 <div>
-                    <!--                    <div sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('LIBRARIAN'))">-->
-                    <!--                    <a class="btn btn-sm btn-outline-success" th:href="'/groups/update/' + ${group.id}">Обновить</a>-->
                     <a class="btn btn-sm btn-outline-danger" th:href="'/workShedule/delete/' + ${workShedule.id}"
                        onclick="return confirm('Вы действительно хотите удалить ?')">Удалить</a>
                 </div>
