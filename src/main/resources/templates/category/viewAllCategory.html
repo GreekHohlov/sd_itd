@@ -27,6 +27,7 @@
             <th scope="col">ID</th>
             <th scope="col">Названия</th>
             <th scope="col">Родительская категория</th>
+            <th scope="col"> Пометка на удаления</th>
             <th></th>
         </tr>
         </thead>
@@ -35,6 +36,7 @@
             <td th:text="${categories.getId()}">#</td>
             <td th:text="${categories.getNameCategory()}"></td>
             <td th:text="${categories.getParentCategoryId()}"></td>
+            <td th:text="${categories.isDeleted()}"></td>
             <td>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end"
                      sec:authorize="isAuthenticated() && (hasRole('ADMIN'))">

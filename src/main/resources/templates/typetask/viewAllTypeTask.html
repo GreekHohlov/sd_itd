@@ -27,6 +27,8 @@
             <th scope="col">ID</th>
             <th scope="col">Названия</th>
             <th scope="col">SLA</th>
+            <th scope="col"> Пометка на удаления</th>
+            <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
@@ -34,16 +36,7 @@
             <td th:text="${type.getId()}"></td>
             <td th:text="${type.getNameType()}"></td>
             <td th:text="${type.sla.getNameSLA()}"></td>
-<!--            <td>-->
-<!--                <div class="d-grid gap-2 d-md-flex justify-content-md-end">-->
-<!--                    &lt;!&ndash;                    <div sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('LIBRARIAN'))">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <a class="btn btn-sm btn-outline-success"&ndash;&gt;-->
-<!--&lt;!&ndash;                       th:href="'/typetask/update/' + ${type.id}">Обновить</a>&ndash;&gt;-->
-<!--                    <a class="btn btn-sm btn-outline-danger"-->
-<!--                       th:href="'/typetask/delete/' + ${type.id}"-->
-<!--                       onclick="return confirm('Вы действительно хотите удалить?')">Удалить</a>-->
-<!--                </div>-->
-<!--            </td>-->
+            <td th:text="${type.isDeleted()}"></td>
             <td>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end"
                      sec:authorize="isAuthenticated() && (hasRole('ADMIN'))">

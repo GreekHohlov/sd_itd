@@ -3,21 +3,26 @@ package ru.sber.spring.java13springmy.sdproject.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.webjars.NotFoundException;
 import ru.sber.spring.java13springmy.sdproject.dto.TaskDTO;
+import ru.sber.spring.java13springmy.sdproject.dto.TaskFotWorkingDTO;
 import ru.sber.spring.java13springmy.sdproject.dto.TaskSearchDTO;
 import ru.sber.spring.java13springmy.sdproject.dto.TaskWithUserDTO;
 import ru.sber.spring.java13springmy.sdproject.exception.MyDeleteException;
+import ru.sber.spring.java13springmy.sdproject.mapper.TaskFotWorkingMapper;
 import ru.sber.spring.java13springmy.sdproject.mapper.TaskMapper;
 import ru.sber.spring.java13springmy.sdproject.mapper.TaskWithUserMapper;
+import ru.sber.spring.java13springmy.sdproject.model.StatusTask;
 import ru.sber.spring.java13springmy.sdproject.model.Task;
 import ru.sber.spring.java13springmy.sdproject.model.User;
 import ru.sber.spring.java13springmy.sdproject.repository.TaskRepository;
 import ru.sber.spring.java13springmy.sdproject.repository.UserRepository;
+import ru.sber.spring.java13springmy.sdproject.service.userdetails.CustomUserDetails;
 import ru.sber.spring.java13springmy.sdproject.utils.FileHelper;
 
 import java.time.LocalDate;
@@ -30,15 +35,18 @@ public class TaskService extends GenericService<Task, TaskDTO> {
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
     private final TaskWithUserMapper taskWithUserMapper;
+    private final TaskFotWorkingMapper taskFotWorkingMapper;
 
     protected TaskService(TaskRepository taskRepository,
                           TaskMapper taskMapper,
                           UserRepository userRepository,
-                          TaskWithUserMapper taskWithUserMapper) {
+                          TaskWithUserMapper taskWithUserMapper,
+                          TaskFotWorkingMapper taskFotWorkingMapper) {
         super(taskRepository, taskMapper);
         this.taskRepository = taskRepository;
         this.userRepository = userRepository;
         this.taskWithUserMapper = taskWithUserMapper;
+        this.taskFotWorkingMapper = taskFotWorkingMapper;
     }
 
     public Page<TaskWithUserDTO> getAllTasksWithUsers(Pageable pageable) {
@@ -74,9 +82,11 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         worker.getTasks().add(task);
         return mapper.toDto(taskRepository.save(task));
     }
+
     public List<TaskWithUserDTO> getAllTaskWithUser() {
         return taskWithUserMapper.toDTOs(taskRepository.findAll());
     }
+
     public Page<TaskWithUserDTO> getAllTaskWithUser(Pageable pageable) {
         Page<Task> tasksPaginated = repository.findAll(pageable);
         List<TaskWithUserDTO> result = taskWithUserMapper.toDTOs(tasksPaginated.getContent());
@@ -124,25 +134,12 @@ public class TaskService extends GenericService<Task, TaskDTO> {
     public void delete(Long id) throws MyDeleteException {
         Task task = repository.findById(id).orElseThrow(
                 () -> new NotFoundException("Заявки с заданным ID=" + id + " не существует"));
-//        boolean bookCanBeDeleted = repository.findBookByIdAndBookRentInfosReturnedFalseAndIsDeletedFalse(id) == null;
-      //  boolean bookCanBeDeleted = repository.checkBookForDeletion(id);
-//        if (bookCanBeDeleted) {
-
-        //TODO Уаляет файл при удалении заявки, назад не востанавливает, пока отключим
-
-//            if (task.getFiles() != null && !task.getFiles().isEmpty()) {
-//                FileHelper.deleteFile(task.getFiles());
-//            }
-            markAsDeleted(task);
-            repository.save(task);
-
-//        else {
-//            throw new MyDeleteException(Errors.Books.BOOK_DELETE_ERROR);
-//        }
+        markAsDeleted(task);
+        repository.save(task);
     }
 
     public void restore(Long objectId) {
-        Task task= repository.findById(objectId).orElseThrow(
+        Task task = repository.findById(objectId).orElseThrow(
                 () -> new NotFoundException("Заявки с заданным ID=" + objectId + " не существует"));
         unMarkAsDeleted(task);
         repository.save(task);
@@ -153,5 +150,20 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         String fileName = FileHelper.createFile(file);
         taskDTO.setFiles(fileName);
         return mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
+    }
+
+    public Page<TaskWithUserDTO> findAllTaskByLogin(String login, PageRequest pageRequest) {
+        Page<Task> tasks = taskRepository.findAllTaskByLogin(login, pageRequest);
+        List<TaskWithUserDTO> result = taskWithUserMapper.toDTOs(tasks.getContent());
+        return new PageImpl<>(result, pageRequest, tasks.getTotalElements());
+    }
+
+    public void updateTaskForWorking(TaskDTO taskDTO) {
+        CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        taskDTO.setStatusTask(StatusTask.AT_WORK);
+        taskDTO.setEndDate(LocalDate.now().plusDays(4L));
+        taskDTO.setWorkerId(Long.valueOf(customUserDetails.getUserId()));
+        log.info("taskDTO " + taskDTO);
+        mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
     }
 }

@@ -28,6 +28,7 @@
             <th scope="col">Названия</th>
             <th scope="col">Время реакции (час.)</th>
             <th scope="col">Время выполнения (час.)</th>
+            <th scope="col"> Пометка на удаления</th>
             <th scope="col"></th>
         </tr>
         </thead>
@@ -37,6 +38,7 @@
             <td th:text="${SLAs.getNameSLA()}"></td>
             <td th:text="${SLAs.getResponseTime()}"></td>
             <td th:text="${SLAs.getExecutionTime()}"></td>
+            <td th:text="${SLAs.isDeleted()}"></td>
             <td>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end"
                      sec:authorize="isAuthenticated() && (hasRole('ADMIN'))">

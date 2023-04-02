@@ -36,7 +36,6 @@ public class MVCUserController {
 
     public MVCUserController(UserService userService) {
         this.userService = userService;
-
     }
 
     @GetMapping("")
@@ -48,7 +47,6 @@ public class MVCUserController {
         model.addAttribute("users", result);
         return "users/viewAllUsers";
     }
-
 
     @GetMapping("/add")
     public String create() {
@@ -100,7 +98,7 @@ public class MVCUserController {
         }
     }
 
-//TODO Метод по смене пароля не отробатывает
+    //TODO Метод по смене пароля не отробатывает
     @GetMapping("/change-password/user")
     public String changePassword(Model model) {
         CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -155,7 +153,8 @@ public class MVCUserController {
     public String updateProfile(@PathVariable Integer id,
                                 Model model) throws AuthException {
         CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (!id.equals(customUserDetails.getUserId())) {
+        String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        if (!id.equals(customUserDetails.getUserId()) && (!role.equals("[ROLE_ADMIN]"))) {
             throw new AuthException(HttpStatus.FORBIDDEN + ": " + Errors.Users.USER_FORBIDDEN_ERROR);
         }
         model.addAttribute("userForm", userService.getOne(Long.valueOf(id)));

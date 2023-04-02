@@ -33,4 +33,11 @@ public interface TaskRepository extends GenericRepository<Task> {
                            Pageable pageable);
 
     Page<Task> findAllByIsDeletedFalse(Pageable pageable);
+    @Query(nativeQuery = true, value = """
+            select t.*
+            from tasks t
+            join users u on t.user_id = u.id
+            where u.login ilike :login
+                        """)
+    Page<Task> findAllTaskByLogin(String login, Pageable pageable);
 }

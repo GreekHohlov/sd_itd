@@ -26,6 +26,7 @@
                     <select class="form-select input-bg" name="parentCategoryId" id="parentCategoryId" required>
                         <option selected value="default">Выберите родительскую категорию</option>
                         <option th:each="category : ${categoryForm}"
+                                th:if="${!category.isDeleted()}"
                                 th:value="${category.getId()}" th:text="${category.getNameCategory()}"></option>
                     </select>
                     <label for="parentCategoryId">Категория родитель</label>

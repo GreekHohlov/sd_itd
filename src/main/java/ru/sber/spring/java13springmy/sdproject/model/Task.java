@@ -14,7 +14,6 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 @SequenceGenerator(name = "default_gen", sequenceName = "tasks_seq", allocationSize = 1)
 public class Task extends GenericModel {
     @Column(name = "name_task", nullable = false)

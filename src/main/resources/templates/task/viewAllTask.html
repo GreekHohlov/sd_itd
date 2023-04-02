@@ -117,7 +117,7 @@
                        th:text="${tasks.getNameTask()}">Тема заявки</a>
                 </td>
                 <td th:text="${tasks.getTypeTask().getNameType()}">Тип заявки</td>
-                <td th:text="${tasks.getCategory()} == null ? 'Категория не выбрана' : ${tasks.getCategory().getNameCategory()}">
+                <td th:text="${tasks.getCategory().getId()} == 1 ? 'Категория не выбрана' : ${tasks.getCategory().getNameCategory()}">
                     Категория
                 </td>
                 <td>
@@ -125,25 +125,26 @@
                     <a th:text="${tasks.getUser().getLastName() + ' ' + tasks.getUser().getFirstName().charAt(0) +
                        '. ' + tasks.getUser().getMiddleName().charAt(0) + '.'}">Автор ФИО</a>
                 </td>
-                <td th:text="${tasks.getWorker().getId()} == 1 ? 'Не назначена' : ${tasks.getWorker().getLastName() + ' ' + tasks.getWorker().getFirstName().charAt(0) +
-                       '. ' + tasks.getWorker().getMiddleName().charAt(0) + '.'}">ФИО исполнителя
+                <td th:text="${tasks.getWorker().getId()} == 1 ? 'Не назначена' : ${tasks.getWorker().getLastName() + ' '
+                 + tasks.getWorker().getFirstName().charAt(0) +  '. ' + tasks.getWorker().getMiddleName().charAt(0) + '.'}">
+                    ФИО исполнителя
                 </td>
                 <td th:text="${tasks.getEndDate()}">Дата выполнения</td>
                 <td th:text="${tasks.getStatusTask().statusTaskTextDisplay()}">Статус</td>
                 <td>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <div sec:authorize="isAuthenticated() && (hasRole('EXECUTOR')|| hasRole('MAIN_EXECUTOR'))">
-<!--                            <a class="btn btn-sm btn-warning"-->
-<!--                               th:href="'/task/restore/' + ${tasks.getId()}">Решить</a>-->
                             <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                <button type="button" class="btn btn-sm btn-outline-success">Взять</button>
-                                <button type="button" class="btn btn-sm btn-outline-danger">Остановить</button>
-                                <button type="button" class="btn btn-sm btn-outline-warning">Выполнить</button>
+                                <a type="button" class="btn btn-sm btn-outline-success" id="takeTask"
+                                   th:href="'/task/takeTask/'+${tasks.id}">Взять</a>
+                                <a type="button" class="btn btn-sm btn-outline-danger" id="stopTask"
+                                   th:href="'/task/stopTask/' + ${tasks.id}">Остановить</a>
+                                <a type="button" class="btn btn-sm btn-outline-warning" id="executeTask"
+                                   th:href="'/task/executeTask/' + ${tasks.id}">Выполнить</a>
                             </div>
                             <a class="btn btn-sm btn-outline-success" id="update"
                                th:href="'/task/update/' + ${tasks.id}">Обновить</a>
                         </div>
-
                         <div sec:authorize="isAuthenticated() && (hasRole('ADMIN')|| hasRole('MAIN_EXECUTOR'))">
                             <a th:if="${!tasks.isDeleted()}" class="btn btn-sm btn-outline-danger"
                                th:href="'/task/delete/' + ${tasks.id}"

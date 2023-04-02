@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+
 //https://ondras.zarovi.cz/sql/demo/?keyword=default
 @Getter
 @Setter
@@ -22,12 +23,12 @@ public class GenericModel {
     @Column(name = "created_by")
     private String createdBy;
 
-    @Column(name = "is_deleted", columnDefinition = "boolean default false")
-    private boolean isDeleted;
-
     @Column(name = "deleted_when")
     private LocalDateTime deletedWhen;
 
     @Column(name = "deleted_by")
     private String deletedBy;
+
+    @Column(name = "is_deleted", columnDefinition = "boolean default false")
+    private boolean isDeleted;
 }

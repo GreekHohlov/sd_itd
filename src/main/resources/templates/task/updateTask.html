@@ -15,60 +15,37 @@
         <input type="hidden" name="id"
                th:value="${task.getId()}">
         <div>
-        <div class="mt-3 row g-2">
-            <div class="col-md">
-                <div class="form-floating">
-                    <input name="nameTask" th:value="${task.getNameTask()}" class="form-control input-bg" id="nameTask"
-                           placeholder="Тема заявки" required>
-                    <label for="nameTask">Тема заявки</label>
-                    <div class="invalid-feedback">Обязательное поле для заполнения</div>
+            <div class="mt-3 row g-2">
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input name="nameTask" th:value="${task.getNameTask()}" class="form-control input-bg"
+                               id="nameTask"
+                               placeholder="Тема заявки" required>
+                        <label for="nameTask">Тема заявки</label>
+                        <div class="invalid-feedback">Обязательное поле для заполнения</div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="mt-3 row g2">
-            <div class="col-md">
-                <div class="form-floating mb-3">
-                    <input name="description" th:value="${task.getDescription()}" class="form-control input-bg"
-                           id="description" rows="5" placeholder="Описание проблемы" required>
-                    <label for="description">Описание проблемы</label>
-                    <div class="invalid-feedback">Обязательное поле для заполнения</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md">
-            <div class="input-group mb-3">
-                <input name="file" type="file" class="form-control input-bg" id="file">
-            </div>
-            <p class="text-break"
-               th:text="${task.getFiles()} == null ?  'Файл отсуствует ':'Файл: ' +${task.getFiles()} "></p>
-        </div>
-        <hr class="hr"/>
-        </div>
-        <div sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('EXECUTOR'))" class="mt-3 row g2">
             <div class="mt-3 row g2">
                 <div class="col-md">
-                    <div class="form-floating">
-                        <input name="endDate" th:value="${task.getEndDate()}" type="date" class="form-control input-bg"
-                               id="endDate" placeholder="Дата выполнения" required>
-                        <label for="endDate">Дата выполнения</label>
-                        <div class="invalid-feedback">Обязательное поле для заполнения</div>
-                    </div>
-                </div>
-                <div class="col-md">
-                    <div class="form-floating">
-                        <select class="form-select input-bg" name="statusTask" id="statusTask" required
-                                th:object="${task}"
-                                th:field="*{statusTask}">
-                            <option th:value="default">Выберете статус заявки</option>
-                            <option th:selected="${task.getStatusTask().statusTaskTextDisplay()}"
-                                    th:each="status : ${T(ru.sber.spring.java13springmy.sdproject.model.StatusTask).values()}"
-                                    th:value="${status}" th:text="${status.statusTaskTextDisplay()}"></option>
-                        </select>
-                        <label for="statusTask">Статус</label>
+                    <div class="form-floating mb-3">
+                        <input name="description" th:value="${task.getDescription()}" class="form-control input-bg"
+                               id="description" rows="5" placeholder="Описание проблемы" required>
+                        <label for="description">Описание проблемы</label>
                         <div class="invalid-feedback">Обязательное поле для заполнения</div>
                     </div>
                 </div>
             </div>
+            <div class="col-md">
+                <div class="input-group mb-3">
+                    <input name="file" type="file" class="form-control input-bg" id="file">
+                </div>
+                <p class="text-break"
+                   th:text="${task.getFiles()} == null ?  'Файл отсуствует ':'Файл: ' +${task.getFiles()} "></p>
+                <hr class="hr"/>
+            </div>
+        </div>
+        <div sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('EXECUTOR'))">
             <div class="mt-3 row g2">
                 <div class="col-md">
                     <div class="form-floating">
@@ -87,6 +64,7 @@
                     <div class="form-floating">
                         <select class="form-select input-bg" name="nameType" id="nameType" required>
                             <option th:each="typeTask : ${typeTaskForm}"
+                                    th:if="${!typeTask.isDeleted()}"
                                     th:value="${typeTask.getId()}" th:text="${typeTask.getNameType()}"></option>
                             <option selected value="default">Выберите тип заявки</option>
                             <div class="invalid-feedback">Обязательное поле для заполнения</div>
@@ -95,11 +73,12 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-3 row g2">
+            <div class="mt-3 row g3">
                 <div class="col-md">
-                    <div class="form-floating mb-3">
+                    <div class="form-floating">
                         <select class="form-select input-bg" name="category" id="category" required>
                             <option th:each="category : ${categoryForm}"
+                                    th:if="${!category.isDeleted()}"
                                     th:value="${category.getId()}" th:text="${category.getNameCategory()}"></option>
                             <option selected value="default">Выберите категорию заявки</option>
                             <div class="invalid-feedback">Обязательное поле для заполнения</div>
@@ -107,44 +86,21 @@
                         <label for="category">Категория</label>
                     </div>
                 </div>
-            </div>
-
-            <div class="mt-3 row g3">
                 <div class="col-md">
                     <div class="form-floating">
-                        <select class="form-select input-bg" name="user" id="user" required>
-                            <option th:each="user : ${taskU}"
-                                    th:value="${user.getId()}" th:text="${user.getLastName()+ ' ' + user.getFirstName() +
-                       ' ' + user.getMiddleName()}"></option>
-                            <option selected value="default">Выберите автора заявки</option>
-                            <div class="invalid-feedback">Обязательное поле для заполнения</div>
-                        </select>
-                        <label for="nameType">Автор заявки</label>
-                    </div>
-                </div>
-                <div class="col-md">
-                    <div class="form-floating">
-                        <select class="form-select input-bg" name="worker" id="worker" required>
-                            <option th:each="worker : ${workerForm}"
-                                    th:value="${worker.getId()}" th:text="${worker.getId()} == 1 ? 'Не назначена' : ${worker.getLastName()+ ' ' + worker.getFirstName().charAt(0) +
+                        <label for="worker"></label><select class="form-select input-bg" name="worker" id="worker"
+                                                            required>
+                        <option th:each="worker : ${workerForm}"
+                                th:if="${!worker.isDeleted()}"
+                                th:value="${worker.getId()}" th:text="${worker.getId()} == 1 ? 'Не назначена' : ${worker.getLastName()+ ' ' + worker.getFirstName().charAt(0) +
                        '. ' + worker.getMiddleName().charAt(0) + '.'}"></option>
-                            <option selected value="default">Выберите Исполнителя</option>
-                            <div class="invalid-feedback">Обязательное поле для заполнения</div>
-                        </select>
+                        <option selected value="default">Выберите Исполнителя</option>
+<!--                        <div class="invalid-feedback">Обязательное поле для заполнения</div>-->
+                    </select>
                         <label for="nameType">Исполнитель</label>
                     </div>
                 </div>
             </div>
-<!--            <div class="mt-3 row g2">-->
-<!--                <div class="col-md">-->
-<!--                    <div class="form-floating mb-3">-->
-<!--                        <input name="decision" th:value="${task.getDecision()}" class="form-control input-bg"-->
-<!--                               id="decision" rows="5" placeholder="Решение по заявки" required>-->
-<!--                        <label for="description">Решение по заявке</label>-->
-<!--                        <div class="invalid-feedback">Обязательное поле для заполнения</div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
         </div>
         <div class="mt-3 row g-2">
             <button type="submit" class="btn btn-primary" onclick="validateForm()">Обновить</button>
