@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -34,13 +35,14 @@ public class Task extends GenericModel {
     private String description;
 
     @Column(name = "create_date", nullable = false)
-    private LocalDate createDate;
+    private LocalDateTime createDate;
 
     @Column(name = "end_date")
-    private LocalDate endDate;
+    private LocalDateTime endDate;
+    //Вопрос, нужно ли данное поле
     @OneToMany(mappedBy = "task")
     private Set<Attachments> attachments;
-
+    //Возможно, нужен Set<String>
     @Column(name = "files")
     private String files;
     @ManyToOne

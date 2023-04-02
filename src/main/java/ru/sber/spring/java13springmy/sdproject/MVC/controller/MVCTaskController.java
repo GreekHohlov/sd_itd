@@ -25,7 +25,6 @@ import ru.sber.spring.java13springmy.sdproject.exception.MyDeleteException;
 import ru.sber.spring.java13springmy.sdproject.mapper.CategoryMapper;
 import ru.sber.spring.java13springmy.sdproject.mapper.TypeTaskMapper;
 import ru.sber.spring.java13springmy.sdproject.mapper.UserMapper;
-import ru.sber.spring.java13springmy.sdproject.model.Priority;
 import ru.sber.spring.java13springmy.sdproject.model.StatusTask;
 import ru.sber.spring.java13springmy.sdproject.repository.CategoryRepository;
 import ru.sber.spring.java13springmy.sdproject.repository.TypeTaskRepository;
@@ -37,7 +36,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static ru.sber.spring.java13springmy.sdproject.constants.UserRoleConstants.ADMIN;
@@ -79,17 +78,21 @@ public class MVCTaskController {
                          @RequestParam(value = "size", defaultValue = "5") int pageSize,
                          Model model) {
         String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-        String login = SecurityContextHolder.getContext().getAuthentication().getName();
         PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "id"));
+        Page<TaskWithUserDTO> result;
         if (role.equals("[ROLE_USER]")) {
-            Page<TaskWithUserDTO> result = taskService.findAllTaskByLogin(login, pageRequest);
-            model.addAttribute("task", result);
-        } else {
-            Page<TaskWithUserDTO> result = taskService.getAllTaskWithUser(pageRequest);
-            model.addAttribute("task", result);
+            String login = userRepository.findUsersByLogin(SecurityContextHolder.getContext()
+                    .getAuthentication().getName()).getLogin();
+            result = taskService.findAllTaskByLogin(login, pageRequest);
+        } else if (role.equals("[ROLE_EXECUTOR]") || role.equals("[ROLE_MAIN_EXECUTOR]")){
+            result = taskService.findAllNotDeletedTask(pageRequest);
+        }
+        else {
+            result = taskService.getAllTaskWithUser(pageRequest);
         }
         List<String> categoryDTOS = categoryService.getName(categoryMapper.toDTOs(categoryRepository.findAll()));
         model.addAttribute("taskSearch", categoryDTOS);
+        model.addAttribute("task", result);
         return "task/viewAllTask";
     }
 
@@ -129,7 +132,7 @@ public class MVCTaskController {
         }
         taskDTO.setTypeTaskId(typeTaskId);
         taskDTO.setUserId(userRepository.findUsersByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId());
-        taskDTO.setCreateDate(LocalDate.now());
+        taskDTO.setCreateDate(LocalDateTime.now());
         taskDTO.setStatusTask(StatusTask.OPEN);
         if (file != null && file.getSize() > 0) {
             taskService.create(taskDTO, file);
@@ -148,13 +151,6 @@ public class MVCTaskController {
         List<UserDTO> userDTOs = userMapper.toDTOs(userRepository.findAll());
         List<TaskWithUserDTO> taskWithUserDTOList = taskService.getAllTaskWithUser();
         String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-        log.info("GET_MAPPING.ROLE: " + role);
-        log.info("GET_MAPPING. Заявка: " + id);
-        log.info("typeTaskDTOs: " + typeTaskDTOs);
-        log.info("categoryDTOs: " + categoryDTOs);
-        log.info("workerDTOs: " + workerDTOs);
-        log.info("userDTOs: " + userDTOs);
-        log.info("taskWithUserDTOList: " + taskWithUserDTOList);
         model.addAttribute("workerForm", workerDTOs);
         model.addAttribute("typeTaskForm", typeTaskDTOs);
         model.addAttribute("categoryForm", categoryDTOs);
@@ -173,8 +169,6 @@ public class MVCTaskController {
                          @RequestParam MultipartFile file) {
         TaskDTO tempDTO = taskService.getOne(taskDTO.getId());
         String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-        log.info("POST_MAPPING.ROLE: " + role);
-        log.info("POST_MAPPING.TASK_DTO: " + taskDTO.toString());
         if (role.equals("[ROLE_USER]")) {
             taskDTO.setEndDate(tempDTO.getEndDate());
             taskDTO.setStatusTask(tempDTO.getStatusTask());
@@ -205,8 +199,7 @@ public class MVCTaskController {
                 taskDTO.setUserId(Long.valueOf(userId));
             }
         }
-        log.info("POST_MAPPING.TASK_DTO: " + taskDTO.toString());
-        taskDTO.setCreateDate(LocalDate.now());
+        taskDTO.setCreateDate(LocalDateTime.now());
         taskDTO.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         if (file != null && file.getSize() > 0) {
             taskService.update(taskDTO, file);
@@ -223,16 +216,21 @@ public class MVCTaskController {
                              Model model) {
         PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "id"));
         List<String> categoryDTOS = categoryService.getName(categoryMapper.toDTOs(categoryRepository.findAll()));
-        Page<TaskWithUserDTO> result;
-        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (ADMIN.equalsIgnoreCase(SecurityContextHolder.getContext().getAuthentication().getName())) {
-            result = taskService.getAllTasksWithUsers(pageRequest);
-        } else {
-            result = taskService.getAllNotDeletedTasksWithUsers(pageRequest);
+        log.info("FIO_AUTHOR: " + userRepository.findUsersByLogin(SecurityContextHolder.getContext()
+                .getAuthentication().getName()).getLastName());
+        if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString().equals("[ROLE_USER]")){
+            taskSearchDTO.setUserFio(userRepository.findUsersByLogin(SecurityContextHolder.getContext()
+                    .getAuthentication().getName()).getLastName());
         }
-        //model.addAttribute("books", result);
-        model.addAttribute("taskSearch", categoryDTOS);
+//        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+//        if (ADMIN.equalsIgnoreCase(SecurityContextHolder.getContext().getAuthentication().getName())) {
+//            result = taskService.getAllTasksWithUsers(pageRequest);
+//        } else {
+//            result = taskService.getAllNotDeletedTasksWithUsers(pageRequest);
+//        }
+        Page<TaskWithUserDTO> result = taskService.findTasks(taskSearchDTO, pageRequest);
         model.addAttribute("task", result);
+        model.addAttribute("taskSearch", categoryDTOS);
         return "task/viewAllTask";
     }
 
@@ -280,27 +278,24 @@ public class MVCTaskController {
         return new RedirectView("/task", true);
     }
 
-    @GetMapping ("/takeTask/{id}")
+    @GetMapping("/takeTask/{id}")
     public String takeTask(@PathVariable Long id) {
-
-      TaskDTO taskDTO = taskService.getOne(id);
-      log.info("id "+ taskDTO);
-
-      taskService.updateTaskForWorking(taskDTO);
-       // taskService.restore(id);
-        System.out.println("я взял заявку");
+        TaskDTO taskDTO = taskService.getOne(id);
+        taskService.updateTaskForWorking(taskDTO);
         return "redirect:/task";
     }
     @GetMapping("/stopTask/{id}")
     public String stopTask(@PathVariable Long id) {
-        // taskService.restore(id);
-        System.out.println("я остановил заявку");
+        TaskDTO taskDTO = taskService.getOne(id);
+        taskService.updateTaskForStop(taskDTO);
+        log.info("я остановил заявку");
         return "redirect:/task";
     }
     @GetMapping("/executeTask/{id}")
     public String executeTask(@PathVariable Long id) {
-        // taskService.restore(id);
-        System.out.println("я execute заявку");
+        TaskDTO taskDTO = taskService.getOne(id);
+        taskService.updateTaskForExecute(taskDTO);
+        log.info("я execute заявку");
         return "redirect:/task";
     }
 }

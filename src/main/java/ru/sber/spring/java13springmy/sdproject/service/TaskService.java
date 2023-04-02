@@ -97,7 +97,7 @@ public class TaskService extends GenericService<Task, TaskDTO> {
                                            Pageable pageable) {
         String taskId = taskSearchDTO.getTaskId() != null ? String.valueOf(taskSearchDTO.getTaskId()) : null;
         String status = taskSearchDTO.getStatusTask() != null ? String.valueOf(taskSearchDTO.getStatusTask().ordinal()) : null;
-        String worker = taskSearchDTO.getWorkerFio().equals("") ? null : (taskSearchDTO.getWorkerFio());
+        String worker = taskSearchDTO.getWorkerFio() != null ? (taskSearchDTO.getWorkerFio()) : null;
         String category = taskSearchDTO.getCategory() != null ? (taskSearchDTO.getCategory()) : null;
         Page<Task> tasksPaginated = taskRepository.searchTasks(taskId,
                 taskSearchDTO.getNameTask(),
@@ -116,8 +116,7 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         String fileName = FileHelper.createFile(file);
         taskDTO.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         taskDTO.setCreatedWhen(LocalDateTime.now());
-        taskDTO.setCreateDate(LocalDate.now());
-        taskDTO.setEndDate(LocalDate.now().plusDays(1L)); //времено так, далее обработка
+        taskDTO.setCreateDate(LocalDateTime.now());
         taskDTO.setFiles(fileName);
         return mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
     }
@@ -125,8 +124,7 @@ public class TaskService extends GenericService<Task, TaskDTO> {
     public TaskDTO create(final TaskDTO taskDTO) {
         taskDTO.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         taskDTO.setCreatedWhen(LocalDateTime.now());
-        taskDTO.setCreateDate(LocalDate.now());
-        taskDTO.setEndDate(LocalDate.now().plusDays(1L)); //времено так, далее обработка
+        taskDTO.setCreateDate(LocalDateTime.now());
         return mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
     }
 
@@ -157,13 +155,40 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         List<TaskWithUserDTO> result = taskWithUserMapper.toDTOs(tasks.getContent());
         return new PageImpl<>(result, pageRequest, tasks.getTotalElements());
     }
+    public Page<TaskWithUserDTO> findAllNotDeletedTask(PageRequest pageRequest) {
+        Page<Task> tasks = taskRepository.findAllNotDeletedTask(pageRequest);
+        List<TaskWithUserDTO> result = taskWithUserMapper.toDTOs(tasks.getContent());
+        return new PageImpl<>(result, pageRequest, tasks.getTotalElements());
+    }
 
     public void updateTaskForWorking(TaskDTO taskDTO) {
         CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        log.info("----------------------------------------------------------------");
+        log.info("taskDTO до заполнения: " + taskDTO);
         taskDTO.setStatusTask(StatusTask.AT_WORK);
-        taskDTO.setEndDate(LocalDate.now().plusDays(4L));
+        taskDTO.setEndDate(LocalDateTime.now().plusDays(4L));
         taskDTO.setWorkerId(Long.valueOf(customUserDetails.getUserId()));
-        log.info("taskDTO " + taskDTO);
+        log.info("----------------------------------------------------------------");
+        log.info("taskDTO после заполнения: " + taskDTO);
+        mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
+    }
+
+    public void updateTaskForStop(TaskDTO taskDTO) {
+        log.info("----------------------------------------------------------------");
+        log.info("taskDTO до заполнения: " + taskDTO);
+        taskDTO.setStatusTask(StatusTask.STOPPED);
+        taskDTO.setEndDate(LocalDateTime.now().plusDays(4L));
+        log.info("----------------------------------------------------------------");
+        log.info("taskDTO после заполнения: " + taskDTO);
+        mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
+    }
+    public void updateTaskForExecute(TaskDTO taskDTO) {
+        log.info("----------------------------------------------------------------");
+        log.info("taskDTO до заполнения: " + taskDTO);
+        taskDTO.setStatusTask(StatusTask.COMPLETED);
+        taskDTO.setCreatedWhen(LocalDateTime.now());
+        log.info("----------------------------------------------------------------");
+        log.info("taskDTO после заполнения: " + taskDTO);
         mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
     }
 }

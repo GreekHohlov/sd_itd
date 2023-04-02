@@ -111,13 +111,13 @@
                     <!--                    <a class="text-link text-blue" th:href="'/task/' + ${tasks.getId()}"-->
                     <a th:text="${tasks.getId()}">ID заявки</a>
                 </td>
-                <td th:text="${tasks.getCreateDate()}">Дата заявки</td>
+                <td th:text="${#temporals.format(tasks.getCreateDate(), 'dd-MM-yyyy HH-mm')}">Дата заявки</td>
                 <td>
                     <a class="task-link" th:href="'/task/' + ${tasks.getId()}"
                        th:text="${tasks.getNameTask()}">Тема заявки</a>
                 </td>
                 <td th:text="${tasks.getTypeTask().getNameType()}">Тип заявки</td>
-                <td th:text="${tasks.getCategory().getId()} == 1 ? 'Категория не выбрана' : ${tasks.getCategory().getNameCategory()}">
+                <td th:text="${tasks.getCategory().getNameCategory()}">
                     Категория
                 </td>
                 <td>
@@ -129,7 +129,7 @@
                  + tasks.getWorker().getFirstName().charAt(0) +  '. ' + tasks.getWorker().getMiddleName().charAt(0) + '.'}">
                     ФИО исполнителя
                 </td>
-                <td th:text="${tasks.getEndDate()}">Дата выполнения</td>
+                <td th:text="${#temporals.format(tasks.getEndDate(), 'dd-MM-yyyy HH-mm')}">Дата выполнения</td>
                 <td th:text="${tasks.getStatusTask().statusTaskTextDisplay()}">Статус</td>
                 <td>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">

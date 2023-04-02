@@ -101,18 +101,21 @@ public class MVCUserController {
     //TODO Метод по смене пароля не отробатывает
     @GetMapping("/change-password/user")
     public String changePassword(Model model) {
+        log.info("GetMapping/change-password/user");
         CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDTO userDTO = userService.getOne(Long.valueOf(customUserDetails.getUserId()));
         UUID uuid = UUID.randomUUID();
         userDTO.setChangePasswordToken(uuid.toString());
         userService.update(userDTO);
         model.addAttribute("uuid", uuid);
+
         return "users/changePassword";
     }
 
     @GetMapping("/change-password")
     public String changePassword(@PathParam(value = "uuid") String uuid,
                                  Model model) {
+        log.info("GetMapping/change-password");
         model.addAttribute("uuid", uuid);
         return "users/changePassword";
     }
@@ -120,6 +123,7 @@ public class MVCUserController {
     @PostMapping("/change-password")
     public String changePassword(@PathParam(value = "uuid") String uuid,
                                  @ModelAttribute("changePasswordForm") UserDTO userDTO) {
+        log.info("PostMapping/change-password");
         userService.changePassword(uuid, userDTO.getPassword());
         return "redirect:/login";
     }
