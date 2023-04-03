@@ -12,7 +12,6 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 
 @Configuration
 public class ThymeleafHotSwapConfig {
-
     private ThymeleafProperties thymeleafProperties;
 
     @Autowired

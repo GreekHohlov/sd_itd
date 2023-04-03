@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import ru.sber.spring.java13springmy.sdproject.model.StatusTask;
-import ru.sber.spring.java13springmy.sdproject.model.User;
 
 import java.time.LocalDate;
 

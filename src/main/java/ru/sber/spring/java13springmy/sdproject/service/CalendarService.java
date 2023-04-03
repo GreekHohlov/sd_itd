@@ -3,10 +3,8 @@ package ru.sber.spring.java13springmy.sdproject.service;
 import org.springframework.stereotype.Service;
 import ru.sber.spring.java13springmy.sdproject.dto.CalendarDTO;
 import ru.sber.spring.java13springmy.sdproject.mapper.CalendarMapper;
-import ru.sber.spring.java13springmy.sdproject.mapper.GenericMapper;
 import ru.sber.spring.java13springmy.sdproject.model.Calendar;
 import ru.sber.spring.java13springmy.sdproject.repository.CalendarRepository;
-import ru.sber.spring.java13springmy.sdproject.repository.GenericRepository;
 
 @Service
 public class CalendarService  extends GenericService<Calendar, CalendarDTO> {

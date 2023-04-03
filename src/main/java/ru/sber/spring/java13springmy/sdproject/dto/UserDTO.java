@@ -28,9 +28,7 @@ public class UserDTO extends GenericDTO {
     private Boolean worker;
     private Set<Long> tasksIds;
     private Set<Long> tasksWorkerIds;
-
     private Group group;
-//    private GroupDTO groupDTO;
     private Location location;
     private boolean isDeleted;
 }

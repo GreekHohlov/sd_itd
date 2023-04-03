@@ -76,8 +76,6 @@
                 <div class="col-md">
                     <div class="form-floating">
                         <select class="form-select" name="group" id="group">
-                            <!--                        <option th:each="grp : ${userForm.group.getUser()}"-->
-                            <!--                                th:value="${grp}" th:text="${grp.g}"></option>-->
                             <option selected value="default">Выберите группу</option>
                             <!--                        <div class="invalid-feedback">Обязательное поле для заполнения</div>-->
                         </select>
@@ -100,8 +98,6 @@
                 <div class="col-md">
                     <div sec:authorize="isAuthenticated() && hasRole('ADMIN')" class="form-floating">
                         <select class="form-select" name="group" id="location">
-                            <!--                        <option th:each="grp : ${userForm.group.getUser()}"-->
-                            <!--                                th:value="${grp}" th:text="${grp.g}"></option>-->
                             <option selected value="default">Выберите площадку</option>
                             <!--                        <div class="invalid-feedback">Обязательное поле для заполнения</div>-->
                         </select>

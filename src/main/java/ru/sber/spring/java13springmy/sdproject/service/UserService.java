@@ -14,7 +14,6 @@ import ru.sber.spring.java13springmy.sdproject.dto.RoleDTO;
 import ru.sber.spring.java13springmy.sdproject.dto.UserDTO;
 import ru.sber.spring.java13springmy.sdproject.exception.MyDeleteException;
 import ru.sber.spring.java13springmy.sdproject.mapper.UserMapper;
-import ru.sber.spring.java13springmy.sdproject.model.Group;
 import ru.sber.spring.java13springmy.sdproject.model.User;
 import ru.sber.spring.java13springmy.sdproject.repository.UserRepository;
 import ru.sber.spring.java13springmy.sdproject.utils.MailUtils;
@@ -43,14 +42,6 @@ public class UserService extends GenericService<User, UserDTO> {
 
     public UserDTO getUserByEmail(final String email) {
         return mapper.toDto(((UserRepository) repository).findUsersByEmail(email));
-    }
-
-    public UserDTO getWorkers(final Group groupId) {
-        return mapper.toDto(((UserRepository) repository).findUsersByGroup(groupId));
-    }
-
-    public List<UserDTO> getAllWorekers() {
-        return mapper.toDTOs(((UserRepository) repository).findUserIsWorker());
     }
 
     @Override
@@ -104,9 +95,6 @@ public class UserService extends GenericService<User, UserDTO> {
         return new PageImpl<>(result, pageable, users.getTotalElements());
     }
 
-    //    public List<String> getUserEmailsWithDelayedRentDate() {
-//        return ((UserRepository) repository).getDelayedEmails();
-//    }
     @Override
     public void delete(Long id) throws MyDeleteException {
         User user = repository.findById(id).orElseThrow(

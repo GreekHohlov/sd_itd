@@ -1,5 +1,6 @@
 package ru.sber.spring.java13springmy.sdproject.MVC.controller;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -8,7 +9,7 @@ import ru.sber.spring.java13springmy.sdproject.exception.MyDeleteException;
 import ru.sber.spring.java13springmy.sdproject.service.LocationService;
 
 import java.util.List;
-
+@Hidden
 @Controller
 @RequestMapping("locations")
 public class MVCLocationController {

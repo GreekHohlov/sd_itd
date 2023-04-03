@@ -28,7 +28,6 @@ public class ExceptionTranslator {
         return proceedFieldsErrors(ex, Errors.REST.AUTH_ERROR_MESSAGE, ex.getMessage());
     }
     
-    
     private ErrorDTO proceedFieldsErrors(Exception ex,
                                          String error,
                                          String description) {

@@ -1,16 +1,21 @@
 package ru.sber.spring.java13springmy.sdproject.service.userdetails;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+@AllArgsConstructor
+@Builder
 public class CustomUserDetails implements UserDetails {
 
     private final String username;
     private final String password;
     private final Collection<? extends GrantedAuthority> authorities;
-    private Integer id;
+    private final Integer id;
     private final Boolean enabled;
     private final Boolean accountNotExpired;
     private final Boolean accountNotLocked;

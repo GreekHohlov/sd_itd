@@ -44,14 +44,13 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity
                 //TODO Для учебных целей пока отключим
-
 //                .csrf(csrf -> csrf
 //                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 //                )
 
                 .authorizeHttpRequests((requests) -> requests
                                 .requestMatchers(RESOURCES_WHITE_LIST.toArray(String[]::new)).permitAll()
-                                .requestMatchers(ALL_WHITE_LIST.toArray(String[]::new)).anonymous()
+                                .requestMatchers(ALL_WHITE_LIST.toArray(String[]::new)).permitAll()
                                 .requestMatchers(BASE_PERMISSION_LIST.toArray(String[]::new)).authenticated()
                                 .requestMatchers(SETTINGS_PERMISSION_LIST.toArray(String[]::new)).hasAnyRole(ADMIN, EXECUTOR, MAIN_EXECUTOR)
                                 .anyRequest().authenticated()
@@ -63,9 +62,9 @@ public class WebSecurityConfig {
                 )
                 .logout((logout) -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
+                        .logoutSuccessUrl("/login")
                         .permitAll()
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 );

@@ -38,5 +38,4 @@ public class MVCAttachmentsController {
         attachmentsService.create(attachmentsDTO);
         return "redirect:/attachments";
     }
-
 }
