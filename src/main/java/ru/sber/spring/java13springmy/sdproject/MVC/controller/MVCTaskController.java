@@ -39,8 +39,6 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static ru.sber.spring.java13springmy.sdproject.constants.UserRoleConstants.ADMIN;
-
 @Hidden
 @Controller
 @RequestMapping("task")
