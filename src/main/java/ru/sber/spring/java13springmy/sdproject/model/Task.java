@@ -1,12 +1,10 @@
 package ru.sber.spring.java13springmy.sdproject.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -14,6 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @SequenceGenerator(name = "default_gen", sequenceName = "tasks_seq", allocationSize = 1)
 public class Task extends GenericModel {
     @Column(name = "name_task", nullable = false)
@@ -34,13 +33,14 @@ public class Task extends GenericModel {
     private String description;
 
     @Column(name = "create_date", nullable = false)
-    private LocalDate createDate;
+    private LocalDateTime createDate;
 
     @Column(name = "end_date")
-    private LocalDate endDate;
+    private LocalDateTime endDate;
+    //Вопрос, нужно ли данное поле
     @OneToMany(mappedBy = "task")
     private Set<Attachments> attachments;
-
+    //Возможно, нужен Set<String>
     @Column(name = "files")
     private String files;
     @ManyToOne

@@ -14,10 +14,6 @@ import java.util.Set;
 @NoArgsConstructor
 @SequenceGenerator(name = "default_gen", sequenceName = "task_type_seq", allocationSize = 1)
 public class TypeTask extends GenericModel {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "id", nullable = false)
-//    private Long id;
 
     @Column(name = "name_type", nullable = false)
     private String nameType;

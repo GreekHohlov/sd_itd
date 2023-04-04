@@ -7,8 +7,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class TaskCreateDTO extends TaskDTO{
-    private UserDTO worker;
-    private TypeTaskDTO typeTask;
-    private CategoryDTO category;
+public class TaskCreateDTO extends GenericDTO{
+    private Long userId;
+    private Long workerId;
+    private Long categoryId;
 }

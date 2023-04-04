@@ -10,7 +10,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 import static ru.sber.spring.java13springmy.sdproject.constants.FileDirectoriesConstants.TASKS_UPLOAD_DIRECTORY;
@@ -25,7 +24,6 @@ public class FileHelper {
         String resultFileName = "";
         try {
             Path path = Paths.get(TASKS_UPLOAD_DIRECTORY + "/" + LocalDate.now() + "/" + fileName).toAbsolutePath().normalize();
-            // Path path = Paths.get(TASKS_UPLOAD_DIRECTORY + "/" + taskId.toString() + "/"+ fileName).toAbsolutePath().normalize();
             if (!path.toFile().exists()) {
                 Files.createDirectories(path);
             }

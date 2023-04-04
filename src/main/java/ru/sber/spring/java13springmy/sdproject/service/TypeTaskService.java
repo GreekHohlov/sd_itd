@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 import ru.sber.spring.java13springmy.sdproject.dto.TypeTaskDTO;
 import ru.sber.spring.java13springmy.sdproject.mapper.TypeTaskMapper;
-import ru.sber.spring.java13springmy.sdproject.model.Group;
 import ru.sber.spring.java13springmy.sdproject.model.TypeTask;
 import ru.sber.spring.java13springmy.sdproject.repository.TypeTaskRepository;
 

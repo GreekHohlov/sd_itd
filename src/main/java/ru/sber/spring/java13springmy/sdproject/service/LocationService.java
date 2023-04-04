@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 import ru.sber.spring.java13springmy.sdproject.dto.LocationDTO;
 import ru.sber.spring.java13springmy.sdproject.mapper.LocationMapper;
-import ru.sber.spring.java13springmy.sdproject.model.Group;
 import ru.sber.spring.java13springmy.sdproject.model.Location;
 import ru.sber.spring.java13springmy.sdproject.repository.LocationRepository;
 

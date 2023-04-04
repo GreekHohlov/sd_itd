@@ -25,7 +25,11 @@ values (1, null, null, null, null, false, 'Пользователь', 'USER'),
 insert into groups
 values (nextval('groups_seq'), null, null, null, null, false, 'Пользователи'),
        (nextval('groups_seq'), null, null, null, null, false, 'Техническая поддержка'),
-       (nextval('groups_seq'), null, null, null, null, false, 'Системные администраторы');
+       (nextval('groups_seq'), null, null, null, null, false, 'Системные администраторы'),
+       (nextval('groups_seq'), null, null, null, null, false, 'Сервис-инженеры'),
+       (nextval('groups_seq'), null, null, null, null, false, 'Программисты 1C'),
+       (nextval('groups_seq'), null, null, null, null, false, 'Программисты Java'),
+       (nextval('groups_seq'), null, null, null, null, false, 'DevOps');
 
 --SLA
 insert into sla
@@ -35,17 +39,24 @@ values (nextval('sla_info_seq'), null, null, null, null, false, 2, 'Инцинд
        (nextval('sla_info_seq'), null, null, null, null, false, 8, 'Обслуживание (высокий)', 2),
        (nextval('sla_info_seq'), null, null, null, null, false, 16, 'Обслуживание (обычный)', 4),
        (nextval('sla_info_seq'), null, null, null, null, false, 40, 'Обслуживание (низкий)', 8),
+       (nextval('sla_info_seq'), null, null, null, null, false, 16, 'Изменение ПО (высокий)', 8),
+       (nextval('sla_info_seq'), null, null, null, null, false, 32, 'Изменение ПО (средний)', 8),
+       (nextval('sla_info_seq'), null, null, null, null, false, 64, 'Изменение ПО (низкий)', 8),
        (nextval('sla_info_seq'), null, null, null, null, false, 16, 'Доступ', 4),
        (nextval('sla_info_seq'), null, null, null, null, false, 240, 'Приобретение', 16);
 
 --Типы заявок
 insert into type_task
-values (nextval('task_type_seq'), null, null, null, null, false, 'Инциндент (общий)', 1),
-       (nextval('task_type_seq'), null, null, null, null, false, 'Обслуживание (общее)', 4),
-       (nextval('task_type_seq'), null, null, null, null, false, 'Доступ', 7),
-       (nextval('task_type_seq'), null, null, null, null, false, 'Приобритение', 8),
-       (nextval('task_type_seq'), null, null, null, null, false, 'Инциндент сис. админ.', 1),
-       (nextval('task_type_seq'), null, null, null, null, false, 'Инциндент ПО', 2);
+values (nextval('task_type_seq'), null, null, null, null, false, 'Инциндент (общий)', 2),
+       (nextval('task_type_seq'), null, null, null, null, false, 'Инциндент (Админ. систем)', 1),
+       (nextval('task_type_seq'), null, null, null, null, false, 'Инциндент (ПО Офиса)', 1),
+       (nextval('task_type_seq'), null, null, null, null, false, 'Обслуживание (общее)', 5),
+       (nextval('task_type_seq'), null, null, null, null, false, 'Обслуживание (Админ. систем)', 4),
+       (nextval('task_type_seq'), null, null, null, null, false, 'Обслуживание (ПО Офиса)', 4),
+       (nextval('task_type_seq'), null, null, null, null, false, 'Изменение ПО (1С)', 8),
+       (nextval('task_type_seq'), null, null, null, null, false, 'Изменение ПО (Java)', 8),
+       (nextval('task_type_seq'), null, null, null, null, false, 'Доступ', 10),
+       (nextval('task_type_seq'), null, null, null, null, false, 'Приобритение', 11);
 
 --Категории заявок
 insert into category
@@ -53,29 +64,74 @@ values (nextval('category_seq'), null, null, null, null, false, 'Общая ка
        (nextval('category_seq'), null, null, null, null, false, 'Администрирование систем', 1),
        (nextval('category_seq'), null, null, null, null, false, 'Адм. серверного оброруд.', 2),
        (nextval('category_seq'), null, null, null, null, false, 'Адм. сетевого оборуд.', 2),
+       (nextval('category_seq'), null, null, null, null, false, 'IP-телефония', null),
+       (nextval('category_seq'), null, null, null, null, false, 'Почта', null),
+       (nextval('category_seq'), null, null, null, null, false, 'Торговое обруд.', null),
+       (nextval('category_seq'), null, null, null, null, false, 'Адм. ЭДО', null),
        (nextval('category_seq'), null, null, null, null, false, 'Тоговое оборудование', null),
        (nextval('category_seq'), null, null, null, null, false, 'Приобретение', null);
 
+--Площадки
 insert into locations
 values (nextval('workers_seq'), null, null, null, null, false, 'Центральный офис'),
+       (nextval('workers_seq'), null, null, null, null, false, 'Офис Иркутск'),
+       (nextval('workers_seq'), null, null, null, null, false, 'Офис Владивосток'),
+       (nextval('workers_seq'), null, null, null, null, false, 'Склад Якутия'),
+       (nextval('workers_seq'), null, null, null, null, false, 'Офис Москва'),
        (nextval('workers_seq'), null, null, null, null, false, 'Главный склад'),
-       (nextval('workers_seq'), null, null, null, null, false, 'Магазин');
+       (nextval('workers_seq'), null, null, null, null, false, 'Магазин Добрянка-1'),
+       (nextval('workers_seq'), null, null, null, null, false, 'Магазин Добрянка-2'),
+       (nextval('workers_seq'), null, null, null, null, false, 'Магазин Бахетле-1'),
+       (nextval('workers_seq'), null, null, null, null, false, 'Магазин Бахетле-3');
 
 insert into users
-values (nextval('users_seq'), null, null, null, null, false, null, 'admin@servicedesk.ru', 'Системная', 'Учётная', 'service', 'Запись',
-        '$2a$10$HHdPd716i5B6Ci5qdNJMoe.Yhl7it3MxX8rU0JzPeRAc4kd5HpqNu', '+7991991919', true, 1, 1, 2),
-       (nextval('users_seq'), null, null, null, null, false, null, 'ivanov@mail.ru', 'Иван', 'Иванов', 'ivanov', 'Иванович',
-        '$2a$10$6ZdDup03pD/2d2WqozOEtuGDU6yHj28jcUqQk.ocNGAYQNJ0c4NNq', '+79235555656', false, 1, 3, 1),
-       (nextval('users_seq'), null, null, null, null, false, null, 'petrov@mail.ru', 'Петр', 'Петров', 'petrov', 'Петрович',
-        '$2a$10$6ZdDup03pD/2d2WqozOEtuGDU6yHj28jcUqQk.ocNGAYQNJ0c4NNq', '+79235555677', false, 1, 2, 1),
-       (nextval('users_seq'), null, null, null, null, false, null, 'sidorov@mail.ru', 'Сидор', 'Сидоров', 'sidorov', 'Сидорович',
-        '$2a$10$6ZdDup03pD/2d2WqozOEtuGDU6yHj28jcUqQk.ocNGAYQNJ0c4NNq', '+79235555688', false, 1, 3, 1),
-       (nextval('users_seq'), null, null, null, null, false, null, 'greekkk@mail.ru', 'Борис', 'Степаненко', 'greek', 'Алексеевич',
-        '$2a$10$fm.NURcqO0l4W4jmvotQjO6abp0QCt3BKrIoI.mZ6ruyNUB9fS5r2', '+79235555688', true, 2, 1, 2),
-       (nextval('users_seq'), null, null, null, null, false, null, 'ignatevvk@mail.ru', 'Вячеслав', 'Игнатьев', 'ignatevvk', 'Константинович',
-        '$2a$10$aQu2wEVfAZ5pOUsmARmA0e3c4LX5QXNhEUyxCrN5rca5yZtWw8GUK', '+79915035031', true, 2, 1, 2);
+values
+    --Исполнители
+    (nextval('users_seq'), null, null, null, null, false, null, 'admin@servicedesk.ru', 'Системная', 'Учётная',
+     'A_service', 'Запись', '$2a$10$HHdPd716i5B6Ci5qdNJMoe.Yhl7it3MxX8rU0JzPeRAc4kd5HpqNu',
+     '+7991991919', true, 2, 1, 2),
+    (nextval('users_seq'), null, null, null, null, false, null, 'ignatevvk@mail.ru', 'Вячеслав', 'Игнатьев',
+     'Ex_ignatevvk', 'Константинович', '$2a$10$aQu2wEVfAZ5pOUsmARmA0e3c4LX5QXNhEUyxCrN5rca5yZtWw8GUK',
+     '+79915035031', true, 2, 1, 2),
+    (nextval('users_seq'), null, null, null, null, false, null, 'greekkk@mail.ru', 'Борис', 'Степаненко', 'Ex_greek',
+     'Алексеевич', '$2a$10$fm.NURcqO0l4W4jmvotQjO6abp0QCt3BKrIoI.mZ6ruyNUB9fS5r2',
+     '+79235555688', true, 2, 1, 2),
+    --Пользователи
+    (nextval('users_seq'), null, null, null, null, false, null, 'ivanov@mail.ru', 'Иван', 'Иванов', 'ivanov',
+     'Иванович', '$2a$10$6ZdDup03pD/2d2WqozOEtuGDU6yHj28jcUqQk.ocNGAYQNJ0c4NNq', '+79235555656', false, 1, 1, 1),
+    (nextval('users_seq'), null, null, null, null, false, null, 'petrov@mail.ru', 'Петр', 'Петров', 'petrov',
+     'Петрович', '$2a$10$6ZdDup03pD/2d2WqozOEtuGDU6yHj28jcUqQk.ocNGAYQNJ0c4NNq', '+79235555677', false, 1, 6, 1),
+    (nextval('users_seq'), null, null, null, null, false, null, 'sidorov@mail.ru', 'Сидор', 'Сидоров', 'sidorov',
+     'Сидорович', '$2a$10$6ZdDup03pD/2d2WqozOEtuGDU6yHj28jcUqQk.ocNGAYQNJ0c4NNq', '+79235555688', false, 1, 7, 1),
+    (nextval('users_seq'), null, null, null, null, false, null, 'smirnov@mail.ru', 'Алексей', 'Смирнов', 'smirnov',
+     'Сергеевич', '$2a$10$6ZdDup03pD/2d2WqozOEtuGDU6yHj28jcUqQk.ocNGAYQNJ0c4NNq', '+79235555689', false, 1, 5, 1),
+    (nextval('users_seq'), null, null, null, null, false, null, 'novikov@mail.ru', 'Михаил', 'Новиков', 'novikov',
+     'Петрович', '$2a$10$6ZdDup03pD/2d2WqozOEtuGDU6yHj28jcUqQk.ocNGAYQNJ0c4NNq', '+79235555693', false, 1, 1, 1),
+    (nextval('users_seq'), null, null, null, null, false, null, 'putin@mail.ru', 'Владимир', 'Путин', 'putin',
+     'Владимирович', '$2a$10$6ZdDup03pD/2d2WqozOEtuGDU6yHj28jcUqQk.ocNGAYQNJ0c4NNq', '+79235555695', false, 1, 5, 1),
+    (nextval('users_seq'), null, null, null, null, false, null, 'medvedev@mail.ru', 'Дмитрий', 'Медведев', 'medvedev',
+     'Владимирович', '$2a$10$6ZdDup03pD/2d2WqozOEtuGDU6yHj28jcUqQk.ocNGAYQNJ0c4NNq', '+79235555675', false, 1, 5, 1);
 
--- insert into tasks
--- values (nextval('tasks_seq'), null, null, null, null, false, '2022-11-15 13:46:11.797607', null,
---         'Не работает ноутбук, переодичеки синий экран',
---         '2022-12-15 13:46:11.797607', null, 'Не работает ноутбук', 0, 0, 2, 5, 20, 19);
+--Заявки
+insert into tasks
+values (nextval('tasks_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', null, null, false,
+        '2023-04-04 10:25:10.702359', null,
+        'Не работает ноутбук, переодичеки синий экран', null, null, 'Не работает ноутбук', 1, 2, 10, 5, 4, 2),
+       (nextval('tasks_seq'), 'Starting loading', '2023-03-30 10:25:10.702359', null, null, false,
+        '2023-04-03 10:25:10.702359', null,
+        'Не печатает принтер в бухгалтерии', null, null, 'Проблема с печатью', 1, 1, 4, 2, 5, 2),
+       (nextval('tasks_seq'), 'Starting loading', '2023-04-01 10:25:10.702359', null, null, false,
+        '2023-04-03 10:25:10.702359', null,
+        'Не работает почта', null, null, 'Не отправляются письма и не приходят новые! Почта почищена.', 2, 1, 6, 3, 6,
+        3),
+       (nextval('tasks_seq'), 'Starting loading', '2023-04-01 12:25:10.702359', null, null, false,
+        '2023-04-02 10:25:10.702359', null,
+        'Отсуствует адесная книга', null, null, 'Прошу загрузить адресную книгу', 2, 1, 6, 3, 7,
+        3),
+       (nextval('tasks_seq'), 'Starting loading', '2023-04-01 12:25:10.702359', null, null, false,
+        '2023-04-02 10:25:10.702359', null,
+        'Отсуствует архив почты', null, null, 'Прошу загрузить архив почты', 2, 2, 6, 3, 6,
+        3),
+       (nextval('tasks_seq'), 'Starting loading', '2023-04-01 12:25:10.702359', null, null, false,
+        '2023-04-03 10:25:10.702359', null, 'Доработка модуля оповещения в Java', null, null,
+        'Доработать модуль оповещения в статусе заявки', 2, 2, 6, 3, 6, 3);

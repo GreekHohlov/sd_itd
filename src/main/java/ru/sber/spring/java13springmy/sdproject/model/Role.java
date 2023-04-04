@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
-
 @Entity
 @Table(name = "role")
 @Getter
@@ -20,6 +18,7 @@ public class Role
     private String nameRole;
     @Column(name = "description")
     private String description;
+
 //    @OneToMany(mappedBy = "role")
 //    private Set<Group> groups;
 }

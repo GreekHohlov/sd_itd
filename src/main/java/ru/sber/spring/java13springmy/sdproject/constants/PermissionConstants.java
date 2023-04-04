@@ -18,7 +18,8 @@ public interface PermissionConstants {
             "/users/registration",
             "/users/remember-password",
             "/users/change-password/user",
-            "/users/change-password");
+            "/users/change-password",
+            "/logout");
     /*
     Базовый доступ к сервису
     Главная страница, просмотр заявок, создание заявок.
@@ -31,7 +32,8 @@ public interface PermissionConstants {
             "/task/add",
             "/task/search",
             "/task/download/{taskId}",
-            "/error");
+            "/error",
+            "/users/profile/{id}");
     /*
     Полный доступ.
     Предоставляется группам EXECUTOR и ADMIN.

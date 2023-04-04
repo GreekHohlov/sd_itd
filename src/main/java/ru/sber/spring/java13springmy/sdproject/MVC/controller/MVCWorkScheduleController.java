@@ -27,14 +27,11 @@ public class MVCWorkScheduleController {
         return "workSchedule/viewAllWorkSchedule";
     }
 
-    //Рисует форму создания
     @GetMapping("/add")
     public String create() {
         return "workSchedule/addWorkSchedule";
     }
 
-    // Примит данные о созданном фильме и передаст в БД
-    // Потом вернёт нас на страницу со всеми фильмами
     @PostMapping("/add")
     public String create(@ModelAttribute("workScheduleForm") WorkScheduleDTO workScheduleDTO) {
         workScheduleService.create(workScheduleDTO);

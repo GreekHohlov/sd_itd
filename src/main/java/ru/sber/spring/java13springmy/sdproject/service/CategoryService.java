@@ -6,7 +6,6 @@ import ru.sber.spring.java13springmy.sdproject.dto.CategoryDTO;
 import ru.sber.spring.java13springmy.sdproject.exception.MyDeleteException;
 import ru.sber.spring.java13springmy.sdproject.mapper.CategoryMapper;
 import ru.sber.spring.java13springmy.sdproject.model.Category;
-import ru.sber.spring.java13springmy.sdproject.model.SLA;
 import ru.sber.spring.java13springmy.sdproject.repository.CategoryRepository;
 
 import java.util.ArrayList;

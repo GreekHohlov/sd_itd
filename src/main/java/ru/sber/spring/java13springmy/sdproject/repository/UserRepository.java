@@ -14,17 +14,16 @@ public interface UserRepository extends GenericRepository<User> {
     @Query("select u from User u where u.login = ?1")
     User findUsersByLogin(String login);
 
-    User findUserByLoginAndIsDeletedFalse(String login);
-
     User findUsersByEmail(String email);
 
     User findUsersByGroup(Group group);
+
     @Query(nativeQuery = true,
-    value = """
-            SELECT *
-            from users u
-            where u.is_worker is true
-            """)
+            value = """
+                    SELECT *
+                    from users u
+                    where u.is_worker is true
+                    """)
     List<User> findUserIsWorker();
 
     User findUserByChangePasswordToken(String token);

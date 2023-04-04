@@ -2,7 +2,6 @@ package ru.sber.spring.java13springmy.sdproject.mapper;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
-import ru.sber.spring.java13springmy.sdproject.dto.TaskCreateDTO;
 import ru.sber.spring.java13springmy.sdproject.dto.TaskFotWorkingDTO;
 import ru.sber.spring.java13springmy.sdproject.model.Task;
 import ru.sber.spring.java13springmy.sdproject.repository.UserRepository;
