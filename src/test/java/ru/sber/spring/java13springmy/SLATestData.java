@@ -1,6 +1,6 @@
 package ru.sber.spring.java13springmy;
 
-public interface TypeTaskData {
+public interface SLATestData {
 //    AuthorDTO AUTHOR_DTO_1 = new AuthorDTO("authorFio1",
 //            "birthDate1",
 //            "description1",

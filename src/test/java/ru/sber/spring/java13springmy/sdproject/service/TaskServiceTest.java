@@ -22,15 +22,9 @@ public class TaskServiceTest extends GenericTest<Task, TaskDTO> {
         service = new TaskService(taskRepository, taskMapper, taskWithUserMapper);
     }
 
-    @Test
-    @Order(1)
+
     @Override
-    protected void getAll() {
-      //  Mockito.when(repository.findAll()).thenReturn(TaskTestData.TASK_LIST);
-//        Mockito.when(mapper.toDTOs(AuthorTestData.AUTHOR_LIST)).thenReturn(AuthorTestData.AUTHOR_DTO_LIST);
-//        List<AuthorDTO> authorDTOS = service.listAll();
-//        log.info("Testing getAll(): " + authorDTOS);
-//        assertEquals(AuthorTestData.AUTHOR_LIST.size(), authorDTOS.size());
+    protected void listAll() {
 
     }
 
@@ -55,12 +49,12 @@ public class TaskServiceTest extends GenericTest<Task, TaskDTO> {
     }
 
     @Override
-    protected void restore() {
+    protected void markAsDeleted() {
 
     }
 
     @Override
-    protected void getAllNotDeleted() {
+    protected void unMarkAsDeleted() {
 
     }
 }
