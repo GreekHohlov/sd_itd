@@ -1,9 +1,6 @@
 package ru.sber.spring.java13springmy.sdproject.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import ru.sber.spring.java13springmy.sdproject.model.*;
 
 import java.time.LocalDateTime;
@@ -12,6 +9,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
 public class TaskDTO extends GenericDTO{
     private String nameTask;

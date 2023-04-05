@@ -1,9 +1,6 @@
 package ru.sber.spring.java13springmy.sdproject.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import ru.sber.spring.java13springmy.sdproject.model.Category;
 
 import java.util.Set;
@@ -11,11 +8,12 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
-public class CategoryDTO extends GenericDTO{
+public class CategoryDTO extends GenericDTO {
     private String nameCategory;
-    private Set<Long> taskIds;
     private Long parentCategoryNum;
+    private Category parentCategoryId;
     private Set<Long> subCategoryIds;
-   private Category parentCategoryId;
+    private Set<Long> taskIds;
 }

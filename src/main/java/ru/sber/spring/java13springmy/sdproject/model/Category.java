@@ -1,6 +1,7 @@
 package ru.sber.spring.java13springmy.sdproject.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @SequenceGenerator(name = "default_gen", sequenceName = "category_seq", allocationSize = 1)
 public class Category extends GenericModel {
     @Column(name = "name_category", nullable = false)

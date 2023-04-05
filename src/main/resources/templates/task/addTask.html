@@ -85,8 +85,9 @@
                         <option selected value="default">Выберите специалиста</option>
                         <option th:each="worker : ${workerForm}"
                                 th:if="${!worker.isDeleted()}"
-                                th:value="${worker.getId()}" th:text="${worker.getLastName()+ ' ' + worker.getFirstName().charAt(0) +
-                       '. ' + worker.getMiddleName().charAt(0) + '.'}"></option>
+                                th:value="${worker.getId()}" th:text="${worker.getId()} == 1 ?
+                                'Не назначена' : ${worker.getLastName() + ' '+ worker.getFirstName().charAt(0) +
+                                '. ' + worker.getMiddleName().charAt(0) + '.'}"></option>
                     </select>
                     <label for="user">Специалист</label>
                     <!--                    <div class="invalid-feedback">Обязательное поле для заполнения</div>-->
