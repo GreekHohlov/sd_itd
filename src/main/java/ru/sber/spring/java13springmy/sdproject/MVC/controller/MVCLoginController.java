@@ -24,6 +24,5 @@ public class MVCLoginController {
             return "login";
         }
     }
-
 }
 

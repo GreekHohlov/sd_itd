@@ -216,6 +216,8 @@ public class MVCTaskController {
         List<String> categoryDTOS = categoryService.getName(categoryMapper.toDTOs(categoryRepository.findAll()));
         log.info("FIO_AUTHOR: " + userRepository.findUsersByLogin(SecurityContextHolder.getContext()
                 .getAuthentication().getName()).getLastName());
+        log.info("FIO_AUTHOR: " + userRepository.findUsersByLogin(SecurityContextHolder.getContext()
+                .getAuthentication().getName()).getRole());
         if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString().equals("[ROLE_USER]")){
             taskSearchDTO.setUserFio(userRepository.findUsersByLogin(SecurityContextHolder.getContext()
                     .getAuthentication().getName()).getLastName());
@@ -277,17 +279,38 @@ public class MVCTaskController {
         return "redirect:/task";
     }
     @GetMapping("/stopTask/{id}")
-    public String stopTask(@PathVariable Long id) {
-        TaskDTO taskDTO = taskService.getOne(id);
-        taskService.updateTaskForStop(taskDTO);
-        log.info("я остановил заявку");
+    public String stopTask(@PathVariable Long id,
+                           Model model) {
+        model.addAttribute("reasonForm", taskService.getTaskWithUser(id));
+        log.info("я остановил заявку. GET_MAPPING" + taskService.getTaskWithUser(id).toString());
+        return "/task/stopTask";
+    }
+
+    @PostMapping("/stopTask")
+    public String stopTask(@ModelAttribute("taskStopForm") TaskDTO taskDTO) {
+        TaskDTO task = taskService.getOne(taskDTO.getId());
+        task.setDecision(taskDTO.getDecision());
+        taskService.updateTaskForStop(task);
         return "redirect:/task";
     }
     @GetMapping("/executeTask/{id}")
-    public String executeTask(@PathVariable Long id) {
-        TaskDTO taskDTO = taskService.getOne(id);
-        taskService.updateTaskForExecute(taskDTO);
+    public String executeTask(@PathVariable Long id,
+                              Model model) {
+        model.addAttribute("execForm", taskService.getTaskWithUser(id));
         log.info("я execute заявку");
+        return "task/executeTask";
+    }
+    @PostMapping("/executeTask")
+    public String executeTask(@ModelAttribute("taskExecForm") TaskDTO taskDTO) {
+        TaskDTO task = taskService.getOne(taskDTO.getId());
+        task.setDecision(taskDTO.getDecision());
+        taskService.updateTaskForExecute(task);
+        return "redirect:/task";
+    }
+    @GetMapping("/closeTask/{id}")
+    public String closeTask(@PathVariable Long id) {
+        TaskDTO taskDTO = taskService.getOne(id);
+        taskService.closeTaskForWorking(taskDTO);
         return "redirect:/task";
     }
 }
