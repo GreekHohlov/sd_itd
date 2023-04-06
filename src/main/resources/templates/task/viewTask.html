@@ -10,7 +10,7 @@
 <body>
 <form layout:fragment="content">
     <div>
-        <h3 th:text="'Информация о Заявке № ' + ${task.getId()} + ' от '+ ${#temporals.format(task.getCreateDate(), 'dd-MM-yyyy HH-mm')}"></h3>
+        <h3 th:text="'Информация о Заявке № ' + ${task.getId()} + ' от '+ ${#temporals.format(task.getCreateDate(), 'dd.MM.yyyy HH:mm')}"></h3>
         <form class="row g-1">
             <div class="mb-2 row">
                 <label for="nameTask" class="col-sm-2 col-form-label no-border">Текущий статус:</label>
@@ -91,8 +91,8 @@
                 <div class="mb-2 row">
                     <label for="description" class="col-sm-2 col-form-label no-border">Исполнитель:</label>
                     <div class="col-sm-10">
-                        <p th:text="${task.getWorker().getLastName()+ ' ' + task.getWorker().getFirstName().charAt(0) +
-                       '. ' + task.getWorker().getMiddleName().charAt(0) + '.'}"
+                        <p th:text="${task.getWorker().getId()} == 1 ? 'Не назначена' : ${task.getWorker().getLastName() + ' '
+                 + task.getWorker().getFirstName().charAt(0) +  '. ' + task.getWorker().getMiddleName().charAt(0) + '.'}"
                            type="text" readonly class="form-control-plaintext" id="worker">
                     </div>
                 </div>
@@ -108,9 +108,23 @@
             <div class="mt-2">
                 <div sec:authorize="isAuthenticated() && (hasRole('EXECUTOR')|| hasRole('MAIN_EXECUTOR'))">
                     <div class="btn-group" role="group" aria-label="Basic  example">
-                        <button type="button" class="btn btn-sm btn-success">Взять</button>
-                        <button type="button" class="btn btn-sm btn-danger">Остановить</button>
-                        <button type="button" class="btn btn-sm btn-warning">Выполнить</button>
+                        <div th:if="${!(task.getStatusTask() eq  task.getStatusTask().COMPLETED) &&
+                                !(task.getStatusTask() eq  task.getStatusTask().CLOSED) &&
+                                !(task.getWorker.getId() eq userId)}">
+                            <a type="button" class="btn btn-sm btn-success" id="takeTask"
+                               th:href="'/task/takeTask/'+${task.id}">Взять</a>
+                        </div>
+                        <div th:if="${!(task.getStatusTask() eq  task.getStatusTask().COMPLETED) &&
+                                !(task.getStatusTask() eq  task.getStatusTask().CLOSED) &&
+                                !(task.getStatusTask() eq  task.getStatusTask().STOPPED)}">
+                            <a type="button" class="btn btn-sm btn-danger" id="stopTask"
+                               th:href="'/task/stopTask/' + ${task.id}">Остановить</a>
+                        </div>
+                        <div th:if="${!(task.getStatusTask() eq  task.getStatusTask().COMPLETED) &&
+                                !(task.getStatusTask() eq  task.getStatusTask().CLOSED)}">
+                            <a type="button" class="btn btn-sm btn-warning" id="executeTask"
+                               th:href="'/task/executeTask/' + ${task.id}">Выполнить</a>
+                        </div>
                     </div>
                     <a class="btn btn-sm btn-success" id="update"
                        th:href="'/task/update/' + ${task.id}">Обновить</a>

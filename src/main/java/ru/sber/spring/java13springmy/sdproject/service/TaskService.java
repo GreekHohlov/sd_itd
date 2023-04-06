@@ -19,6 +19,7 @@ import ru.sber.spring.java13springmy.sdproject.model.StatusTask;
 import ru.sber.spring.java13springmy.sdproject.model.Task;
 import ru.sber.spring.java13springmy.sdproject.repository.TaskRepository;
 import ru.sber.spring.java13springmy.sdproject.repository.TypeTaskRepository;
+import ru.sber.spring.java13springmy.sdproject.repository.UserRepository;
 import ru.sber.spring.java13springmy.sdproject.service.userdetails.CustomUserDetails;
 import ru.sber.spring.java13springmy.sdproject.utils.FileHelper;
 
@@ -33,17 +34,20 @@ public class TaskService extends GenericService<Task, TaskDTO> {
     private final TaskRepository taskRepository;
     private final TaskWithUserMapper taskWithUserMapper;
     private final SLAService slaService;
+    private final UserRepository userRepository;
 
     protected TaskService(TaskRepository taskRepository,
                           TaskMapper taskMapper,
                           TaskWithUserMapper taskWithUserMapper,
                           SLAService slaService,
-                          TypeTaskRepository typeTaskRepository) {
+                          TypeTaskRepository typeTaskRepository,
+                          UserRepository userRepository) {
         super(taskRepository, taskMapper);
         this.taskRepository = taskRepository;
         this.taskWithUserMapper = taskWithUserMapper;
         this.slaService = slaService;
         this.typeTaskRepository = typeTaskRepository;
+        this.userRepository = userRepository;
     }
 
     public TaskWithUserDTO getTaskWithUser(Long id) {
@@ -81,17 +85,22 @@ public class TaskService extends GenericService<Task, TaskDTO> {
     public TaskDTO create(final TaskDTO taskDTO,
                           MultipartFile file) {
         String fileName = FileHelper.createFile(file);
+        taskDTO.setUserId(userRepository.findUsersByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId());
         taskDTO.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         taskDTO.setCreatedWhen(LocalDateTime.now());
         taskDTO.setCreateDate(LocalDateTime.now());
+        taskDTO.setStatusTask(StatusTask.OPEN);
         taskDTO.setFiles(fileName);
         return mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
     }
 
     public TaskDTO create(final TaskDTO taskDTO) {
+        taskDTO.setUserId(userRepository.findUsersByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId());
         taskDTO.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         taskDTO.setCreatedWhen(LocalDateTime.now());
         taskDTO.setCreateDate(LocalDateTime.now());
+        taskDTO.setStatusTask(StatusTask.OPEN);
+        log.info("CREATE TASK_DTO: " + taskDTO);
         return mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
     }
 
@@ -110,10 +119,22 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         repository.save(task);
     }
 
+    public TaskDTO update(final TaskDTO taskDTO) {
+        TaskDTO task = getOne(taskDTO.getId());
+        taskDTO.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        taskDTO.setCreateDate(task.getCreateDate());
+        taskDTO.setEndDate(task.getEndDate());
+        return mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
+    }
+
     public TaskDTO update(final TaskDTO taskDTO,
                           MultipartFile file) {
+        TaskDTO task = getOne(taskDTO.getId());
+        taskDTO.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         String fileName = FileHelper.createFile(file);
         taskDTO.setFiles(fileName);
+        taskDTO.setCreateDate(task.getCreateDate());
+        taskDTO.setEndDate(task.getEndDate());
         return mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
     }
 
@@ -131,36 +152,27 @@ public class TaskService extends GenericService<Task, TaskDTO> {
 
     public void updateTaskForWorking(TaskDTO taskDTO) {
         CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        log.info("----------------------------------------------------------------");
-        log.info("taskDTO до заполнения updateTaskForWorking: " + taskDTO);
         if (Objects.isNull(taskDTO.getEndDate())) {
             taskDTO.setStatusTask(StatusTask.AT_WORK);
             taskDTO.setEndDate(LocalDateTime.now().plusHours(slaService.getOne((typeTaskRepository
                     .getReferenceById(taskDTO.getTypeTaskId()).getSla()).getId()).getExecutionTime()));
         }
         taskDTO.setWorkerId(Long.valueOf(customUserDetails.getUserId()));
-        log.info("----------------------------------------------------------------");
-        log.info("taskDTO после заполнения updateTaskForWorking: " + taskDTO);
         mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
     }
 
     public void updateTaskForStop(TaskDTO taskDTO) {
-        log.info("----------------------------------------------------------------");
-        log.info("taskDTO до заполнения updateTaskForStop: " + taskDTO);
+
         if (!StatusTask.COMPLETED.statusTaskTextDisplay().equals(taskDTO.getStatusTask().statusTaskTextDisplay()) ||
                 !StatusTask.CLOSED.statusTaskTextDisplay().equals(taskDTO.getStatusTask().statusTaskTextDisplay()) ||
                 !StatusTask.STOPPED.statusTaskTextDisplay().equals(taskDTO.getStatusTask().statusTaskTextDisplay())) {
             taskDTO.setStatusTask(StatusTask.STOPPED);
             taskDTO.setEndDate(null);
         }
-        log.info("----------------------------------------------------------------");
-        log.info("taskDTO после заполнения updateTaskForStop: " + taskDTO);
         mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
     }
 
     public void updateTaskForExecute(TaskDTO taskDTO) {
-        log.info("----------------------------------------------------------------");
-        log.info("taskDTO до заполнения updateTaskForExecute: " + taskDTO);
         if (Objects.isNull(taskDTO.getWorkerId())) {
             taskDTO.setWorkerId(Long.valueOf(((CustomUserDetails) SecurityContextHolder.getContext()
                     .getAuthentication().getPrincipal()).getUserId()));
@@ -169,23 +181,16 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         if (!StatusTask.COMPLETED.statusTaskTextDisplay().equals(taskDTO.getStatusTask().statusTaskTextDisplay()) ||
                 !StatusTask.CLOSED.statusTaskTextDisplay().equals(taskDTO.getStatusTask().statusTaskTextDisplay())) {
             taskDTO.setStatusTask(StatusTask.COMPLETED);
-            taskDTO.setEndDate(null);
             taskDTO.setCreatedWhen(LocalDateTime.now());
         }
-        log.info("STATUS_AFTER_EXEC: " + taskDTO.getStatusTask().statusTaskTextDisplay());
-        log.info("----------------------------------------------------------------");
-        log.info("taskDTO после заполнения updateTaskForExecute: " + taskDTO);
         mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
     }
 
     public void closeTaskForWorking(TaskDTO taskDTO) {
-        log.info("----------------------------------------------------------------");
-        log.info("taskDTO до заполнения closeTaskForWorking: " + taskDTO);
         if (StatusTask.COMPLETED.statusTaskTextDisplay().equals(taskDTO.getStatusTask().statusTaskTextDisplay())) {
             taskDTO.setStatusTask(StatusTask.CLOSED);
             taskDTO.setCreatedWhen(LocalDateTime.now());
         }
-        log.info("taskDTO после заполнения closeTaskForWorking: " + taskDTO);
         mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
     }
 }
