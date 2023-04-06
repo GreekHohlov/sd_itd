@@ -75,5 +75,8 @@ public interface PermissionConstants {
             "/workSchedule/add",
             "/workSchedule/update",
             "/workSchedule/delete",
-            "/reports");
+            "/reports",
+            "/task/stopTask/{id}",
+            "/task/stopTask");
+
 }

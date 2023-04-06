@@ -20,7 +20,7 @@ public interface TaskTestData {
             LocalDateTime.now().plusDays(1L),
             new HashSet<Long>(),
             1L,
-            10L,
+            1L,
             StatusTask.OPEN,
             "files1",
             "decision1");
@@ -33,7 +33,7 @@ public interface TaskTestData {
             LocalDateTime.now().plusDays(2L),
             new HashSet<Long>(),
             2L,
-            9L,
+            2L,
             StatusTask.AT_WORK,
             "files2",
             "decision2");
@@ -46,35 +46,53 @@ public interface TaskTestData {
             LocalDateTime.now().plusDays(3L),
             new HashSet<Long>(),
             3L,
-            8L,
+            3L,
             StatusTask.AT_WORK,
             "files3",
             "decision3");
 
-    List<TaskDTO> TASK_DTO_LIST = Arrays.asList(TASK_DTO_1 ,TASK_DTO_2,TASK_DTO_3 );
+    List<TaskDTO> TASK_DTO_LIST = Arrays.asList(TASK_DTO_1, TASK_DTO_2, TASK_DTO_3);
 
+    Task TASK_1 = new Task("taskName1",
+            TypeTaskTestData.TYPE_TASK_1,
+            Priority.HIGH,
+            CategoryTestData.CATEGORY_1,
+            "description1",
+            LocalDateTime.now(),
+            LocalDateTime.now().plusDays(3L),
+            new HashSet<>(),
+            "file1",
+            UserTestData.USER_1,
+            UserTestData.USER_3,
+            StatusTask.OPEN,
+            "decision1");
 
+    Task TASK_2 = new Task("taskName2",
+            TypeTaskTestData.TYPE_TASK_2,
+            Priority.HIGH,
+            CategoryTestData.CATEGORY_2,
+            "description2",
+            LocalDateTime.now(),
+            LocalDateTime.now().plusDays(3L),
+            new HashSet<>(),
+            "file2",
+            UserTestData.USER_2,
+            UserTestData.USER_3,
+            StatusTask.OPEN,
+            "decision2");
+    Task TASK_3 = new Task("taskName3",
+            TypeTaskTestData.TYPE_TASK_3,
+            Priority.HIGH,
+            CategoryTestData.CATEGORY_3,
+            "description3",
+            LocalDateTime.now(),
+            LocalDateTime.now().plusDays(3L),
+            new HashSet<>(),
+            "file3",
+            UserTestData.USER_3,
+            UserTestData.USER_3,
+            StatusTask.OPEN,
+            "decision3");
 
-//    Task  TASK_1 = new Task("taskName1",
-//
-//            );
-//
-//
-//    Author AUTHOR_1 = new Author("author1",
-//            LocalDate.now(),
-//            "description1",
-//            null);
-//
-//    Author AUTHOR_2 = new Author("author2",
-//            LocalDate.now(),
-//            "description2",
-//            null);
-//
-//    Author AUTHOR_3 = new Author("author3",
-//            LocalDate.now(),
-//            "description3",
-//            null);
-//
-//    List<Author> AUTHOR_LIST = Arrays.asList(AUTHOR_1, AUTHOR_2, AUTHOR_3);
-
+    List<Task> TASK_LIST = Arrays.asList(TASK_1, TASK_2, TASK_3);
 }

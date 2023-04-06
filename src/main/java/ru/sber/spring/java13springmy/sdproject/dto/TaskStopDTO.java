@@ -5,13 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
-
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class LocationDTO extends GenericDTO {
-    private String nameLocation;
-    private Set<Long> usersIds;
+public class TaskStopDTO extends GenericDTO {
+    private String decision;
 }

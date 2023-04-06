@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.mockito.Mockito;
-import org.webjars.NotFoundException;
 import ru.sber.spring.java13springmy.CategoryTestData;
 import ru.sber.spring.java13springmy.sdproject.dto.CategoryDTO;
 import ru.sber.spring.java13springmy.sdproject.exception.MyDeleteException;
@@ -18,13 +17,14 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @Slf4j
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CategoryServiceTest extends GenericTest<Category, CategoryDTO> {
     public CategoryServiceTest() {
         super();
-        CategoryService categoryService = Mockito.mock(CategoryService.class);
+      //  CategoryService categoryService = Mockito.mock(CategoryService.class);
         repository = Mockito.mock(CategoryRepository.class);
         mapper = Mockito.mock(CategoryMapper.class);
         service = new CategoryService((CategoryRepository) repository, (CategoryMapper) mapper);
@@ -74,13 +74,13 @@ public class CategoryServiceTest extends GenericTest<Category, CategoryDTO> {
         CategoryDTO categoryDTO = service.update(CategoryTestData.CATEGORY_DTO2);
         log.info("Testing create(): " + categoryDTO);
         assertEquals(CategoryTestData.CATEGORY_DTO2, categoryDTO);
-
     }
 
     @Test
     @Order(5)
     @Override
     protected void delete() throws MyDeleteException {
+
 //        Mockito.when(((AuthorRepository) repository).checkAuthorForDeletion(1L)).thenReturn(true);
 ////        Mockito.when(authorRepository.checkAuthorForDeletion(2L)).thenReturn(false);
 //        Mockito.when(repository.save(AuthorTestData.AUTHOR_1)).thenReturn(AuthorTestData.AUTHOR_1);
@@ -91,29 +91,40 @@ public class CategoryServiceTest extends GenericTest<Category, CategoryDTO> {
 //        assertTrue(AuthorTestData.AUTHOR_1.isDeleted());
     }
 
-    @Override
+    @Test
     @Order(6)
+    protected void restore() {
+        CategoryTestData.CATEGORY_2.setDeleted(true);
+        Mockito.when(repository.save(CategoryTestData.CATEGORY_2)).thenReturn(CategoryTestData.CATEGORY_2);
+        Mockito.when(repository.findById(2L)).thenReturn(Optional.of(CategoryTestData.CATEGORY_2));
+        log.info("Testing restore() before: " + CategoryTestData.CATEGORY_2.isDeleted());
+        ((CategoryService) service).restore(2L);
+        log.info("Testing restore() after: " + CategoryTestData.CATEGORY_2.isDeleted());
+        assertFalse(CategoryTestData.CATEGORY_2.isDeleted());
+    }
+
+
+    @Override
+    @Order(7)
     protected void markAsDeleted() {
 
     }
 
     @Override
-    @Order(7)
+    @Order(8)
     protected void unMarkAsDeleted() {
 
     }
 
     @Test
-    @Order(8)
+    @Order(9)
     protected void getName() {
 
     }
 
     @Test
-    @Order(9)
+    @Order(10)
     protected void deleteSoft() throws MyDeleteException {
-//        Mockito.when(repository.findById(1L)).thenReturn(Optional.of(CategoryTestData.CATEGORY_1)).
-//                thenThrow(NotFoundException.class);
 
     }
 }

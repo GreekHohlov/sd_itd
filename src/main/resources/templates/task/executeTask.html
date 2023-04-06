@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Выполнить заявку</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="mt-3 row g-2">
+        <div class="col-md" style="max-width: 18vw;">
+            <h3 class="mt-3 bt-3" th:text="'Выполнить заявку № ' + ${execForm.getId()} + ' от '"></h3>
+        </div>
+        <div class="col-md">
+            <h3 class="mt-3 bt-3" th:text="${#temporals.format(execForm.getCreateDate(), 'dd-MM-yyyy HH-mm')}"></h3>
+        </div>
+
+    </div>
+    <div class="mb-2 row">
+        <label for="nameTask" class="col-sm-2 col-form-label no-border">Тема заявки:</label>
+        <div class="col-sm-10">
+            <p th:text="${execForm.getNameTask()}" type="text" readonly class="form-control-plaintext"
+               id="nameTask">
+        </div>
+    </div>
+    <form enctype="multipart/form-data" class="needs-validation" style="max-width: 50vw" method="POST"
+          th:action="@{/task/executeTask}" th:object="${taskExecForm}">
+        <input type="hidden" name="id"
+               th:value="${execForm.getId()}">
+        <div>
+            <div class="mt-3 row g2">
+                <div class="col-md">
+                    <div class="form-floating mb-3">
+                        <input name="decision" th:value="${execForm.getDecision()}" class="form-control input-bg"
+                               id="decision" placeholder="Обоснование для остановки заявки" required>
+                        <label for="decision">Обоснование для остановки заявки</label>
+                        <div class="invalid-feedback">Обязательное поле для заполнения</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3 row g-2">
+            <button type="submit" class="btn btn-primary" onclick="validateForm()">Выполнить</button>
+            <button type="button" class="btn btn-secondary" onclick="window.history.back()">Назад</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
