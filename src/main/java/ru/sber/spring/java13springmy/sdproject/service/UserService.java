@@ -29,8 +29,10 @@ public class UserService extends GenericService<User, UserDTO> {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JavaMailSender javaMailSender;
 
-    protected UserService(UserRepository userRepository, UserMapper userMapper,
-                          BCryptPasswordEncoder bCryptPasswordEncoder, JavaMailSender javaMailSender) {
+    protected UserService(UserRepository userRepository,
+                          UserMapper userMapper,
+                          BCryptPasswordEncoder bCryptPasswordEncoder,
+                          JavaMailSender javaMailSender) {
         super(userRepository, userMapper);
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.javaMailSender = javaMailSender;
