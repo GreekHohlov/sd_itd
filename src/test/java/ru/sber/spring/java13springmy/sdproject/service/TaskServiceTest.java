@@ -14,6 +14,7 @@ import ru.sber.spring.java13springmy.sdproject.mapper.TaskWithUserMapper;
 import ru.sber.spring.java13springmy.sdproject.model.Task;
 import ru.sber.spring.java13springmy.sdproject.repository.TaskRepository;
 import ru.sber.spring.java13springmy.sdproject.repository.TypeTaskRepository;
+import ru.sber.spring.java13springmy.sdproject.repository.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +33,9 @@ public class TaskServiceTest extends GenericTest<Task, TaskDTO> {
         TaskWithUserMapper taskWithUserMapper = Mockito.mock(TaskWithUserMapper.class);
         SLAService slaService = Mockito.mock(SLAService.class);
         TypeTaskRepository typeTaskRepository = Mockito.mock(TypeTaskRepository.class);
-        service = new TaskService((TaskRepository) repository, (TaskMapper) mapper, taskWithUserMapper, slaService, typeTaskRepository);
+        UserRepository userRepository = Mockito.mock(UserRepository.class);
+        service = new TaskService((TaskRepository) repository, (TaskMapper) mapper, taskWithUserMapper,
+                slaService, typeTaskRepository, userRepository);
     }
 
     @Test

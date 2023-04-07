@@ -80,9 +80,8 @@ public class MVCTaskController {
                          @RequestParam(value = "size", defaultValue = "5") int pageSize,
                          Model model) {
         String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-        Long userId = Long.valueOf(((CustomUserDetails) SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal()).getUserId());
-        PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "id"));
+
+        PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "id"));
         Page<TaskWithUserDTO> result;
         if (role.equals("[ROLE_USER]")) {
             String login = userRepository.findUsersByLogin(SecurityContextHolder.getContext()
@@ -90,23 +89,28 @@ public class MVCTaskController {
             result = taskService.findAllTaskByLogin(login, pageRequest);
         } else if (role.equals("[ROLE_EXECUTOR]") || role.equals("[ROLE_MAIN_EXECUTOR]")) {
             result = taskService.findAllNotDeletedTask(pageRequest);
+            Long userId = Long.valueOf(((CustomUserDetails) SecurityContextHolder.getContext()
+                    .getAuthentication().getPrincipal()).getUserId());
+            model.addAttribute("userId", userId);
         } else {
             result = taskService.getAllTaskWithUser(pageRequest);
         }
         List<String> categoryDTOS = categoryService.getName(categoryMapper.toDTOs(categoryRepository.findAll()));
         model.addAttribute("taskSearch", categoryDTOS);
         model.addAttribute("task", result);
-        model.addAttribute("userId", userId);
         return "task/viewAllTask";
     }
 
     @GetMapping("/{id}")
     public String getOne(@PathVariable Long id,
                          Model model) {
-        Long userId = Long.valueOf(((CustomUserDetails) SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal()).getUserId());
+        String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        if (!role.equals("[ROLE_ADMIN]")) {
+            Long userId = Long.valueOf(((CustomUserDetails) SecurityContextHolder.getContext()
+                    .getAuthentication().getPrincipal()).getUserId());
+            model.addAttribute("userId", userId);
+        }
         model.addAttribute("task", taskService.getTaskWithUser(id));
-        model.addAttribute("userId", userId);
         return "task/viewTask";
     }
 
@@ -124,10 +128,15 @@ public class MVCTaskController {
     @PostMapping("/add")
     public String create(@ModelAttribute("taskForm") TaskDTO taskDTO,
                          @RequestParam MultipartFile file) {
-        if (file != null && file.getSize() > 0) {
-            taskService.create(taskDTO, file);
-        } else {
-            taskService.create(taskDTO);
+        String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        if (!role.equals("[ROLE_ADMIN]")) {
+            taskDTO.setUserId(userRepository.findUsersByLogin(SecurityContextHolder.getContext()
+                    .getAuthentication().getName()).getId());
+            if (file != null && file.getSize() > 0) {
+                taskService.create(taskDTO, file);
+            } else {
+                taskService.create(taskDTO);
+            }
         }
         return "redirect:/task";
     }
@@ -176,8 +185,6 @@ public class MVCTaskController {
                              Model model) {
         PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "id"));
         List<String> categoryDTOS = categoryService.getName(categoryMapper.toDTOs(categoryRepository.findAll()));
-        log.info("FIO_AUTHOR: " + userRepository.findUsersByLogin(SecurityContextHolder.getContext()
-                .getAuthentication().getName()).getLastName());
         if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString().equals("[ROLE_USER]")) {
             taskSearchDTO.setUserFio(userRepository.findUsersByLogin(SecurityContextHolder.getContext()
                     .getAuthentication().getName()).getLastName());
@@ -299,6 +306,16 @@ public class MVCTaskController {
         TaskDTO task = taskService.getOne(taskDTO.getId());
         task.setDecision(taskDTO.getDecision());
         taskService.updateTaskForExecute(task);
+        return "redirect:/task";
+    }
+    @GetMapping("/unstopTask/{id}")
+    public String unstopTask(@PathVariable Long id) {
+        taskService.updateTaskUnstop(taskService.getOne(id));
+        return "redirect:/task";
+    }
+    @GetMapping("/noexecuteTask/{id}")
+    public String noexecuteTask(@PathVariable Long id) {
+        taskService.updateTaskUnstop(taskService.getOne(id));
         return "redirect:/task";
     }
 

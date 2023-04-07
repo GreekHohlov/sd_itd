@@ -76,7 +76,7 @@
                 <div class="col-md">
                     <div class="form-floating">
                         <select class="form-select" name="group" id="group">
-                            <option selected value="default">Выберите группу</option>
+                            <option th:value="${userForm.getId()}">Выберите группу</option>
                             <!--                        <div class="invalid-feedback">Обязательное поле для заполнения</div>-->
                         </select>
                         <label for="group">Группа пользователей</label>

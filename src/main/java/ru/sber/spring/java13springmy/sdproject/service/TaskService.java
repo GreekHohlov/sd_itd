@@ -95,7 +95,6 @@ public class TaskService extends GenericService<Task, TaskDTO> {
     }
 
     public TaskDTO create(final TaskDTO taskDTO) {
-        taskDTO.setUserId(userRepository.findUsersByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId());
         taskDTO.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         taskDTO.setCreatedWhen(LocalDateTime.now());
         taskDTO.setCreateDate(LocalDateTime.now());
@@ -191,6 +190,13 @@ public class TaskService extends GenericService<Task, TaskDTO> {
             taskDTO.setStatusTask(StatusTask.CLOSED);
             taskDTO.setCreatedWhen(LocalDateTime.now());
         }
+        mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
+    }
+
+    public void updateTaskUnstop(TaskDTO taskDTO) {
+        taskDTO.setStatusTask(StatusTask.AT_WORK);
+        taskDTO.setEndDate(LocalDateTime.now().plusHours(slaService.getOne((typeTaskRepository
+                .getReferenceById(taskDTO.getTypeTaskId()).getSla()).getId()).getExecutionTime()));
         mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
     }
 }
