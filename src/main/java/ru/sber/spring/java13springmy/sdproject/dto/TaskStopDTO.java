@@ -7,6 +7,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class TaskStopDTO extends GenericDTO {
     private String decision;
 }

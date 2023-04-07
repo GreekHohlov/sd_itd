@@ -72,36 +72,42 @@
                     <div class="invalid-feedback">Обязательное поле для заполнения</div>
                 </div>
             </div>
-            <div sec:authorize="isAuthenticated() && hasRole('ADMIN')" class="mt-3 row g-2">
+            <div class="mt-3 row g-2">
+<!--                <div sec:authorize="isAuthenticated() && hasRole('ADMIN')" class="mt-3 row g-2">-->
                 <div class="col-md">
                     <div class="form-floating">
-                        <select class="form-select" name="group" id="group">
-                            <option selected value="default">Выберите группу</option>
+                        <select class="form-select" name="groupId" id="groupId">
+<!--                            <option selected value="default">Выберите группу</option>-->
+                            <option th:each="group : ${groupForm}"
+                                    th:if="${!group.isDeleted()}"
+                                    th:value="${group.getId()}" th:text="${group.getResponsible()}"
+                                    th:selected="${group.getId() eq userForm.getGroupId()}"></option>
                             <!--                        <div class="invalid-feedback">Обязательное поле для заполнения</div>-->
                         </select>
-                        <label for="group">Группа пользователей</label>
+                        <label for="groupId">Группа пользователей</label>
                     </div>
                 </div>
-                <div class="col-md">
-                    <div class="form-floating">
-                        <select class="form-select" name="group" id="role">
-                            <!--                        <option th:each="grp : ${userForm.group.getUser()}"-->
-                            <!--                                th:value="${grp}" th:text="${grp.g}"></option>-->
-                            <option selected value="default">Выберите роль пользователя</option>
-                            <!--                        <div class="invalid-feedback">Обязательное поле для заполнения</div>-->
-                        </select>
-                        <label for="role">Роль пользователя</label>
-                    </div>
-                </div>
+<!--                <div class="col-md">-->
+<!--                    <div class="form-floating">-->
+<!--                        <select class="form-select" name="group" id="role">-->
+<!--                            <option selected value="default">Выберите роль пользователя (в разрабоки)</option>-->
+<!--                        </select>-->
+<!--                        <label for="role">Роль пользователя</label>-->
+<!--                    </div>-->
+<!--                </div>-->
             </div>
-            <div sec:authorize="isAuthenticated() && hasRole('ADMIN')" class="mt-3 row g-2">
+            <div  class="mt-3 row g-2">
                 <div class="col-md">
-                    <div sec:authorize="isAuthenticated() && hasRole('ADMIN')" class="form-floating">
-                        <select class="form-select" name="group" id="location">
+                    <div class="form-floating">
+                        <select class="form-select" name="locationId" id="locationId">
                             <option selected value="default">Выберите площадку</option>
+                            <option th:each="location : ${locationForm}"
+                                    th:if="${!location.isDeleted()}"
+                                    th:value="${location.getId()}" th:text="${location.getNameLocation()}"
+                                    th:selected="${location.getId() eq userForm.getLocationId()}"></option>
                             <!--                        <div class="invalid-feedback">Обязательное поле для заполнения</div>-->
                         </select>
-                        <label for="location">Площадки</label>
+                        <label for="locationId">Площадки</label>
                     </div>
                 </div>
             </div>
