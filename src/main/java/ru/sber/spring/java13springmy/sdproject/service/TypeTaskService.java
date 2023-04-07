@@ -9,7 +9,8 @@ import ru.sber.spring.java13springmy.sdproject.repository.TypeTaskRepository;
 
 @Service
 public class TypeTaskService extends GenericService<TypeTask, TypeTaskDTO>{
-    protected TypeTaskService(TypeTaskRepository typeTaskRepository, TypeTaskMapper typeTaskMapper){
+    protected TypeTaskService(TypeTaskRepository typeTaskRepository,
+                              TypeTaskMapper typeTaskMapper){
         super(typeTaskRepository, typeTaskMapper);
     }
 

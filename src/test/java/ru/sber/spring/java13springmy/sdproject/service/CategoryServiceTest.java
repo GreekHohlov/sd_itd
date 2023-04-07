@@ -127,4 +127,41 @@ public class CategoryServiceTest extends GenericTest<Category, CategoryDTO> {
     protected void deleteSoft() throws MyDeleteException {
 
     }
+
+//    @Order(7)
+//    @Test
+//    void searchAuthors() {
+//        PageRequest pageRequest = PageRequest.of(1, 10, Sort.by(Sort.Direction.ASC, "authorFio"));
+//        Mockito.when(((AuthorRepository) repository).findAllByAuthorFioContainsIgnoreCaseAndIsDeletedFalse("authorFio1", pageRequest))
+//                .thenReturn(new PageImpl<>(AuthorTestData.AUTHOR_LIST));
+//        Mockito.when(mapper.toDTOs(AuthorTestData.AUTHOR_LIST)).thenReturn(AuthorTestData.AUTHOR_DTO_LIST);
+//        Page<AuthorDTO> authorDTOList = ((AuthorService) service).searchAuthors("authorFio1", pageRequest);
+//        log.info("Testing searchAuthors(): " + authorDTOList);
+//        assertEquals(AuthorTestData.AUTHOR_DTO_LIST, authorDTOList.getContent());
+//    }
+//
+//    @Order(8)
+//    @Test
+//    void addBook() {
+//        Mockito.when(repository.findById(1L)).thenReturn(Optional.of(AuthorTestData.AUTHOR_1));
+//        Mockito.when(service.getOne(1L)).thenReturn(AuthorTestData.AUTHOR_DTO_1);
+//        Mockito.when(repository.save(AuthorTestData.AUTHOR_1)).thenReturn(AuthorTestData.AUTHOR_1);
+//        ((AuthorService) service).addBook(new AddBookDTO(1L, 1L));
+//        log.info("Testing addBook(): " + AuthorTestData.AUTHOR_DTO_1.getBooksIds());
+//        assertTrue(AuthorTestData.AUTHOR_DTO_1.getBooksIds().size() >= 1);
+//    }
+//
+//    @Order(9)
+//    @Test
+//    protected void getAllNotDeleted() {
+//        AuthorTestData.AUTHOR_3.setDeleted(true);
+//        List<Author> authors = AuthorTestData.AUTHOR_LIST.stream().filter(Predicate.not(Author::isDeleted)).toList();
+//        Mockito.when(repository.findAllByIsDeletedFalse()).thenReturn(authors);
+//        Mockito.when(mapper.toDTOs(authors)).thenReturn(
+//                AuthorTestData.AUTHOR_DTO_LIST.stream().filter(Predicate.not(AuthorDTO::isDeleted)).toList());
+//        List<AuthorDTO> authorDTOS = service.listAllNotDeleted();
+//        log.info("Testing getAllNotDeleted(): " + authorDTOS);
+//        assertEquals(authors.size(), authorDTOS.size());
+//    }
+
 }

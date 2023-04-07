@@ -95,6 +95,7 @@ public class TaskService extends GenericService<Task, TaskDTO> {
     }
 
     public TaskDTO create(final TaskDTO taskDTO) {
+        taskDTO.setUserId(userRepository.findUsersByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId());
         taskDTO.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         taskDTO.setCreatedWhen(LocalDateTime.now());
         taskDTO.setCreateDate(LocalDateTime.now());
@@ -139,6 +140,12 @@ public class TaskService extends GenericService<Task, TaskDTO> {
 
     public Page<TaskWithUserDTO> findAllTaskByLogin(String login, PageRequest pageRequest) {
         Page<Task> tasks = taskRepository.findAllTaskByLogin(login, pageRequest);
+        List<TaskWithUserDTO> result = taskWithUserMapper.toDTOs(tasks.getContent());
+        return new PageImpl<>(result, pageRequest, tasks.getTotalElements());
+    }
+
+    public Page<TaskWithUserDTO> findAllNotDeletedTask(PageRequest pageRequest) {
+        Page<Task> tasks = taskRepository.findAllNotDeletedTask(pageRequest);
         List<TaskWithUserDTO> result = taskWithUserMapper.toDTOs(tasks.getContent());
         return new PageImpl<>(result, pageRequest, tasks.getTotalElements());
     }

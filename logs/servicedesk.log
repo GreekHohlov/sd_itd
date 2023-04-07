@@ -1,0 +1,6 @@
+2023-04-07 13:53:56,137 INFO r.s.s.j.s.s.SLAServiceTest [main] Testing getAll(): [GenericDTO(id=null, createdBy=null, createdWhen=null, isDeleted=false), GenericDTO(id=null, createdBy=null, createdWhen=null, isDeleted=false), GenericDTO(id=null, createdBy=null, createdWhen=null, isDeleted=false)]
+2023-04-07 13:53:56,172 INFO r.s.s.j.s.s.SLAServiceTest [main] Testing getOne(): GenericDTO(id=null, createdBy=null, createdWhen=null, isDeleted=false)
+2023-04-07 13:53:56,186 INFO r.s.s.j.s.s.SLAServiceTest [main] Testing create(): GenericDTO(id=null, createdBy=null, createdWhen=null, isDeleted=false)
+2023-04-07 13:53:56,191 INFO r.s.s.j.s.s.SLAServiceTest [main] Testing create(): GenericDTO(id=null, createdBy=null, createdWhen=null, isDeleted=false)
+2023-04-07 13:53:56,198 INFO r.s.s.j.s.s.SLAServiceTest [main] Testing restore() before: true
+2023-04-07 13:53:56,199 INFO r.s.s.j.s.s.SLAServiceTest [main] Testing restore() after: false
