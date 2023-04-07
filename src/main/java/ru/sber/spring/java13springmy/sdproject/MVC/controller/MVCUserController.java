@@ -213,10 +213,10 @@ public class MVCUserController {
 
     @GetMapping("/list")
     public String listAllUsers(@RequestParam(value = "page", defaultValue = "1") int page,
-                               @RequestParam(value = "size", defaultValue = "10") int pageSize,
+                               @RequestParam(value = "size", defaultValue = "5") int pageSize,
                                @ModelAttribute(value = "exception") String exception,
                                Model model) {
-        PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "login"));
+        PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "lastName"));
         Page<UserDTO> userPage = userService.listAll(pageRequest);
         model.addAttribute("users", userPage);
         model.addAttribute("exception", exception);

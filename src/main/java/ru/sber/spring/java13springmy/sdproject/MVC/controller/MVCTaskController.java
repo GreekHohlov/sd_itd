@@ -183,7 +183,7 @@ public class MVCTaskController {
                              @RequestParam(value = "size", defaultValue = "5") int pageSize,
                              @ModelAttribute("taskSearchForm") TaskSearchDTO taskSearchDTO,
                              Model model) {
-        PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "id"));
+        PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "id"));
         List<String> categoryDTOS = categoryService.getName(categoryMapper.toDTOs(categoryRepository.findAll()));
         if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString().equals("[ROLE_USER]")) {
             taskSearchDTO.setUserFio(userRepository.findUsersByLogin(SecurityContextHolder.getContext()
@@ -221,8 +221,8 @@ public class MVCTaskController {
                            @RequestParam(value = "size", defaultValue = "5") int pageSize,
                            Model model) {
         TaskSearchDTO taskSearchDTO = new TaskSearchDTO();
-        taskSearchDTO.setWorkerFio(userService.getUserByLogin("service").getLastName() + " " +
-                userService.getUserByLogin("service").getFirstName());
+        taskSearchDTO.setWorkerFio(userService.getUserByLogin("A_service").getLastName() + " " +
+                userService.getUserByLogin("A_service").getFirstName());
         return searchTask(page, pageSize, taskSearchDTO, model);
     }
 

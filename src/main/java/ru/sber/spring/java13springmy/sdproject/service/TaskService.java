@@ -150,12 +150,6 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         return new PageImpl<>(result, pageRequest, tasks.getTotalElements());
     }
 
-    public Page<TaskWithUserDTO> findAllNotDeletedTask(PageRequest pageRequest) {
-        Page<Task> tasks = taskRepository.findAllNotDeletedTask(pageRequest);
-        List<TaskWithUserDTO> result = taskWithUserMapper.toDTOs(tasks.getContent());
-        return new PageImpl<>(result, pageRequest, tasks.getTotalElements());
-    }
-
     public void updateTaskForWorking(TaskDTO taskDTO) {
         CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (Objects.isNull(taskDTO.getEndDate())) {

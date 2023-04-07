@@ -81,4 +81,7 @@ public interface PermissionConstants {
             "/task/stopTask",
             "/task/unstopTask/{id}");
 
+    List<String> EXECUTOR_PERMISSION_LIST = List.of("/task/search/noAssign",
+            "/task/search/assignToMe",
+            "/task/search/myTask");
 }
