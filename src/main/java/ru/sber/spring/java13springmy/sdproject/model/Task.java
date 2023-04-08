@@ -57,4 +57,6 @@ public class Task extends GenericModel {
 
     @Column(name = "decision")
     private String decision;
+    @OneToMany(mappedBy = "task")
+    private Set<History> history;
 }

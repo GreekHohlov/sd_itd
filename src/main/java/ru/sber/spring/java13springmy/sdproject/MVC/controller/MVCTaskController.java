@@ -26,9 +26,11 @@ import ru.sber.spring.java13springmy.sdproject.mapper.CategoryMapper;
 import ru.sber.spring.java13springmy.sdproject.mapper.TypeTaskMapper;
 import ru.sber.spring.java13springmy.sdproject.mapper.UserMapper;
 import ru.sber.spring.java13springmy.sdproject.repository.CategoryRepository;
+import ru.sber.spring.java13springmy.sdproject.repository.HistoryRepository;
 import ru.sber.spring.java13springmy.sdproject.repository.TypeTaskRepository;
 import ru.sber.spring.java13springmy.sdproject.repository.UserRepository;
 import ru.sber.spring.java13springmy.sdproject.service.CategoryService;
+import ru.sber.spring.java13springmy.sdproject.service.HistoryService;
 import ru.sber.spring.java13springmy.sdproject.service.TaskService;
 import ru.sber.spring.java13springmy.sdproject.service.UserService;
 import ru.sber.spring.java13springmy.sdproject.service.userdetails.CustomUserDetails;
@@ -54,6 +56,7 @@ public class MVCTaskController {
     private final TypeTaskMapper typeTaskMapper;
     private final TypeTaskRepository typeTaskRepository;
     private final UserService userService;
+    private final HistoryService historyService;
 
     public MVCTaskController(TaskService taskService,
                              CategoryMapper categoryMapper,
@@ -63,7 +66,8 @@ public class MVCTaskController {
                              UserRepository userRepository,
                              TypeTaskMapper typeTaskMapper,
                              TypeTaskRepository typeTaskRepository,
-                             UserService userService) {
+                             UserService userService,
+                             HistoryService historyService) {
         this.taskService = taskService;
         this.categoryMapper = categoryMapper;
         this.categoryRepository = categoryRepository;
@@ -73,6 +77,7 @@ public class MVCTaskController {
         this.typeTaskMapper = typeTaskMapper;
         this.typeTaskRepository = typeTaskRepository;
         this.userService = userService;
+        this.historyService = historyService;
     }
 
     @GetMapping("")
@@ -112,6 +117,14 @@ public class MVCTaskController {
         }
         model.addAttribute("task", taskService.getTaskWithUser(id));
         return "task/viewTask";
+    }
+    @GetMapping("history/{id}")
+    public String history(@PathVariable Long id,
+                          Model model) {
+        List<HistoryDTO> historyDTO = historyService.findAllByTaskId(id);
+        model.addAttribute("historyForm", historyDTO);
+        model.addAttribute("task", taskService.getOne(id));
+        return "task/viewTaskHistory";
     }
 
     @GetMapping("/add")

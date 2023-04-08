@@ -1,4 +1,4 @@
-package ru.sber.spring.java13springmy.sdproject.controller;
+package ru.sber.spring.java13springmy.sdproject.MVC.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

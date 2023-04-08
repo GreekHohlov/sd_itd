@@ -34,7 +34,8 @@ public interface PermissionConstants {
             "/task/download/{taskId}",
             "/error",
             "/users/profile/{id}",
-            "/task/noexecuteTask/{id}");
+            "/task/noexecuteTask/{id}",
+            "/task/history/{id}");
     /*
     Полный доступ.
     Предоставляется группам EXECUTOR и ADMIN.
