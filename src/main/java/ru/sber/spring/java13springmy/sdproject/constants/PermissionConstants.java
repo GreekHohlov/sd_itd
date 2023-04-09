@@ -33,7 +33,8 @@ public interface PermissionConstants {
             "/task/search",
             "/task/download/{taskId}",
             "/error",
-            "/users/profile/{id}");
+            "/users/profile/{id}",
+            "/task/noexecuteTask/{id}");
     /*
     Полный доступ.
     Предоставляется группам EXECUTOR и ADMIN.
@@ -77,6 +78,10 @@ public interface PermissionConstants {
             "/workSchedule/delete",
             "/reports",
             "/task/stopTask/{id}",
-            "/task/stopTask");
+            "/task/stopTask",
+            "/task/unstopTask/{id}");
 
+    List<String> EXECUTOR_PERMISSION_LIST = List.of("/task/search/noAssign",
+            "/task/search/assignToMe",
+            "/task/search/myTask");
 }

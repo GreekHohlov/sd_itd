@@ -17,11 +17,18 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import ru.sber.spring.java13springmy.sdproject.constants.Errors;
+import ru.sber.spring.java13springmy.sdproject.dto.GroupDTO;
+import ru.sber.spring.java13springmy.sdproject.dto.LocationDTO;
 import ru.sber.spring.java13springmy.sdproject.dto.UserDTO;
 import ru.sber.spring.java13springmy.sdproject.exception.MyDeleteException;
+import ru.sber.spring.java13springmy.sdproject.mapper.GroupMapper;
+import ru.sber.spring.java13springmy.sdproject.mapper.LocationMapper;
+import ru.sber.spring.java13springmy.sdproject.repository.GroupRepository;
+import ru.sber.spring.java13springmy.sdproject.repository.LocationRepository;
 import ru.sber.spring.java13springmy.sdproject.service.UserService;
 import ru.sber.spring.java13springmy.sdproject.service.userdetails.CustomUserDetails;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -33,9 +40,21 @@ import static ru.sber.spring.java13springmy.sdproject.constants.UserRoleConstant
 @RequestMapping("/users")
 public class MVCUserController {
     private final UserService userService;
+    private final GroupMapper groupMapper;
+    private final GroupRepository groupRepository;
+    private final LocationMapper locationMapper;
+    private final LocationRepository locationRepository;
 
-    public MVCUserController(UserService userService) {
+    public MVCUserController(UserService userService,
+                             GroupMapper groupMapper,
+                             GroupRepository groupRepository,
+                             LocationMapper locationMapper,
+                             LocationRepository locationRepository) {
         this.userService = userService;
+        this.groupMapper = groupMapper;
+        this.groupRepository = groupRepository;
+        this.locationMapper = locationMapper;
+        this.locationRepository = locationRepository;
     }
 
     @GetMapping("")
@@ -155,11 +174,15 @@ public class MVCUserController {
     public String updateProfile(@PathVariable Integer id,
                                 Model model) throws AuthException {
         CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<GroupDTO> groupDTOS = groupMapper.toDTOs(groupRepository.findAll());
+        List<LocationDTO> locationDTOS = locationMapper.toDTOs(locationRepository.findAll());
         String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         if (!id.equals(customUserDetails.getUserId()) && (!role.equals("[ROLE_ADMIN]"))) {
             throw new AuthException(HttpStatus.FORBIDDEN + ": " + Errors.Users.USER_FORBIDDEN_ERROR);
         }
         model.addAttribute("userForm", userService.getOne(Long.valueOf(id)));
+        model.addAttribute("groupForm", groupDTOS);
+        model.addAttribute("locationForm", locationDTOS);
         return "profile/updateProfile";
     }
 
@@ -177,16 +200,23 @@ public class MVCUserController {
         foundUser.setMiddleName(userDTOFromUpdateForm.getMiddleName());
         foundUser.setEmail(userDTOFromUpdateForm.getEmail());
         foundUser.setPhone(userDTOFromUpdateForm.getPhone());
+        foundUser.setGroupId(userDTOFromUpdateForm.getGroupId());
+        foundUser.setLocationId(userDTOFromUpdateForm.getLocationId());
         userService.update(foundUser);
-        return "redirect:/users/profile/" + userDTOFromUpdateForm.getId();
+        String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        if (role.equals("[ROLE_USER]")) {
+            return "redirect:/users/profile/" + userDTOFromUpdateForm.getId();
+        } else {
+            return "redirect:/users";
+        }
     }
 
     @GetMapping("/list")
     public String listAllUsers(@RequestParam(value = "page", defaultValue = "1") int page,
-                               @RequestParam(value = "size", defaultValue = "10") int pageSize,
+                               @RequestParam(value = "size", defaultValue = "5") int pageSize,
                                @ModelAttribute(value = "exception") String exception,
                                Model model) {
-        PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "login"));
+        PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "lastName"));
         Page<UserDTO> userPage = userService.listAll(pageRequest);
         model.addAttribute("users", userPage);
         model.addAttribute("exception", exception);

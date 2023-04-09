@@ -128,10 +128,15 @@ public class MVCTaskController {
     @PostMapping("/add")
     public String create(@ModelAttribute("taskForm") TaskDTO taskDTO,
                          @RequestParam MultipartFile file) {
-        if (file != null && file.getSize() > 0) {
-            taskService.create(taskDTO, file);
-        } else {
-            taskService.create(taskDTO);
+        String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        if (!role.equals("[ROLE_ADMIN]")) {
+            taskDTO.setUserId(userRepository.findUsersByLogin(SecurityContextHolder.getContext()
+                    .getAuthentication().getName()).getId());
+            if (file != null && file.getSize() > 0) {
+                taskService.create(taskDTO, file);
+            } else {
+                taskService.create(taskDTO);
+            }
         }
         return "redirect:/task";
     }
@@ -178,10 +183,8 @@ public class MVCTaskController {
                              @RequestParam(value = "size", defaultValue = "5") int pageSize,
                              @ModelAttribute("taskSearchForm") TaskSearchDTO taskSearchDTO,
                              Model model) {
-        PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "id"));
+        PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "id"));
         List<String> categoryDTOS = categoryService.getName(categoryMapper.toDTOs(categoryRepository.findAll()));
-        log.info("FIO_AUTHOR: " + userRepository.findUsersByLogin(SecurityContextHolder.getContext()
-                .getAuthentication().getName()).getLastName());
         if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString().equals("[ROLE_USER]")) {
             taskSearchDTO.setUserFio(userRepository.findUsersByLogin(SecurityContextHolder.getContext()
                     .getAuthentication().getName()).getLastName());
@@ -218,8 +221,8 @@ public class MVCTaskController {
                            @RequestParam(value = "size", defaultValue = "5") int pageSize,
                            Model model) {
         TaskSearchDTO taskSearchDTO = new TaskSearchDTO();
-        taskSearchDTO.setWorkerFio(userService.getUserByLogin("service").getLastName() + " " +
-                userService.getUserByLogin("service").getFirstName());
+        taskSearchDTO.setWorkerFio(userService.getUserByLogin("A_service").getLastName() + " " +
+                userService.getUserByLogin("A_service").getFirstName());
         return searchTask(page, pageSize, taskSearchDTO, model);
     }
 
@@ -303,6 +306,16 @@ public class MVCTaskController {
         TaskDTO task = taskService.getOne(taskDTO.getId());
         task.setDecision(taskDTO.getDecision());
         taskService.updateTaskForExecute(task);
+        return "redirect:/task";
+    }
+    @GetMapping("/unstopTask/{id}")
+    public String unstopTask(@PathVariable Long id) {
+        taskService.updateTaskUnstop(taskService.getOne(id));
+        return "redirect:/task";
+    }
+    @GetMapping("/noexecuteTask/{id}")
+    public String noexecuteTask(@PathVariable Long id) {
+        taskService.updateTaskUnstop(taskService.getOne(id));
         return "redirect:/task";
     }
 

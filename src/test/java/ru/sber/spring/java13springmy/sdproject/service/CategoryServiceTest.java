@@ -24,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public class CategoryServiceTest extends GenericTest<Category, CategoryDTO> {
     public CategoryServiceTest() {
         super();
-      //  CategoryService categoryService = Mockito.mock(CategoryService.class);
         repository = Mockito.mock(CategoryRepository.class);
         mapper = Mockito.mock(CategoryMapper.class);
         service = new CategoryService((CategoryRepository) repository, (CategoryMapper) mapper);
@@ -101,30 +100,5 @@ public class CategoryServiceTest extends GenericTest<Category, CategoryDTO> {
         ((CategoryService) service).restore(2L);
         log.info("Testing restore() after: " + CategoryTestData.CATEGORY_2.isDeleted());
         assertFalse(CategoryTestData.CATEGORY_2.isDeleted());
-    }
-
-
-    @Override
-    @Order(7)
-    protected void markAsDeleted() {
-
-    }
-
-    @Override
-    @Order(8)
-    protected void unMarkAsDeleted() {
-
-    }
-
-    @Test
-    @Order(9)
-    protected void getName() {
-
-    }
-
-    @Test
-    @Order(10)
-    protected void deleteSoft() throws MyDeleteException {
-
     }
 }

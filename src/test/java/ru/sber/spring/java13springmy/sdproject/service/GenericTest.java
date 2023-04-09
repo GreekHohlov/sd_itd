@@ -36,7 +36,4 @@ public abstract class GenericTest<E extends GenericModel, D extends GenericDTO> 
     
     protected abstract void delete() throws MyDeleteException;
     
-    protected abstract void markAsDeleted();
-    
-    protected abstract void unMarkAsDeleted();
 }

@@ -10,7 +10,8 @@ import ru.sber.spring.java13springmy.sdproject.repository.SLARepository;
 
 @Service
 public class SLAService extends GenericService<SLA, SLADTO> {
-    protected SLAService(SLARepository slaRepository, SLAMapper slaMapper) {
+    protected SLAService(SLARepository slaRepository,
+                         SLAMapper slaMapper) {
         super(slaRepository, slaMapper);
     }
 

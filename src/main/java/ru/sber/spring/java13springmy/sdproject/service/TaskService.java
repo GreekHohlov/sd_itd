@@ -193,4 +193,11 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         }
         mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
     }
+
+    public void updateTaskUnstop(TaskDTO taskDTO) {
+        taskDTO.setStatusTask(StatusTask.AT_WORK);
+        taskDTO.setEndDate(LocalDateTime.now().plusHours(slaService.getOne((typeTaskRepository
+                .getReferenceById(taskDTO.getTypeTaskId()).getSla()).getId()).getExecutionTime()));
+        mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
+    }
 }
