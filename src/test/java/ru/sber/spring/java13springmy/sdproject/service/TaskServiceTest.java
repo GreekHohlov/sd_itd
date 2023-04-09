@@ -34,8 +34,9 @@ public class TaskServiceTest extends GenericTest<Task, TaskDTO> {
         SLAService slaService = Mockito.mock(SLAService.class);
         TypeTaskRepository typeTaskRepository = Mockito.mock(TypeTaskRepository.class);
         UserRepository userRepository = Mockito.mock(UserRepository.class);
+        HistoryService historyService = Mockito.mock(HistoryService.class);
         service = new TaskService((TaskRepository) repository, (TaskMapper) mapper, taskWithUserMapper,
-                slaService, typeTaskRepository, userRepository);
+                slaService, typeTaskRepository, userRepository, historyService);
     }
 
     @Test
