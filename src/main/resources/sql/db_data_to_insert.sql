@@ -1,3 +1,18 @@
+--.Иерархические (рекурсивные) запросы
+-- https://habr.com/ru/articles/73700/
+--https://devmark.ru/article/postgres-recursive-query
+--https://www.youtube.com/watch?v=2D51Hhbpk4s
+
+--Рекурсивный запрос для категорий
+with recursive temp1  (id, parent_category_id, name_category, path) as (
+    select t1.id, t1.parent_category_id, t1.name_category, cast (t1.name_category as varchar(200)) as path
+    from category t1 where t1.parent_category_id IS NULL
+     union
+     select t2.id, t2.parent_category_id, t2.name_category, cast (temp1.path || '->' || t2.name_category as varchar(200))
+     from category t2 join temp1 on (temp1.id= t2.parent_category_id))
+     select *from temp1;
+
+
 -- select *
 -- from users u
 -- where u.last_name ilike :?;

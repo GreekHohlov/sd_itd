@@ -94,18 +94,4 @@ public class TypeTaskServiceTest extends GenericTest<TypeTask, TypeTaskDTO> {
         log.info("Testing restore() after: " + TypeTaskTestData.TYPE_TASK_2.isDeleted());
         assertFalse(TypeTaskTestData.TYPE_TASK_2.isDeleted());
     }
-
-    @Test
-    @Order(7)
-    @Override
-    protected void markAsDeleted() {
-
-    }
-
-    @Test
-    @Order(8)
-    @Override
-    protected void unMarkAsDeleted() {
-
-    }
 }

@@ -27,7 +27,7 @@ public abstract class CommonTest {
     @Autowired
     protected CustomUserDetailsService userDetailsService;
 
-    protected String token = "";
+  //  protected String token = "";
     protected HttpHeaders headers = new HttpHeaders();
 
     protected ObjectMapper objectMapper = new ObjectMapper();
@@ -36,12 +36,12 @@ public abstract class CommonTest {
 //        return jwtTokenUtil.generateToken(userDetailsService.loadUserByUsername(username));
 //    }
 
-    @BeforeAll
-    public void prepare() {
-//        token = generateToken("admin");
-      //  headers.add("Authorization", "Bearer " + token);
-        objectMapper.registerModule(new JavaTimeModule());
-    }
+//    @BeforeAll
+//    public void prepare() {
+////        token = generateToken("admin");
+//      //  headers.add("Authorization", "Bearer " + token);
+//        objectMapper.registerModule(new JavaTimeModule());
+//    }
 
     protected abstract void createObject() throws Exception;
 

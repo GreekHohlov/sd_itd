@@ -34,9 +34,8 @@ public class TaskServiceTest extends GenericTest<Task, TaskDTO> {
         SLAService slaService = Mockito.mock(SLAService.class);
         TypeTaskRepository typeTaskRepository = Mockito.mock(TypeTaskRepository.class);
         UserRepository userRepository = Mockito.mock(UserRepository.class);
-        HistoryService historyService = Mockito.mock(HistoryService.class);
         service = new TaskService((TaskRepository) repository, (TaskMapper) mapper, taskWithUserMapper,
-                slaService, typeTaskRepository, userRepository, historyService);
+                slaService, typeTaskRepository, userRepository);
     }
 
     @Test
@@ -102,15 +101,5 @@ public class TaskServiceTest extends GenericTest<Task, TaskDTO> {
         ((TaskService) service).restore(2L);
         log.info("Testing restore() after: " + TaskTestData.TASK_2.isDeleted());
         assertFalse(TaskTestData.TASK_2.isDeleted());
-    }
-
-    @Override
-    protected void markAsDeleted() {
-
-    }
-
-    @Override
-    protected void unMarkAsDeleted() {
-
     }
 }
