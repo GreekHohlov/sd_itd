@@ -26,7 +26,6 @@ import ru.sber.spring.java13springmy.sdproject.mapper.CategoryMapper;
 import ru.sber.spring.java13springmy.sdproject.mapper.TypeTaskMapper;
 import ru.sber.spring.java13springmy.sdproject.mapper.UserMapper;
 import ru.sber.spring.java13springmy.sdproject.repository.CategoryRepository;
-import ru.sber.spring.java13springmy.sdproject.repository.HistoryRepository;
 import ru.sber.spring.java13springmy.sdproject.repository.TypeTaskRepository;
 import ru.sber.spring.java13springmy.sdproject.repository.UserRepository;
 import ru.sber.spring.java13springmy.sdproject.service.CategoryService;
@@ -39,7 +38,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Hidden
@@ -183,10 +181,10 @@ public class MVCTaskController {
 
         if (file != null && file.getSize() > 0) {
             log.info("UPDATE_WITH_FILE");
-            taskService.update(taskDTO, file);
+            taskService.update(taskDTO, file, taskService.getOne(taskDTO.getId()));
         } else {
             log.info("UPDATE_WITHOUT_FILE");
-            taskService.update(taskDTO);
+            taskService.update(taskDTO, taskService.getOne(taskDTO.getId()));
         }
         return "redirect:/task";
     }

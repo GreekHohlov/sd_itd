@@ -41,7 +41,7 @@ public class TaskControllerTest extends CommonTest {
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
-        log.info("Тест по просмотру всех пользователей через MVC пройден успешно");
+        log.info("Тест по просмотру всех заявок через MVC пройден успешно");
     }
 
     @Test

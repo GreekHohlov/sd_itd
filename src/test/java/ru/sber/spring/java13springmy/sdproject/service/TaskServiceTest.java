@@ -77,12 +77,12 @@ public class TaskServiceTest extends GenericTest<Task, TaskDTO> {
     @Order(4)
     @Override
     protected void update() {
-//        Mockito.when(mapper.toEntity(TaskTestData.TASK_DTO_2)).thenReturn(TaskTestData.TASK_2);
-//        Mockito.when(mapper.toDto(TaskTestData.TASK_2)).thenReturn(TaskTestData.TASK_DTO_2);
-//        Mockito.when(repository.save(TaskTestData.TASK_2)).thenReturn(TaskTestData.TASK_2);
-//        TaskDTO taskDTO = service.update(TaskTestData.TASK_DTO_2);
-//        log.info("Testing create(): " + taskDTO);
-//        assertEquals(TaskTestData.TASK_DTO_2, taskDTO);
+        Mockito.when(mapper.toEntity(TaskTestData.TASK_DTO_2)).thenReturn(TaskTestData.TASK_2);
+        Mockito.when(mapper.toDto(TaskTestData.TASK_2)).thenReturn(TaskTestData.TASK_DTO_2);
+        Mockito.when(repository.save(TaskTestData.TASK_2)).thenReturn(TaskTestData.TASK_2);
+        TaskDTO taskDTO = service.update(TaskTestData.TASK_DTO_2);
+        log.info("Testing create(): " + taskDTO);
+        assertEquals(TaskTestData.TASK_DTO_2, taskDTO);
     }
 
     @Test

@@ -14,13 +14,11 @@ import ru.sber.spring.java13springmy.sdproject.dto.TaskDTO;
 import ru.sber.spring.java13springmy.sdproject.dto.TaskSearchDTO;
 import ru.sber.spring.java13springmy.sdproject.dto.TaskWithUserDTO;
 import ru.sber.spring.java13springmy.sdproject.exception.MyDeleteException;
-import ru.sber.spring.java13springmy.sdproject.mapper.HistoryMapper;
 import ru.sber.spring.java13springmy.sdproject.mapper.TaskMapper;
 import ru.sber.spring.java13springmy.sdproject.mapper.TaskWithUserMapper;
 import ru.sber.spring.java13springmy.sdproject.model.StatusTask;
 import ru.sber.spring.java13springmy.sdproject.model.Task;
 import ru.sber.spring.java13springmy.sdproject.model.User;
-import ru.sber.spring.java13springmy.sdproject.repository.HistoryRepository;
 import ru.sber.spring.java13springmy.sdproject.repository.TaskRepository;
 import ru.sber.spring.java13springmy.sdproject.repository.TypeTaskRepository;
 import ru.sber.spring.java13springmy.sdproject.repository.UserRepository;
@@ -30,6 +28,7 @@ import ru.sber.spring.java13springmy.sdproject.utils.FileHelper;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -88,14 +87,9 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         return new PageImpl<>(result, pageable, tasksPaginated.getTotalElements());
     }
 
-    public void addHistory(TaskDTO taskDTO, HistoryDTO historyDTO) {
-        TaskDTO task = getOne(taskDTO.getId());
-        task.getHistoryIds().add(historyDTO.getId());
-        taskDTO.setHistoryIds(task.getHistoryIds());
-        log.info("TASK_DTO_ID_TASKDTO_addHistory: " + taskDTO.getId());
-        log.info("HISTORY_ID_addHistory: " + historyDTO);
-        log.info("TASK_DTO_IDS_TASKDTO_addHistory: " + taskDTO.getHistoryIds());
-
+    public void addHistory(TaskDTO taskDTO, Set<Long> historyId) {
+        taskDTO.setHistoryIds(historyId);
+        mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
     }
 
     //Создание заявкии с файлом
@@ -110,8 +104,8 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         taskDTO.setStatusTask(StatusTask.OPEN);
         taskDTO.setFiles(fileName);
         TaskDTO result = mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
-        HistoryDTO historyDTO = historyService.create(result, user, "Создана заявка с вложением:");
-        addHistory(result, historyDTO);
+        historyService.create(result, user, "Создана заявка с вложением:");
+        addHistory(result, result.getHistoryIds());
         return result;
     }
 
@@ -123,11 +117,8 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         taskDTO.setCreateDate(LocalDateTime.now());
         taskDTO.setStatusTask(StatusTask.OPEN);
         TaskDTO result = mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
-        HistoryDTO historyDTO = historyService.create(result, user, "Создана заявка:");
-        addHistory(result, historyDTO);
-        log.info("TASK_CREATE_TASKDTO_ID: " + result.getId());
-        log.info("TASK_CREATE_HISTORY_ID: " + historyDTO.getId());
-        addHistory(result, historyDTO);
+        historyService.create(result, user, "Создана заявка:");
+        addHistory(result, result.getHistoryIds());
         return result;
     }
 
@@ -146,29 +137,28 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         repository.save(task);
     }
 
-    public TaskDTO update(final TaskDTO taskDTO) {
-        TaskDTO task = getOne(taskDTO.getId());
+    public TaskDTO update(final TaskDTO taskDTO, final TaskDTO tempTask) {
         User user = userRepository.findUsersByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
         taskDTO.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-        taskDTO.setCreateDate(task.getCreateDate());
-        taskDTO.setEndDate(task.getEndDate());
+        taskDTO.setCreateDate(tempTask.getCreateDate());
+        taskDTO.setEndDate(tempTask.getEndDate());
         HistoryDTO historyDTO = historyService.create(taskDTO, user, "Обновлена заявка:");
-        taskDTO.setHistoryIds(task.getHistoryIds());
+        taskDTO.setHistoryIds(tempTask.getHistoryIds());
         taskDTO.getHistoryIds().add(historyDTO.getId());
         return mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
     }
 
     public TaskDTO update(final TaskDTO taskDTO,
-                          MultipartFile file) {
-        TaskDTO task = getOne(taskDTO.getId());
+                          MultipartFile file,
+                          final TaskDTO tempTask) {
         User user = userRepository.findUsersByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
         taskDTO.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         String fileName = FileHelper.createFile(file);
         taskDTO.setFiles(fileName);
-        taskDTO.setCreateDate(task.getCreateDate());
-        taskDTO.setEndDate(task.getEndDate());
+        taskDTO.setCreateDate(tempTask.getCreateDate());
+        taskDTO.setEndDate(tempTask.getEndDate());
         HistoryDTO historyDTO = historyService.create(taskDTO, user, "Обновлена заявка:");
-        taskDTO.setHistoryIds(task.getHistoryIds());
+        taskDTO.setHistoryIds(tempTask.getHistoryIds());
         taskDTO.getHistoryIds().add(historyDTO.getId());
         return mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
     }
