@@ -7,6 +7,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.sber.spring.java13springmy.sdproject.model.Task;
 
+import java.util.List;
+
 @Repository
 public interface TaskRepository extends GenericRepository<Task> {
     @Query(nativeQuery = true, value = """

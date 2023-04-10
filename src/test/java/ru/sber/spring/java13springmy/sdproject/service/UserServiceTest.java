@@ -99,14 +99,4 @@ public class UserServiceTest extends GenericTest<User, UserDTO> {
         log.info("Testing restore() after: " + UserTestData.USER_2.isDeleted());
         assertFalse(UserTestData.USER_2.isDeleted());
     }
-
-    @Override
-    protected void markAsDeleted() {
-
-    }
-
-    @Override
-    protected void unMarkAsDeleted() {
-
-    }
 }

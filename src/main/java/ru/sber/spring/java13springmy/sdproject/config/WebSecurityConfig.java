@@ -51,9 +51,14 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                                 .requestMatchers(RESOURCES_WHITE_LIST.toArray(String[]::new)).permitAll()
                                 .requestMatchers(ALL_WHITE_LIST.toArray(String[]::new)).permitAll()
-                                .requestMatchers(BASE_PERMISSION_LIST.toArray(String[]::new)).authenticated()
-                                .requestMatchers(SETTINGS_PERMISSION_LIST.toArray(String[]::new)).hasAnyRole(ADMIN, EXECUTOR, MAIN_EXECUTOR)
-                                .anyRequest().authenticated()
+                                .requestMatchers(BASE_PERMISSION_LIST.toArray(String[]::new)).permitAll()
+                                .requestMatchers(EXECUTOR_PERMISSION_LIST.toArray(String[]::new)).permitAll()
+                                .requestMatchers(SETTINGS_PERMISSION_LIST.toArray(String[]::new)).permitAll()
+//                                .requestMatchers(BASE_PERMISSION_LIST.toArray(String[]::new)).authenticated()
+//                                .requestMatchers(EXECUTOR_PERMISSION_LIST.toArray(String[]::new)).hasAnyRole(EXECUTOR, MAIN_EXECUTOR)
+//                                .requestMatchers(SETTINGS_PERMISSION_LIST.toArray(String[]::new)).hasAnyRole(ADMIN, EXECUTOR, MAIN_EXECUTOR)
+                            //    .anyRequest().authenticated()
+                                .anyRequest().permitAll()
                         )
                 .formLogin((form) -> form
                         .loginPage("/login")

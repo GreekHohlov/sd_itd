@@ -93,18 +93,4 @@ public class SLAServiceTest extends GenericTest<SLA, SLADTO> {
         log.info("Testing restore() after: " + SLATestData.SLA_2.isDeleted());
         assertFalse(SLATestData.SLA_2.isDeleted());
     }
-
-    @Test
-    @Order(7)
-    @Override
-    protected void markAsDeleted() {
-
-    }
-
-    @Test
-    @Order(8)
-    @Override
-    protected void unMarkAsDeleted() {
-
-    }
 }

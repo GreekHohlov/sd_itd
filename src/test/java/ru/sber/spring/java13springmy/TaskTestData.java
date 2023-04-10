@@ -23,7 +23,8 @@ public interface TaskTestData {
             1L,
             StatusTask.OPEN,
             "files1",
-            "decision1");
+            "decision1",
+            new HashSet<Long>());
     TaskDTO TASK_DTO_2 = new TaskDTO("taskName2",
             2L,
             Priority.HIGH,
@@ -36,7 +37,8 @@ public interface TaskTestData {
             2L,
             StatusTask.AT_WORK,
             "files2",
-            "decision2");
+            "decision2",
+            new HashSet<Long>());
     TaskDTO TASK_DTO_3 = new TaskDTO("taskName3",
             3L,
             Priority.HIGH,
@@ -49,7 +51,8 @@ public interface TaskTestData {
             3L,
             StatusTask.AT_WORK,
             "files3",
-            "decision3");
+            "decision3",
+            new HashSet<Long>());
 
     List<TaskDTO> TASK_DTO_LIST = Arrays.asList(TASK_DTO_1, TASK_DTO_2, TASK_DTO_3);
 
@@ -65,7 +68,8 @@ public interface TaskTestData {
             UserTestData.USER_1,
             UserTestData.USER_3,
             StatusTask.OPEN,
-            "decision1");
+            "decision1",
+            new HashSet<>());
 
     Task TASK_2 = new Task("taskName2",
             TypeTaskTestData.TYPE_TASK_2,
@@ -79,7 +83,8 @@ public interface TaskTestData {
             UserTestData.USER_2,
             UserTestData.USER_3,
             StatusTask.OPEN,
-            "decision2");
+            "decision2",
+            new HashSet<>());
     Task TASK_3 = new Task("taskName3",
             TypeTaskTestData.TYPE_TASK_3,
             Priority.HIGH,
@@ -92,7 +97,8 @@ public interface TaskTestData {
             UserTestData.USER_3,
             UserTestData.USER_3,
             StatusTask.OPEN,
-            "decision3");
+            "decision3",
+            new HashSet<>());
 
     List<Task> TASK_LIST = Arrays.asList(TASK_1, TASK_2, TASK_3);
 }

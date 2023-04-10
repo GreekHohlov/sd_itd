@@ -34,8 +34,9 @@ public class TaskServiceTest extends GenericTest<Task, TaskDTO> {
         SLAService slaService = Mockito.mock(SLAService.class);
         TypeTaskRepository typeTaskRepository = Mockito.mock(TypeTaskRepository.class);
         UserRepository userRepository = Mockito.mock(UserRepository.class);
+        HistoryService historyService = Mockito.mock(HistoryService.class);
         service = new TaskService((TaskRepository) repository, (TaskMapper) mapper, taskWithUserMapper,
-                slaService, typeTaskRepository, userRepository);
+                slaService, typeTaskRepository, userRepository, historyService);
     }
 
     @Test
@@ -64,24 +65,24 @@ public class TaskServiceTest extends GenericTest<Task, TaskDTO> {
     @Order(3)
     @Override
     protected void create() {
-//        Mockito.when(mapper.toEntity(TaskTestData.TASK_DTO_1)).thenReturn(TaskTestData.TASK_1);
-//        Mockito.when(mapper.toDto(TaskTestData.TASK_1)).thenReturn(TaskTestData.TASK_DTO_1);
-//        Mockito.when(repository.save(TaskTestData.TASK_1)).thenReturn(TaskTestData.TASK_1);
-//        TaskDTO taskDTO = service.create(TaskTestData.TASK_DTO_1);
-//        log.info("Testing create(): " + taskDTO);
-//        assertEquals(TaskTestData.TASK_DTO_1, taskDTO);
+        Mockito.when(mapper.toEntity(TaskTestData.TASK_DTO_1)).thenReturn(TaskTestData.TASK_1);
+        Mockito.when(mapper.toDto(TaskTestData.TASK_1)).thenReturn(TaskTestData.TASK_DTO_1);
+        Mockito.when(repository.save(TaskTestData.TASK_1)).thenReturn(TaskTestData.TASK_1);
+        TaskDTO taskDTO = service.create(TaskTestData.TASK_DTO_1);
+        log.info("Testing create(): " + taskDTO);
+        assertEquals(TaskTestData.TASK_DTO_1, taskDTO);
     }
 
     @Test
     @Order(4)
     @Override
     protected void update() {
-//        Mockito.when(mapper.toEntity(TaskTestData.TASK_DTO_2)).thenReturn(TaskTestData.TASK_2);
-//        Mockito.when(mapper.toDto(TaskTestData.TASK_2)).thenReturn(TaskTestData.TASK_DTO_2);
-//        Mockito.when(repository.save(TaskTestData.TASK_2)).thenReturn(TaskTestData.TASK_2);
-//        TaskDTO taskDTO = service.update(TaskTestData.TASK_DTO_2);
-//        log.info("Testing create(): " + taskDTO);
-//        assertEquals(TaskTestData.TASK_DTO_2, taskDTO);
+        Mockito.when(mapper.toEntity(TaskTestData.TASK_DTO_2)).thenReturn(TaskTestData.TASK_2);
+        Mockito.when(mapper.toDto(TaskTestData.TASK_2)).thenReturn(TaskTestData.TASK_DTO_2);
+        Mockito.when(repository.save(TaskTestData.TASK_2)).thenReturn(TaskTestData.TASK_2);
+        TaskDTO taskDTO = service.update(TaskTestData.TASK_DTO_2);
+        log.info("Testing create(): " + taskDTO);
+        assertEquals(TaskTestData.TASK_DTO_2, taskDTO);
     }
 
     @Test
@@ -101,15 +102,5 @@ public class TaskServiceTest extends GenericTest<Task, TaskDTO> {
         ((TaskService) service).restore(2L);
         log.info("Testing restore() after: " + TaskTestData.TASK_2.isDeleted());
         assertFalse(TaskTestData.TASK_2.isDeleted());
-    }
-
-    @Override
-    protected void markAsDeleted() {
-
-    }
-
-    @Override
-    protected void unMarkAsDeleted() {
-
     }
 }

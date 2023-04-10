@@ -24,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public class GroupServiceTest extends GenericTest<Group, GroupDTO> {
     public GroupServiceTest() {
         super();
-       // GroupService groupService = Mockito.mock(GroupService.class);
         repository = Mockito.mock(GroupRepository.class);
         mapper = Mockito.mock(GroupMapper.class);
         service = new GroupService((GroupRepository) repository, (GroupMapper) mapper);
@@ -89,17 +88,5 @@ public class GroupServiceTest extends GenericTest<Group, GroupDTO> {
         ((GroupService) service).restore(2L);
         log.info("Testing restore() after: " + GroupTestData.GROUP_2.isDeleted());
         assertFalse(GroupTestData.GROUP_2.isDeleted());
-    }
-    @Test
-    @Order(7)
-    @Override
-    protected void markAsDeleted() {
-
-    }
-    @Test
-    @Order(8)
-    @Override
-    protected void unMarkAsDeleted() {
-
     }
 }

@@ -76,17 +76,17 @@
             <div class="col-md">
                 <div class="row g-2">
                     <button type="submit" class="btn btn-secondary">Найти</button>
-<!--                    <div sec:authorize="isAuthenticated() && (hasRole('MAIN_EXECUTOR') || hasRole('EXECUTOR'))">-->
-<!--                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">-->
-<!--                            <a type="button" class="btn btn btn-outline-success"-->
-<!--                               th:href="'/task/search/noAssign'">Нераспределённые</a>-->
-<!--&lt;!&ndash;                            <button class="btn btn-sm btn-outline-danger" type="button">Просроченные</button>&ndash;&gt;-->
-<!--                            <a type="button" class="btn btn btn-success"-->
-<!--                               th:href="'/task/search/assignToMe'">Назначенные на меня</a>-->
-<!--                            <a type="button" class="btn btn btn-success"-->
-<!--                               th:href="'/task/search/myTask'">Мои заявки</a>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <div sec:authorize="isAuthenticated() && (hasRole('MAIN_EXECUTOR') || hasRole('EXECUTOR'))">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a type="button" class="btn btn btn-outline-success"
+                               th:href="'/task/search/noAssign'">Нераспределённые</a>
+<!--                            <button class="btn btn-sm btn-outline-danger" type="button">Просроченные</button>-->
+                            <a type="button" class="btn btn btn-success"
+                               th:href="'/task/search/assignToMe'">Назначенные на меня</a>
+                            <a type="button" class="btn btn btn-success"
+                               th:href="'/task/search/myTask'">Мои заявки</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>
@@ -151,6 +151,12 @@
                                        th:href="'/task/stopTask/' + ${tasks.id}">Остановить</a>
                                 </div>
                                 <div th:if="${!(tasks.getStatusTask() eq  tasks.getStatusTask().COMPLETED) &&
+                                !(tasks.getStatusTask() eq  tasks.getStatusTask().CLOSED) &&
+                                (tasks.getStatusTask() eq  tasks.getStatusTask().STOPPED)}">
+                                    <a type="button" class="btn btn-sm btn-danger" id="unstopTask"
+                                       th:href="'/task/unstopTask/' + ${tasks.id}">В работу</a>
+                                </div>
+                                <div th:if="${!(tasks.getStatusTask() eq  tasks.getStatusTask().COMPLETED) &&
                                 !(tasks.getStatusTask() eq  tasks.getStatusTask().CLOSED)}">
                                     <a type="button" class="btn btn-sm btn-warning" id="executeTask"
                                        th:href="'/task/executeTask/' + ${tasks.id}">Выполнить</a>
@@ -162,7 +168,13 @@
                         </div>
                         <div sec:authorize="isAuthenticated() && (hasRole('USER'))">
                             <div th:if="${(tasks.getStatusTask() eq  tasks.getStatusTask().COMPLETED)}">
-                                <a type="button" class="btn btn-sm btn-outline-success" id="closeTask"
+                                <a type="button" class="btn btn-sm btn-danger" id="noexecuteTask"
+                                   th:href="'/task/noexecuteTask/'+${tasks.id}">Не выполнена</a>
+                            </div>
+                        </div>
+                        <div sec:authorize="isAuthenticated() && (hasRole('USER'))">
+                            <div th:if="${(tasks.getStatusTask() eq  tasks.getStatusTask().COMPLETED)}">
+                                <a type="button" class="btn btn-sm btn-success" id="closeTask"
                                    th:href="'/task/closeTask/'+${tasks.id}">Закрыть</a>
                             </div>
                         </div>

@@ -29,6 +29,7 @@ import ru.sber.spring.java13springmy.sdproject.repository.CategoryRepository;
 import ru.sber.spring.java13springmy.sdproject.repository.TypeTaskRepository;
 import ru.sber.spring.java13springmy.sdproject.repository.UserRepository;
 import ru.sber.spring.java13springmy.sdproject.service.CategoryService;
+import ru.sber.spring.java13springmy.sdproject.service.HistoryService;
 import ru.sber.spring.java13springmy.sdproject.service.TaskService;
 import ru.sber.spring.java13springmy.sdproject.service.UserService;
 import ru.sber.spring.java13springmy.sdproject.service.userdetails.CustomUserDetails;
@@ -37,7 +38,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Hidden
@@ -54,6 +54,7 @@ public class MVCTaskController {
     private final TypeTaskMapper typeTaskMapper;
     private final TypeTaskRepository typeTaskRepository;
     private final UserService userService;
+    private final HistoryService historyService;
 
     public MVCTaskController(TaskService taskService,
                              CategoryMapper categoryMapper,
@@ -63,7 +64,8 @@ public class MVCTaskController {
                              UserRepository userRepository,
                              TypeTaskMapper typeTaskMapper,
                              TypeTaskRepository typeTaskRepository,
-                             UserService userService) {
+                             UserService userService,
+                             HistoryService historyService) {
         this.taskService = taskService;
         this.categoryMapper = categoryMapper;
         this.categoryRepository = categoryRepository;
@@ -73,6 +75,7 @@ public class MVCTaskController {
         this.typeTaskMapper = typeTaskMapper;
         this.typeTaskRepository = typeTaskRepository;
         this.userService = userService;
+        this.historyService = historyService;
     }
 
     @GetMapping("")
@@ -113,6 +116,14 @@ public class MVCTaskController {
         model.addAttribute("task", taskService.getTaskWithUser(id));
         return "task/viewTask";
     }
+    @GetMapping("history/{id}")
+    public String history(@PathVariable Long id,
+                          Model model) {
+        List<HistoryDTO> historyDTO = historyService.findAllByTaskId(id);
+        model.addAttribute("historyForm", historyDTO);
+        model.addAttribute("task", taskService.getOne(id));
+        return "task/viewTaskHistory";
+    }
 
     @GetMapping("/add")
     public String create(Model model) {
@@ -128,10 +139,15 @@ public class MVCTaskController {
     @PostMapping("/add")
     public String create(@ModelAttribute("taskForm") TaskDTO taskDTO,
                          @RequestParam MultipartFile file) {
-        if (file != null && file.getSize() > 0) {
-            taskService.create(taskDTO, file);
-        } else {
-            taskService.create(taskDTO);
+        String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        if (!role.equals("[ROLE_ADMIN]")) {
+            taskDTO.setUserId(userRepository.findUsersByLogin(SecurityContextHolder.getContext()
+                    .getAuthentication().getName()).getId());
+            if (file != null && file.getSize() > 0) {
+                taskService.create(taskDTO, file);
+            } else {
+                taskService.create(taskDTO);
+            }
         }
         return "redirect:/task";
     }
@@ -165,10 +181,10 @@ public class MVCTaskController {
 
         if (file != null && file.getSize() > 0) {
             log.info("UPDATE_WITH_FILE");
-            taskService.update(taskDTO, file);
+            taskService.update(taskDTO, file, taskService.getOne(taskDTO.getId()));
         } else {
             log.info("UPDATE_WITHOUT_FILE");
-            taskService.update(taskDTO);
+            taskService.update(taskDTO, taskService.getOne(taskDTO.getId()));
         }
         return "redirect:/task";
     }
@@ -178,10 +194,8 @@ public class MVCTaskController {
                              @RequestParam(value = "size", defaultValue = "5") int pageSize,
                              @ModelAttribute("taskSearchForm") TaskSearchDTO taskSearchDTO,
                              Model model) {
-        PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "id"));
+        PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "id"));
         List<String> categoryDTOS = categoryService.getName(categoryMapper.toDTOs(categoryRepository.findAll()));
-        log.info("FIO_AUTHOR: " + userRepository.findUsersByLogin(SecurityContextHolder.getContext()
-                .getAuthentication().getName()).getLastName());
         if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString().equals("[ROLE_USER]")) {
             taskSearchDTO.setUserFio(userRepository.findUsersByLogin(SecurityContextHolder.getContext()
                     .getAuthentication().getName()).getLastName());
@@ -218,8 +232,8 @@ public class MVCTaskController {
                            @RequestParam(value = "size", defaultValue = "5") int pageSize,
                            Model model) {
         TaskSearchDTO taskSearchDTO = new TaskSearchDTO();
-        taskSearchDTO.setWorkerFio(userService.getUserByLogin("service").getLastName() + " " +
-                userService.getUserByLogin("service").getFirstName());
+        taskSearchDTO.setWorkerFio(userService.getUserByLogin("A_service").getLastName() + " " +
+                userService.getUserByLogin("A_service").getFirstName());
         return searchTask(page, pageSize, taskSearchDTO, model);
     }
 
@@ -303,6 +317,16 @@ public class MVCTaskController {
         TaskDTO task = taskService.getOne(taskDTO.getId());
         task.setDecision(taskDTO.getDecision());
         taskService.updateTaskForExecute(task);
+        return "redirect:/task";
+    }
+    @GetMapping("/unstopTask/{id}")
+    public String unstopTask(@PathVariable Long id) {
+        taskService.updateTaskUnstop(taskService.getOne(id));
+        return "redirect:/task";
+    }
+    @GetMapping("/noexecuteTask/{id}")
+    public String noexecuteTask(@PathVariable Long id) {
+        taskService.updateTaskUnstop(taskService.getOne(id));
         return "redirect:/task";
     }
 
