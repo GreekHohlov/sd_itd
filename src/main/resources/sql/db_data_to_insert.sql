@@ -6,7 +6,7 @@
 --Рекурсивный запрос для категорий
 with recursive temp1  (id, parent_category_id, name_category, path) as (
     select t1.id, t1.parent_category_id, t1.name_category, cast (t1.name_category as varchar(200)) as path
-    from category t1 where t1.parent_category_id IS NULL
+    from category t1 where t1.parent_category_id is null
      union
      select t2.id, t2.parent_category_id, t2.name_category, cast (temp1.path || '->' || t2.name_category as varchar(200))
      from category t2 join temp1 on (temp1.id= t2.parent_category_id))
@@ -150,3 +150,30 @@ values (nextval('tasks_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', 
        (nextval('tasks_seq'), 'Starting loading', '2023-04-01 12:25:10.702359', null, null, false,
         '2023-04-03 10:25:10.702359', null, 'Доработка модуля оповещения в Java', null, null,
         'Доработать модуль оповещения в статусе заявки', 2, 2, 6, 3, 6, 3);
+
+--История заявок
+insert into history
+values (nextval('history_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', null, null, false,
+        'Создана заявка: Starting loading', 1),
+(nextval('history_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', null, null, false,
+        'Создана заявка: Starting loading', 2),
+(nextval('history_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', null, null, false,
+        'Создана заявка: Starting loading', 3),
+(nextval('history_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', null, null, false,
+        'Создана заявка: Starting loading', 4),
+(nextval('history_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', null, null, false,
+        'Создана заявка: Starting loading', 5),
+(nextval('history_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', null, null, false,
+        'Создана заявка: Starting loading', 6),
+(nextval('history_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', null, null, false,
+        'Изменен статус: Заявка в работе. Степаненко Б А', 1),
+(nextval('history_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', null, null, false,
+        'Изменен статус: Заявка в работе. Игнатьев В К', 2),
+(nextval('history_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', null, null, false,
+        'Изменен статус: Заявка в работе. Степаненко Б А', 3),
+(nextval('history_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', null, null, false,
+        'Изменен статус: Заявка в работе. Степаненко Б А', 4),
+(nextval('history_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', null, null, false,
+        'Изменен статус: Заявка остановлена. Обоснование: Тестирование сервиса Степаненко Б А', 5),
+(nextval('history_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', null, null, false,
+        'Изменен статус: Заявка остановлена. Обоснование: Доп тестирование Степаненко Б А', 6)

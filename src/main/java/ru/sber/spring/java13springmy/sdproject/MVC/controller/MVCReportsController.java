@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("reports")
 public class MVCReportsController {
 
-    @GetMapping("/")
+    @GetMapping("")
     public String index(Model model){
         return "reports/report";
     }

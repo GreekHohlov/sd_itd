@@ -80,7 +80,9 @@ public interface PermissionConstants {
             "/reports",
             "/task/stopTask/{id}",
             "/task/stopTask",
-            "/task/unstopTask/{id}");
+            "/task/unstopTask/{id}",
+            "/reports",
+            "reports/report");
 
     List<String> EXECUTOR_PERMISSION_LIST = List.of("/task/search/noAssign",
             "/task/search/assignToMe",

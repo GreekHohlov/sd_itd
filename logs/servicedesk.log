@@ -1,74 +1,60 @@
-2023-04-09 16:37:53,314 INFO o.h.v.i.u.Version [background-preinit] HV000001: Hibernate Validator 8.0.0.Final
-2023-04-09 16:37:53,377 INFO o.s.b.StartupInfoLogger [restartedMain] Starting Java13SpringMyApplication using Java 18.0.2.1 with PID 21788 (C:\Users\bit1.000\YandexDisk\Studies\sd_itd\target\classes started by bit1 in C:\Users\bit1.000\YandexDisk\Studies\sd_itd)
-2023-04-09 16:37:53,384 INFO o.s.b.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
-2023-04-09 16:37:53,889 INFO o.s.b.l.DeferredLog [restartedMain] The Class-Path manifest attribute in C:\Users\bit1.000\.m2\repository\com\sun\xml\bind\jaxb-core\4.0.0\jaxb-core-4.0.0.jar referenced one or more files that do not exist: file:/C:/Users/bit1.000/.m2/repository/com/sun/xml/bind/jaxb-core/4.0.0/jakarta.activation-api.jar,file:/C:/Users/bit1.000/.m2/repository/com/sun/xml/bind/jaxb-core/4.0.0/jakarta.xml.bind-api.jar
-2023-04-09 16:37:53,890 INFO o.s.b.l.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2023-04-09 16:37:53,891 INFO o.s.b.l.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2023-04-09 16:37:55,352 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Multiple Spring Data modules found, entering strict repository configuration mode
-2023-04-09 16:37:55,354 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
-2023-04-09 16:37:55,447 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.AttachmentsRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2023-04-09 16:37:55,449 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.CalendarRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2023-04-09 16:37:55,451 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.CategoryRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2023-04-09 16:37:55,454 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.GroupRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2023-04-09 16:37:55,456 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.HistoryRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2023-04-09 16:37:55,458 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.LocationRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2023-04-09 16:37:55,461 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.RoleRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2023-04-09 16:37:55,465 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.SLARepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2023-04-09 16:37:55,468 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.TaskRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2023-04-09 16:37:55,470 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.TypeTaskRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2023-04-09 16:37:55,473 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.UserRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2023-04-09 16:37:55,476 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.WorkScheduleRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2023-04-09 16:37:55,477 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 115 ms. Found 0 JDBC repository interfaces.
-2023-04-09 16:37:55,490 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Multiple Spring Data modules found, entering strict repository configuration mode
-2023-04-09 16:37:55,491 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-04-09 16:37:55,936 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 405 ms. Found 12 JPA repository interfaces.
-2023-04-09 16:37:56,805 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 9090 (http)
-2023-04-09 16:37:56,823 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-9090"]
-2023-04-09 16:37:56,824 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting service [Tomcat]
-2023-04-09 16:37:56,826 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/10.1.4]
-2023-04-09 16:37:56,943 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
-2023-04-09 16:37:56,944 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 3052 ms
-2023-04-09 16:37:57,199 INFO o.h.j.i.u.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-04-09 16:37:57,291 INFO o.h.Version [restartedMain] HHH000412: Hibernate ORM core version 6.1.6.Final
-2023-04-09 16:37:57,658 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Starting...
-2023-04-09 16:37:57,864 INFO c.z.h.p.HikariPool [restartedMain] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5c3c02fb
-2023-04-09 16:37:57,867 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Start completed.
-2023-04-09 16:37:57,914 INFO o.h.e.j.d.i.DialectFactoryImpl [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
-2023-04-09 16:37:58,185 WARN o.h.b.i.InFlightMetadataCollectorImpl [restartedMain] HHH000069: Duplicate generator name default_gen
-2023-04-09 16:37:58,225 WARN o.h.b.i.InFlightMetadataCollectorImpl [restartedMain] HHH000069: Duplicate generator name default_gen
-2023-04-09 16:37:58,231 WARN o.h.b.i.InFlightMetadataCollectorImpl [restartedMain] HHH000069: Duplicate generator name default_gen
-2023-04-09 16:37:58,239 WARN o.h.b.i.InFlightMetadataCollectorImpl [restartedMain] HHH000069: Duplicate generator name default_gen
-2023-04-09 16:37:58,252 WARN o.h.b.i.InFlightMetadataCollectorImpl [restartedMain] HHH000069: Duplicate generator name default_gen
-2023-04-09 16:37:58,258 WARN o.h.b.i.InFlightMetadataCollectorImpl [restartedMain] HHH000069: Duplicate generator name default_gen
-2023-04-09 16:37:58,281 WARN o.h.b.i.InFlightMetadataCollectorImpl [restartedMain] HHH000069: Duplicate generator name default_gen
-2023-04-09 16:37:58,285 WARN o.h.b.i.InFlightMetadataCollectorImpl [restartedMain] HHH000069: Duplicate generator name default_gen
-2023-04-09 16:37:58,297 WARN o.h.b.i.InFlightMetadataCollectorImpl [restartedMain] HHH000069: Duplicate generator name default_gen
-2023-04-09 16:37:59,759 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-04-09 16:37:59,772 INFO o.s.o.j.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-04-09 16:38:02,415 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-04-09 16:38:02,559 INFO o.s.b.a.w.s.WelcomePageHandlerMapping [restartedMain] Adding welcome page template: index
-2023-04-09 16:38:03,738 INFO o.s.s.w.DefaultSecurityFilterChain [restartedMain] Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@641cb6fe, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@28b48db2, org.springframework.security.web.context.SecurityContextHolderFilter@75ea58fb, org.springframework.security.web.header.HeaderWriterFilter@5c0e1889, org.springframework.security.web.csrf.CsrfFilter@15be363c, org.springframework.security.web.authentication.logout.LogoutFilter@750de459, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@6bb324f5, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@38a4a3aa, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@76ffb623, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5a5290dd, org.springframework.security.web.access.ExceptionTranslationFilter@5538653f, org.springframework.security.web.access.intercept.AuthorizationFilter@2d7c331c]
-2023-04-09 16:38:04,282 INFO o.s.b.d.a.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
-2023-04-09 16:38:04,305 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-9090"]
-2023-04-09 16:38:04,336 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat started on port(s): 9090 (http) with context path ''
-2023-04-09 16:38:04,348 INFO o.s.b.StartupInfoLogger [restartedMain] Started Java13SpringMyApplication in 11.576 seconds (process running for 13.325)
-2023-04-09 16:38:11,273 INFO o.a.j.l.DirectJDKLog [http-nio-9090-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
-2023-04-09 16:38:11,274 INFO o.s.w.s.FrameworkServlet [http-nio-9090-exec-1] Initializing Servlet 'dispatcherServlet'
-2023-04-09 16:38:11,279 INFO o.s.w.s.FrameworkServlet [http-nio-9090-exec-1] Completed initialization in 4 ms
-2023-04-09 16:38:16,415 ERROR r.s.s.j.s.M.c.MVCErrorController [http-nio-9090-exec-10] Случилась беда! Ошибка 404
-2023-04-09 16:38:24,874 INFO r.s.s.j.s.s.HistoryService [http-nio-9090-exec-3] TASK_DTO_ID_TASKDTO: 41
-2023-04-09 16:38:24,881 INFO r.s.s.j.s.s.HistoryService [http-nio-9090-exec-3] TASK_DTO_HISTORY: HistoryDTO(taskId=41, event=Изменен статус:
-Заявка в работе. 
-Степаненко Б А
-
-)
-2023-04-09 16:38:44,013 INFO r.s.s.j.s.M.c.MVCTaskController [http-nio-9090-exec-8] UPDATE_POSTMAPPING_TASK_DTO: TaskDTO(nameTask=Поправлен метод, typeTaskId=1, priority=HIGH, categoryId=1, description=Работает, createDate=null, endDate=null, attachmentsIds=null, userId=3, workerId=3, statusTask=AT_WORK, files=, decision=null, historyIds=null)
-2023-04-09 16:38:44,014 INFO r.s.s.j.s.M.c.MVCTaskController [http-nio-9090-exec-8] UPDATE_WITHOUT_FILE
-2023-04-09 16:38:44,032 INFO r.s.s.j.s.s.HistoryService [http-nio-9090-exec-8] TASK_DTO_ID_TASKDTO: 41
-2023-04-09 16:38:44,032 INFO r.s.s.j.s.s.HistoryService [http-nio-9090-exec-8] TASK_DTO_HISTORY: HistoryDTO(taskId=41, event=Обновлена заявка: 
-Степаненко Б А
-
-)
-2023-04-09 16:39:03,103 INFO o.s.o.j.AbstractEntityManagerFactoryBean [SpringApplicationShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-04-09 16:39:03,109 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
-2023-04-09 16:39:03,115 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.
+2023-04-10 21:01:19,413 INFO o.s.t.c.s.AnnotationConfigContextLoaderUtils [main] Could not detect default configuration classes for test class [ru.sber.spring.java13springmy.sdproject.MVC.controller.SLAControllerTest]: SLAControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2023-04-10 21:01:19,729 INFO o.s.b.t.c.SpringBootTestContextBootstrapper [main] Found @SpringBootConfiguration ru.sber.spring.java13springmy.Java13SpringMyApplication for test class ru.sber.spring.java13springmy.sdproject.MVC.controller.SLAControllerTest
+2023-04-10 21:01:20,552 INFO o.h.v.i.u.Version [background-preinit] HV000001: Hibernate Validator 8.0.0.Final
+2023-04-10 21:01:20,621 INFO o.s.b.StartupInfoLogger [main] Starting SLAControllerTest using Java 18.0.2.1 with PID 23448 (started by bit1 in C:\Users\bit1.000\YandexDisk\Studies\sd_itd)
+2023-04-10 21:01:20,629 INFO o.s.b.SpringApplication [main] No active profile set, falling back to 1 default profile: "default"
+2023-04-10 21:01:23,019 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Multiple Spring Data modules found, entering strict repository configuration mode
+2023-04-10 21:01:23,023 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2023-04-10 21:01:23,153 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [main] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.AttachmentsRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-04-10 21:01:23,157 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [main] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.CalendarRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-04-10 21:01:23,160 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [main] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.CategoryRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-04-10 21:01:23,162 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [main] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.GroupRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-04-10 21:01:23,166 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [main] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.HistoryRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-04-10 21:01:23,169 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [main] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.LocationRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-04-10 21:01:23,173 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [main] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.RoleRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-04-10 21:01:23,176 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [main] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.SLARepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-04-10 21:01:23,180 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [main] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.TaskRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-04-10 21:01:23,183 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [main] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.TypeTaskRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-04-10 21:01:23,187 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [main] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.UserRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-04-10 21:01:23,190 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [main] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.WorkScheduleRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-04-10 21:01:23,191 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 150 ms. Found 0 JDBC repository interfaces.
+2023-04-10 21:01:23,230 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Multiple Spring Data modules found, entering strict repository configuration mode
+2023-04-10 21:01:23,241 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-04-10 21:01:23,466 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 204 ms. Found 12 JPA repository interfaces.
+2023-04-10 21:01:25,008 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat initialized with port(s): 0 (http)
+2023-04-10 21:01:25,026 INFO o.a.j.l.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-auto-1"]
+2023-04-10 21:01:25,027 INFO o.a.j.l.DirectJDKLog [main] Starting service [Tomcat]
+2023-04-10 21:01:25,028 INFO o.a.j.l.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/10.1.4]
+2023-04-10 21:01:25,224 INFO o.a.j.l.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
+2023-04-10 21:01:25,230 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 4055 ms
+2023-04-10 21:01:25,615 INFO o.h.j.i.u.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-04-10 21:01:25,790 INFO o.h.Version [main] HHH000412: Hibernate ORM core version 6.1.6.Final
+2023-04-10 21:01:26,314 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Starting...
+2023-04-10 21:01:26,695 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4219a4cc
+2023-04-10 21:01:26,700 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
+2023-04-10 21:01:26,787 INFO o.h.e.j.d.i.DialectFactoryImpl [main] HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2023-04-10 21:01:27,273 WARN o.h.b.i.InFlightMetadataCollectorImpl [main] HHH000069: Duplicate generator name default_gen
+2023-04-10 21:01:27,358 WARN o.h.b.i.InFlightMetadataCollectorImpl [main] HHH000069: Duplicate generator name default_gen
+2023-04-10 21:01:27,371 WARN o.h.b.i.InFlightMetadataCollectorImpl [main] HHH000069: Duplicate generator name default_gen
+2023-04-10 21:01:27,381 WARN o.h.b.i.InFlightMetadataCollectorImpl [main] HHH000069: Duplicate generator name default_gen
+2023-04-10 21:01:27,408 WARN o.h.b.i.InFlightMetadataCollectorImpl [main] HHH000069: Duplicate generator name default_gen
+2023-04-10 21:01:27,428 WARN o.h.b.i.InFlightMetadataCollectorImpl [main] HHH000069: Duplicate generator name default_gen
+2023-04-10 21:01:27,467 WARN o.h.b.i.InFlightMetadataCollectorImpl [main] HHH000069: Duplicate generator name default_gen
+2023-04-10 21:01:27,477 WARN o.h.b.i.InFlightMetadataCollectorImpl [main] HHH000069: Duplicate generator name default_gen
+2023-04-10 21:01:27,526 WARN o.h.b.i.InFlightMetadataCollectorImpl [main] HHH000069: Duplicate generator name default_gen
+2023-04-10 21:01:29,546 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-04-10 21:01:29,559 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-04-10 21:01:33,883 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-04-10 21:01:34,096 INFO o.s.s.w.DefaultSecurityFilterChain [main] Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4aed4ff, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2220910, org.springframework.security.web.context.SecurityContextHolderFilter@1881ef74, org.springframework.security.web.header.HeaderWriterFilter@49ffd0cb, org.springframework.security.web.csrf.CsrfFilter@a6a7c4f, org.springframework.security.web.authentication.logout.LogoutFilter@63eebb56, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@7a970f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1ae3d0a8, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1b596e21, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@563434b4, org.springframework.security.web.access.ExceptionTranslationFilter@7158a28c, org.springframework.security.web.access.intercept.AuthorizationFilter@1bf3af3d]
+2023-04-10 21:01:34,514 INFO o.s.b.a.w.s.WelcomePageHandlerMapping [main] Adding welcome page template: index
+2023-04-10 21:01:37,626 INFO o.a.j.l.DirectJDKLog [main] Initializing Spring TestDispatcherServlet ''
+2023-04-10 21:01:37,626 INFO o.s.w.s.FrameworkServlet [main] Initializing Servlet ''
+2023-04-10 21:01:37,633 INFO o.s.w.s.FrameworkServlet [main] Completed initialization in 4 ms
+2023-04-10 21:01:37,716 INFO o.a.j.l.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-auto-1"]
+2023-04-10 21:01:37,761 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat started on port(s): 58685 (http) with context path ''
+2023-04-10 21:01:37,779 INFO o.s.b.StartupInfoLogger [main] Started SLAControllerTest in 17.763 seconds (process running for 21.299)
+2023-04-10 21:01:38,327 INFO r.s.s.j.s.M.c.SLAControllerTest [main] Тест по созданию типа заявок через MVC начат успешно
+2023-04-10 21:01:38,558 INFO r.s.s.j.s.M.c.SLAControllerTest [main] Тест по созданию SLA через MVC закончен успешно
+2023-04-10 21:01:38,616 INFO o.s.o.j.AbstractEntityManagerFactoryBean [SpringApplicationShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-04-10 21:01:38,620 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
+2023-04-10 21:01:38,627 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.

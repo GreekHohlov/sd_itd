@@ -7,13 +7,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import ru.sber.spring.java13springmy.sdproject.dto.GroupDTO;
+import ru.sber.spring.java13springmy.sdproject.dto.TaskDTO;
+import ru.sber.spring.java13springmy.sdproject.model.Priority;
+import ru.sber.spring.java13springmy.sdproject.model.StatusTask;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -26,17 +26,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Slf4j
 
-public class GroupControllerTest extends CommonTestMVC {
+public class ReportsControllerTest extends CommonTestMVC {
 
 
     @Test
-    @DisplayName("Просмотр всех авторов через MVC контроллер, тестирование '/groups'")
+    @DisplayName("Просмотр всех отчетов через MVC контроллер, тестирование '/reports'")
     @Order(0)
     @WithAnonymousUser
     @Override
     protected void getAll() throws Exception {
-        log.info("Тест по выбору всех ролей через MVC начат");
-        mvc.perform(get("/groups")
+        log.info("Тест по выбору всех отчутов через MVC начат");
+        mvc.perform(get("/reports")
 //                        .param("page", "1")
 //                        .param("size", "5")
                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -44,31 +44,39 @@ public class GroupControllerTest extends CommonTestMVC {
                 )
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(view().name("groups/viewAllGroup"))
-                .andExpect(model().attributeExists("groups"))
+                .andExpect(view().name("reports/report"))
                 .andReturn();
     }
 
-    @Test
-    @DisplayName("Создание группы через MVC контроллер, тестирование 'groups/add'")
-    @Order(1)
-    @WithMockUser(username = "admin", roles = "ADMIN", password = "admin")
     @Override
     protected void create() throws Exception {
-        log.info("Тест по созданию группы через MVC начат успешно");
-        GroupDTO groupDTO = new GroupDTO("MVC_TestGroupName", new HashSet<>());
-
-        mvc.perform(post("/groups/add")
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .flashAttr("groupForm", groupDTO)
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .with(csrf()))
-                .andDo(print())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/groups"))
-                .andExpect(redirectedUrlTemplate("/groups"))
-                .andExpect(redirectedUrl("/groups"));
-        log.info("Тест по созданию группы через MVC закончен успешно");
+//        log.info("Тест по созданию группы через MVC начат успешно");
+//        TaskDTO taskDTO = new TaskDTO("MVC_TestTaskName",
+//                1L,
+//                Priority.HIGH,
+//                1L,
+//                "description1",
+//                LocalDateTime.now(),
+//                LocalDateTime.now().plusDays(1L),
+//                new HashSet<Long>(),
+//                1L,
+//                1L,
+//                StatusTask.OPEN,
+//                null,
+//                "decision1",
+//                new HashSet<Long>());
+//
+//        mvc.perform(post("/task/add")
+//                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+//                        .flashAttr("taskForm", taskDTO)
+//                        .accept(MediaType.APPLICATION_JSON_VALUE)
+//                        .with(csrf()))
+//                .andDo(print())
+//                .andExpect(status().is3xxRedirection())
+//                .andExpect(view().name("redirect:/task"))
+//                .andExpect(redirectedUrlTemplate("/task"))
+//                .andExpect(redirectedUrl("/task"));
+//        log.info("Тест по созданию заявки через MVC закончен успешно");
     }
 
     @Override
@@ -76,10 +84,6 @@ public class GroupControllerTest extends CommonTestMVC {
 
     }
 
-    @Test
-    @DisplayName("Удаление группы через MVC контроллер, тестирование 'groups/deleteSoft'")
-    @Order(4)
-    @WithMockUser(username = "admin", roles = "ADMIN", password = "admin")
     @Override
     protected void delete() throws Exception {
 
