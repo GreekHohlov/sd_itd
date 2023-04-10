@@ -29,7 +29,7 @@ public class Task extends GenericModel {
     @JoinColumn(name = "category", foreignKey = @ForeignKey(name = "FK_TASK_INFO_CATEGORY_FIRST"))
     private Category category;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", nullable = false, length = 2550)
     private String description;
 
     @Column(name = "create_date", nullable = false)

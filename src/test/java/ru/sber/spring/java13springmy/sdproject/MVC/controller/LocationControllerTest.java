@@ -2,90 +2,83 @@ package ru.sber.spring.java13springmy.sdproject.MVC.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import ru.sber.spring.java13springmy.sdproject.model.Location;
-import ru.sber.spring.java13springmy.sdproject.service.userdetails.CustomUserDetailsService;
+import ru.sber.spring.java13springmy.sdproject.dto.LocationDTO;
 
 import java.util.HashSet;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
 @Slf4j
-@WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
-public class LocationControllerTest {
-
-    @Autowired
-    protected MockMvc mvc;
-    @Autowired
-    protected CustomUserDetailsService userDetailsService;
-
+public class LocationControllerTest extends CommonTestMVC {
     @Test
-    @Order(1)
+    @DisplayName("Просмотр всех площадок через MVC контроллер, тестирование '/locations'")
+    @Order(0)
+    @WithAnonymousUser
+    @Override
     protected void getAll() throws Exception {
-        log.info("Тест по просмотра всех Площадок через MVC начат успешно");
-        String result = mvc.perform(MockMvcRequestBuilders.get("/locations")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+        log.info("Тест по выбору всех площадок через MVC начат");
+        mvc.perform(get("/locations")
+//                        .param("page", "1")
+//                        .param("size", "5")
+                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                .accept(MediaType.APPLICATION_JSON_VALUE)
+                )
+                .andDo(print())
                 .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-        log.info(result);
-        log.info("Тест по просмотра всех Плоощадки через MVC закончен успешно");
+                .andExpect(view().name("locations/viewAllLocation"))
+                .andExpect(model().attributeExists("locations"))
+                .andReturn();
     }
 
     @Test
-    @Order(2)
-    public void create() throws Exception {
-//        mvc.perform(MockMvcRequestBuilders.get("/locations/add"))
-//                        .andExpect(status().isOk());
+    @DisplayName("Создание площадки через MVC контроллер, тестирование 'location/add'")
+    @Order(1)
+    @WithMockUser(username = "admin", roles = "ADMIN", password = "admin")
+    @Override
+    protected void create() throws Exception {
+        log.info("Тест по созданию площадки через MVC начат успешно");
+        LocationDTO locationDTO = new LocationDTO("MVC_TestLocationFormName", new HashSet<>());
 
+        mvc.perform(post("/locations/add")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .flashAttr("locationForm", locationDTO)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .with(csrf()))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/locations"))
+                .andExpect(redirectedUrlTemplate("/locations"))
+                .andExpect(redirectedUrl("/locations"));
+        log.info("Тест по созданию площадки через MVC закончен успешно");
+    }
+
+    @Override
+    protected void update() throws Exception {
+
+    }
+
+    @Override
+    protected void delete() throws Exception {
 
     }
 
     @Test
-    @Order(3)
-    public void deleteSoft() throws Exception {
-//        Location location1 = new Location("name1",new HashSet<>());
-//
-//        log.info("Тест по удалению  начат успешно");
-//        mvc.perform(MockMvcRequestBuilders.delete("/locations/deleteSoft/{id}", 1L)
-//
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .accept(MediaType.APPLICATION_JSON)
-//                )
-//
-//                .andExpect(status().is2xxSuccessful());
-
-
-//
-//        mvc.perform(MockMvcRequestBuilders.get("/locations/deleteSoft/{id}", 1L)
-//                        //    .headers(headers)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .accept(MediaType.APPLICATION_JSON)
-//                )
-//           //     .andExpect(MockMvcResultMatchers.redirectedUrl("localhost:9090/locations"))
-//                .andExpect(status().is3xxRedirection());
-
+    @DisplayName("Soft удаление площадки через MVC контроллер, тестирование 'locations/deleteSoft'")
+    @Order(4)
+//    @Override
+    protected void deleteSoft() throws Exception {
 
     }
-
-
 }
-

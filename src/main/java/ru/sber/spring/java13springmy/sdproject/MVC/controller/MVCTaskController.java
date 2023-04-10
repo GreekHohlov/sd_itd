@@ -137,18 +137,18 @@ public class MVCTaskController {
     }
 
     @PostMapping("/add")
-    public String create(@ModelAttribute("taskForm") TaskDTO taskDTO
-//                         @RequestParam MultipartFile file
+    public String create(@ModelAttribute("taskForm") TaskDTO taskDTO,
+                         @RequestParam MultipartFile file
     ) {
         String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         if (!role.equals("[ROLE_ADMIN]")) {
             taskDTO.setUserId(userRepository.findUsersByLogin(SecurityContextHolder.getContext()
                     .getAuthentication().getName()).getId());
-//            if (file != null && file.getSize() > 0) {
-//                taskService.create(taskDTO, file);
-//            } else {
+            if (file != null && file.getSize() > 0) {
+                taskService.create(taskDTO, file);
+            } else {
                 taskService.create(taskDTO);
-//            }
+            }
         }
         return "redirect:/task";
     }

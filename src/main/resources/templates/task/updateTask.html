@@ -34,10 +34,16 @@
             <div class="mt-3 row g2">
                 <div class="col-md">
                     <div class="form-floating mb-3">
-                        <input name="description" th:value="${task.getDescription()}" class="form-control input-bg"
-                               id="description" rows="5" placeholder="Описание проблемы" required>
-                        <label for="description">Описание проблемы</label>
+                        <textarea name="description" class="form-control input-bg" id="description" style="height: 150px"
+                                  th:text="${task.getDescription()}"
+                                  placeholder="Описание проблемы" required></textarea>
+                        <label for="description" class="form-label">Описание проблемы</label>
                         <div class="invalid-feedback">Обязательное поле для заполнения</div>
+
+<!--                        <input name="description" th:value="${task.getDescription()}" class="form-control input-bg"-->
+<!--                               id="description" rows="5" placeholder="Описание проблемы" required>-->
+<!--                        <label for="description">Описание проблемы</label>-->
+<!--                        <div class="invalid-feedback">Обязательное поле для заполнения</div>-->
                     </div>
                 </div>
             </div>

@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
-import ru.sber.spring.java13springmy.sdproject.dto.GroupDTO;
+import ru.sber.spring.java13springmy.sdproject.dto.CategoryDTO;
 
 import java.util.HashSet;
 
@@ -17,20 +17,20 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @Slf4j
-
-public class GroupControllerTest extends CommonTestMVC {
+public class CategoryControllerTest extends CommonTestMVC {
     @Test
-    @DisplayName("Просмотр всех авторов через MVC контроллер, тестирование '/groups'")
+    @DisplayName("Просмотр всех категорий через MVC контроллер, тестирование '/category'")
     @Order(0)
     @WithAnonymousUser
     @Override
     protected void getAll() throws Exception {
-        log.info("Тест по выбору всех ролей через MVC начат");
-        mvc.perform(get("/groups")
+        log.info("Тест по выбору всех категорий через MVC начат");
+        mvc.perform(get("/category")
 //                        .param("page", "1")
 //                        .param("size", "5")
                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -38,50 +38,53 @@ public class GroupControllerTest extends CommonTestMVC {
                 )
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(view().name("groups/viewAllGroup"))
-                .andExpect(model().attributeExists("groups"))
+                .andExpect(view().name("category/viewAllCategory"))
+                .andExpect(model().attributeExists("category"))
                 .andReturn();
     }
 
     @Test
-    @DisplayName("Создание группы через MVC контроллер, тестирование 'groups/add'")
+    @DisplayName("Создание категории через MVC контроллер, тестирование 'category/add'")
     @Order(1)
     @WithMockUser(username = "admin", roles = "ADMIN", password = "admin")
     @Override
     protected void create() throws Exception {
-        log.info("Тест по созданию группы через MVC начат успешно");
-        GroupDTO groupDTO = new GroupDTO("MVC_TestGroupName", new HashSet<>());
+        log.info("Тест по созданию категории через MVC начат успешно");
+        CategoryDTO categoryDTO = new CategoryDTO("MVC_TestCategoryName",
+                1L,
+                null,
+                new HashSet<>(),
+                new HashSet<>());
 
-        mvc.perform(post("/groups/add")
+        mvc.perform(post("/category/add")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .flashAttr("groupForm", groupDTO)
+                        .flashAttr("categoryForm", categoryDTO)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .with(csrf()))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/groups"))
-                .andExpect(redirectedUrlTemplate("/groups"))
-                .andExpect(redirectedUrl("/groups"));
+                .andExpect(view().name("redirect:/category"))
+                .andExpect(redirectedUrlTemplate("/category"))
+                .andExpect(redirectedUrl("/category"));
         log.info("Тест по созданию группы через MVC закончен успешно");
     }
 
+
     @Override
     protected void update() throws Exception {
-
-    }
+     }
 
     @Override
     protected void delete() throws Exception {
 
     }
 
+
     @Test
-    @DisplayName("Soft удаление группы через MVC контроллер, тестирование 'groups/deleteSoft'")
-    @Order(4)
+    @DisplayName("Удаление группы через MVC контроллер, тестирование 'groups/deleteSoft'")
+    @Order(2)
 //    @Override
     protected void deleteSoft() throws Exception {
 
     }
 }
-
-

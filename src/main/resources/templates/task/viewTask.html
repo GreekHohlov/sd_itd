@@ -29,7 +29,7 @@
             <div class="mb-2 row">
                 <label for="description" class="col-sm-2 col-form-label no-border">Описание:</label>
                 <div class="col-sm-10">
-                    <p th:text="${task.getDescription()}" type="text" readonly class="form-control-plaintext"
+                    <p th:text="${task.getDescription()}" type="text" style="max-width: 50vw;" readonly class="form-control-plaintext"
                        id="description">
                 </div>
             </div>
@@ -55,7 +55,7 @@
             <div class="mb-2 row">
                 <label for="description" class="col-sm-2 col-form-label no-border">Информация:</label>
                 <div class="col-sm-10">
-                    <p th:text="${task.getDecision()}" type="text" readonly class="form-control-plaintext"
+                    <p th:text="${task.getDecision()}" type="text"  style="max-width: 50vw;" readonly class="form-control-plaintext"
                        id="decision">
                 </div>
             </div>
