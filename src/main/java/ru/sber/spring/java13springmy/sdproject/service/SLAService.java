@@ -10,9 +10,11 @@ import ru.sber.spring.java13springmy.sdproject.repository.SLARepository;
 
 @Service
 public class SLAService extends GenericService<SLA, SLADTO> {
+    private final SLARepository slaRepository;
     protected SLAService(SLARepository slaRepository,
                          SLAMapper slaMapper) {
         super(slaRepository, slaMapper);
+        this.slaRepository = slaRepository;
     }
 
     public void deleteSoft(Long id) throws MyDeleteException {
@@ -27,5 +29,9 @@ public class SLAService extends GenericService<SLA, SLADTO> {
                 () -> new NotFoundException("SLA с заданным ID=" + objectId + " не существует"));
         unMarkAsDeleted(sla);
         repository.save(sla);
+    }
+
+    public SLADTO findByName(String nameSLA) {
+        return mapper.toDto(slaRepository.findByNameSLA(nameSLA));
     }
 }

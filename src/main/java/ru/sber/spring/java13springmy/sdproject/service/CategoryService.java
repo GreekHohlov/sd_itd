@@ -13,9 +13,11 @@ import java.util.List;
 
 @Service
 public class CategoryService extends GenericService<Category, CategoryDTO> {
+    private final CategoryRepository categoryRepository;
     protected CategoryService(CategoryRepository categoryRepository,
                               CategoryMapper categoryMapper) {
         super(categoryRepository, categoryMapper);
+        this.categoryRepository = categoryRepository;
     }
 
     public List<String> getName(List<CategoryDTO> categoryDTO) {
@@ -38,5 +40,9 @@ public class CategoryService extends GenericService<Category, CategoryDTO> {
                 () -> new NotFoundException("Категории с заданным ID=" + objectId + " не существует"));
         unMarkAsDeleted(category);
         repository.save(category);
+    }
+
+    public CategoryDTO findByName(String nameCategory) {
+        return mapper.toDto(categoryRepository.findByNameCategory(nameCategory));
     }
 }

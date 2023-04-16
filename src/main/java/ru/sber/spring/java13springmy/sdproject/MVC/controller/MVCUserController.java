@@ -149,13 +149,14 @@ public class MVCUserController {
     @GetMapping("/profile/{id}")
     public String userProfile(@PathVariable Integer id,
                               Model model) throws AuthException {
-        CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (!Objects.isNull(customUserDetails.getUserId())) {
-            if (!ADMIN.equalsIgnoreCase(customUserDetails.getUsername())) {
+//        CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        if (!Objects.isNull(customUserDetails.getUserId())) {
+            if (!ADMIN.equalsIgnoreCase(SecurityContextHolder.getContext().getAuthentication().getName())) {
+                CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
                 if (!id.equals(customUserDetails.getUserId())) {
                     throw new AuthException(HttpStatus.FORBIDDEN + ": " + Errors.Users.USER_FORBIDDEN_ERROR);
                 }
-            }
+//            }
         }
         model.addAttribute("user", userService.getOne(Long.valueOf(id)));
         return "profile/viewProfile";

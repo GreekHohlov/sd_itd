@@ -5,4 +5,5 @@ import ru.sber.spring.java13springmy.sdproject.model.SLA;
 
 @Repository
 public interface SLARepository extends GenericRepository<SLA> {
+    SLA findByNameSLA(String nameSLA);
 }

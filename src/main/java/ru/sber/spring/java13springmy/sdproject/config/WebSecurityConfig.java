@@ -43,10 +43,10 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity
-                //TODO Для учебных целей пока отключим
 //                .csrf(csrf -> csrf
 //                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 //                )
+                .csrf().disable().cors().disable()
 
                 .authorizeHttpRequests((requests) -> requests
                                 .requestMatchers(RESOURCES_WHITE_LIST.toArray(String[]::new)).permitAll()

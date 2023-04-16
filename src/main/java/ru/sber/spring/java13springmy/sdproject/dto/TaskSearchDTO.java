@@ -1,8 +1,6 @@
 package ru.sber.spring.java13springmy.sdproject.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import ru.sber.spring.java13springmy.sdproject.model.StatusTask;
 
 @Getter

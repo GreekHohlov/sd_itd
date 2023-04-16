@@ -5,4 +5,5 @@ import ru.sber.spring.java13springmy.sdproject.model.Group;
 
 @Repository
 public interface GroupRepository extends GenericRepository<Group> {
+    Group findByResponsible(String responsible);
 }

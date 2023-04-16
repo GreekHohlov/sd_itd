@@ -10,6 +10,7 @@ import ru.sber.spring.java13springmy.TypeTaskTestData;
 import ru.sber.spring.java13springmy.sdproject.dto.TypeTaskDTO;
 import ru.sber.spring.java13springmy.sdproject.exception.MyDeleteException;
 import ru.sber.spring.java13springmy.sdproject.mapper.TypeTaskMapper;
+import ru.sber.spring.java13springmy.sdproject.mapper.TypeTaskTempMapper;
 import ru.sber.spring.java13springmy.sdproject.model.TypeTask;
 import ru.sber.spring.java13springmy.sdproject.repository.TypeTaskRepository;
 
@@ -27,7 +28,8 @@ public class TypeTaskServiceTest extends GenericTest<TypeTask, TypeTaskDTO> {
         super();
         repository = Mockito.mock(TypeTaskRepository.class);
         mapper = Mockito.mock(TypeTaskMapper.class);
-        service = new TypeTaskService((TypeTaskRepository) repository, (TypeTaskMapper) mapper);
+        TypeTaskTempMapper tempMapper = Mockito.mock(TypeTaskTempMapper.class);
+        service = new TypeTaskService((TypeTaskRepository) repository, (TypeTaskMapper) mapper, tempMapper);
     }
 
     @Test

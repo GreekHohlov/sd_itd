@@ -25,6 +25,7 @@ import ru.sber.spring.java13springmy.sdproject.exception.MyDeleteException;
 import ru.sber.spring.java13springmy.sdproject.mapper.CategoryMapper;
 import ru.sber.spring.java13springmy.sdproject.mapper.TypeTaskMapper;
 import ru.sber.spring.java13springmy.sdproject.mapper.UserMapper;
+import ru.sber.spring.java13springmy.sdproject.model.User;
 import ru.sber.spring.java13springmy.sdproject.repository.CategoryRepository;
 import ru.sber.spring.java13springmy.sdproject.repository.TypeTaskRepository;
 import ru.sber.spring.java13springmy.sdproject.repository.UserRepository;
@@ -179,7 +180,6 @@ public class MVCTaskController {
                          @ModelAttribute("user") String userId,
                          @RequestParam MultipartFile file) {
         log.info("UPDATE_POSTMAPPING_TASK_DTO: " + taskDTO);
-
         if (file != null && file.getSize() > 0) {
             log.info("UPDATE_WITH_FILE");
             taskService.update(taskDTO, file, taskService.getOne(taskDTO.getId()));
@@ -304,7 +304,11 @@ public class MVCTaskController {
         taskService.updateTaskForStop(task);
         return "redirect:/task";
     }
-
+    @GetMapping("/unstopTask/{id}")
+    public String unstopTask(@PathVariable Long id) {
+        taskService.updateTaskUnstop(taskService.getOne(id));
+        return "redirect:/task";
+    }
     @GetMapping("/executeTask/{id}")
     public String executeTask(@PathVariable Long id,
                               Model model) {
@@ -318,11 +322,6 @@ public class MVCTaskController {
         TaskDTO task = taskService.getOne(taskDTO.getId());
         task.setDecision(taskDTO.getDecision());
         taskService.updateTaskForExecute(task);
-        return "redirect:/task";
-    }
-    @GetMapping("/unstopTask/{id}")
-    public String unstopTask(@PathVariable Long id) {
-        taskService.updateTaskUnstop(taskService.getOne(id));
         return "redirect:/task";
     }
     @GetMapping("/noexecuteTask/{id}")

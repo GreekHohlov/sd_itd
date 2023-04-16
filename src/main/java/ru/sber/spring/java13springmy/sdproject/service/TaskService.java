@@ -111,7 +111,7 @@ public class TaskService extends GenericService<Task, TaskDTO> {
 
     public TaskDTO create(final TaskDTO taskDTO) {
         User user = userRepository.findUsersByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
-//        taskDTO.setUserId(userRepository.findUsersByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId());
+        taskDTO.setUserId(userRepository.findUsersByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId());
         taskDTO.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         taskDTO.setCreatedWhen(LocalDateTime.now());
         taskDTO.setCreateDate(LocalDateTime.now());
@@ -157,6 +157,7 @@ public class TaskService extends GenericService<Task, TaskDTO> {
         taskDTO.setFiles(fileName);
         taskDTO.setCreateDate(tempTask.getCreateDate());
         taskDTO.setEndDate(tempTask.getEndDate());
+        log.info("USER_FOT_TEST: " + user);
         HistoryDTO historyDTO = historyService.create(taskDTO, user, "Обновлена заявка:");
         taskDTO.setHistoryIds(tempTask.getHistoryIds());
         taskDTO.getHistoryIds().add(historyDTO.getId());
@@ -176,7 +177,7 @@ public class TaskService extends GenericService<Task, TaskDTO> {
     }
 
     public void updateTaskForWorking(TaskDTO taskDTO) {
-        CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepository.findUsersByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
         if (Objects.isNull(taskDTO.getEndDate())) {
             taskDTO.setStatusTask(StatusTask.AT_WORK);
@@ -184,7 +185,7 @@ public class TaskService extends GenericService<Task, TaskDTO> {
                     .getReferenceById(taskDTO.getTypeTaskId()).getSla()).getId()).getExecutionTime()));
         }
         HistoryDTO historyDTO = historyService.create(taskDTO, user, "Изменен статус:\nЗаявка в работе.");
-        taskDTO.setWorkerId(Long.valueOf(customUserDetails.getUserId()));
+        taskDTO.setWorkerId(user.getId());
         taskDTO.getHistoryIds().add(historyDTO.getId());
         mapper.toDto(repository.save(mapper.toEntity(taskDTO)));
     }
