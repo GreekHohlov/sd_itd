@@ -17,14 +17,14 @@ public class MVCErrorController
         implements ErrorController {
     //TODO:  При активации сыпит ошибку 404, хотя всё работает
 
-//        @RequestMapping("/error")
-//    public String handleError(HttpServletRequest httpServletRequest,
-//                              Model model) {
-//        log.error("Случилась беда! Ошибка {}",
-//                httpServletRequest.getAttribute(ERROR_STATUS_CODE));
-//        model.addAttribute("exception",
-//                "Ошибка " + httpServletRequest.getAttribute(ERROR_STATUS_CODE) + " в маппинге " +
-//                        httpServletRequest.getAttribute(ERROR_REQUEST_URI));
-//        return "error";
-//    }
+        @RequestMapping("/error")
+    public String handleError(HttpServletRequest httpServletRequest,
+                              Model model) {
+        log.error("Случилась беда! Ошибка {}",
+                httpServletRequest.getAttribute(ERROR_STATUS_CODE));
+        model.addAttribute("exception",
+                "Ошибка " + httpServletRequest.getAttribute(ERROR_STATUS_CODE) + " в маппинге " +
+                        httpServletRequest.getAttribute(ERROR_REQUEST_URI));
+        return "error";
+    }
 }

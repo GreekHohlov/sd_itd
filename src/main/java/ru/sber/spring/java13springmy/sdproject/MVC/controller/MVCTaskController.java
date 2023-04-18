@@ -25,18 +25,20 @@ import ru.sber.spring.java13springmy.sdproject.exception.MyDeleteException;
 import ru.sber.spring.java13springmy.sdproject.mapper.CategoryMapper;
 import ru.sber.spring.java13springmy.sdproject.mapper.TypeTaskMapper;
 import ru.sber.spring.java13springmy.sdproject.mapper.UserMapper;
-import ru.sber.spring.java13springmy.sdproject.model.StatusTask;
+import ru.sber.spring.java13springmy.sdproject.model.User;
 import ru.sber.spring.java13springmy.sdproject.repository.CategoryRepository;
 import ru.sber.spring.java13springmy.sdproject.repository.TypeTaskRepository;
 import ru.sber.spring.java13springmy.sdproject.repository.UserRepository;
 import ru.sber.spring.java13springmy.sdproject.service.CategoryService;
+import ru.sber.spring.java13springmy.sdproject.service.HistoryService;
 import ru.sber.spring.java13springmy.sdproject.service.TaskService;
+import ru.sber.spring.java13springmy.sdproject.service.UserService;
+import ru.sber.spring.java13springmy.sdproject.service.userdetails.CustomUserDetails;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Hidden
@@ -52,6 +54,8 @@ public class MVCTaskController {
     private final UserRepository userRepository;
     private final TypeTaskMapper typeTaskMapper;
     private final TypeTaskRepository typeTaskRepository;
+    private final UserService userService;
+    private final HistoryService historyService;
 
     public MVCTaskController(TaskService taskService,
                              CategoryMapper categoryMapper,
@@ -60,7 +64,9 @@ public class MVCTaskController {
                              UserMapper userMapper,
                              UserRepository userRepository,
                              TypeTaskMapper typeTaskMapper,
-                             TypeTaskRepository typeTaskRepository) {
+                             TypeTaskRepository typeTaskRepository,
+                             UserService userService,
+                             HistoryService historyService) {
         this.taskService = taskService;
         this.categoryMapper = categoryMapper;
         this.categoryRepository = categoryRepository;
@@ -69,6 +75,8 @@ public class MVCTaskController {
         this.userRepository = userRepository;
         this.typeTaskMapper = typeTaskMapper;
         this.typeTaskRepository = typeTaskRepository;
+        this.userService = userService;
+        this.historyService = historyService;
     }
 
     @GetMapping("")
@@ -76,16 +84,19 @@ public class MVCTaskController {
                          @RequestParam(value = "size", defaultValue = "5") int pageSize,
                          Model model) {
         String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-        PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "id"));
+
+        PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "id"));
         Page<TaskWithUserDTO> result;
         if (role.equals("[ROLE_USER]")) {
             String login = userRepository.findUsersByLogin(SecurityContextHolder.getContext()
                     .getAuthentication().getName()).getLogin();
             result = taskService.findAllTaskByLogin(login, pageRequest);
-        } else if (role.equals("[ROLE_EXECUTOR]") || role.equals("[ROLE_MAIN_EXECUTOR]")){
+        } else if (role.equals("[ROLE_EXECUTOR]") || role.equals("[ROLE_MAIN_EXECUTOR]")) {
             result = taskService.findAllNotDeletedTask(pageRequest);
-        }
-        else {
+            Long userId = Long.valueOf(((CustomUserDetails) SecurityContextHolder.getContext()
+                    .getAuthentication().getPrincipal()).getUserId());
+            model.addAttribute("userId", userId);
+        } else {
             result = taskService.getAllTaskWithUser(pageRequest);
         }
         List<String> categoryDTOS = categoryService.getName(categoryMapper.toDTOs(categoryRepository.findAll()));
@@ -97,8 +108,22 @@ public class MVCTaskController {
     @GetMapping("/{id}")
     public String getOne(@PathVariable Long id,
                          Model model) {
+        String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        if (!role.equals("[ROLE_ADMIN]")) {
+            Long userId = Long.valueOf(((CustomUserDetails) SecurityContextHolder.getContext()
+                    .getAuthentication().getPrincipal()).getUserId());
+            model.addAttribute("userId", userId);
+        }
         model.addAttribute("task", taskService.getTaskWithUser(id));
         return "task/viewTask";
+    }
+    @GetMapping("history/{id}")
+    public String history(@PathVariable Long id,
+                          Model model) {
+        List<HistoryDTO> historyDTO = historyService.findAllByTaskId(id);
+        model.addAttribute("historyForm", historyDTO);
+        model.addAttribute("task", taskService.getOne(id));
+        return "task/viewTaskHistory";
     }
 
     @GetMapping("/add")
@@ -114,28 +139,17 @@ public class MVCTaskController {
 
     @PostMapping("/add")
     public String create(@ModelAttribute("taskForm") TaskDTO taskDTO,
-                         @ModelAttribute("user") String workerId,
-                         @ModelAttribute("nameType") Long typeTaskId,
-                         @ModelAttribute("category") String categoryId,
-                         @RequestParam MultipartFile file) {
-        if (workerId.equals("default") || workerId.equals("")) {
-            taskDTO.setWorkerId(1L);
-        } else {
-            taskDTO.setWorkerId(Long.valueOf(workerId));
-        }
-        if (categoryId.equals("default") || categoryId.equals("")) {
-            taskDTO.setCategoryId(1L);
-        } else {
-            taskDTO.setCategoryId(Long.valueOf(categoryId));
-        }
-        taskDTO.setTypeTaskId(typeTaskId);
-        taskDTO.setUserId(userRepository.findUsersByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId());
-        taskDTO.setCreateDate(LocalDateTime.now());
-        taskDTO.setStatusTask(StatusTask.OPEN);
-        if (file != null && file.getSize() > 0) {
-            taskService.create(taskDTO, file);
-        } else {
-            taskService.create(taskDTO);
+                         @RequestParam MultipartFile file
+    ) {
+        String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        if (!role.equals("[ROLE_ADMIN]")) {
+            taskDTO.setUserId(userRepository.findUsersByLogin(SecurityContextHolder.getContext()
+                    .getAuthentication().getName()).getId());
+            if (file != null && file.getSize() > 0) {
+                taskService.create(taskDTO, file);
+            } else {
+                taskService.create(taskDTO);
+            }
         }
         return "redirect:/task";
     }
@@ -165,44 +179,13 @@ public class MVCTaskController {
                          @ModelAttribute("worker") String workerId,
                          @ModelAttribute("user") String userId,
                          @RequestParam MultipartFile file) {
-        TaskDTO tempDTO = taskService.getOne(taskDTO.getId());
-        String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-        if (role.equals("[ROLE_USER]")) {
-            taskDTO.setEndDate(tempDTO.getEndDate());
-            taskDTO.setStatusTask(tempDTO.getStatusTask());
-            taskDTO.setPriority(tempDTO.getPriority());
-            taskDTO.setTypeTaskId(tempDTO.getTypeTaskId());
-            taskDTO.setCategoryId(tempDTO.getCategoryId());
-            taskDTO.setWorkerId(tempDTO.getWorkerId());
-            taskDTO.setUserId(tempDTO.getUserId());
-        } else {
-            if (typeTaskId.equals("default")) {
-                taskDTO.setTypeTaskId(tempDTO.getTypeTaskId());
-            } else {
-                taskDTO.setTypeTaskId(Long.valueOf(typeTaskId));
-            }
-            if (categoryId.equals("default")) {
-                taskDTO.setCategoryId(tempDTO.getCategoryId());
-            } else {
-                taskDTO.setCategoryId(Long.valueOf(categoryId));
-            }
-            if (workerId.equals("default")) {
-                taskDTO.setWorkerId(tempDTO.getWorkerId());
-            } else {
-                taskDTO.setWorkerId(Long.valueOf(workerId));
-            }
-            if (userId.equals("default")) {
-                taskDTO.setUserId(tempDTO.getUserId());
-            } else {
-                taskDTO.setUserId(Long.valueOf(userId));
-            }
-        }
-        taskDTO.setCreateDate(LocalDateTime.now());
-        taskDTO.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        log.info("UPDATE_POSTMAPPING_TASK_DTO: " + taskDTO);
         if (file != null && file.getSize() > 0) {
-            taskService.update(taskDTO, file);
+            log.info("UPDATE_WITH_FILE");
+            taskService.update(taskDTO, file, taskService.getOne(taskDTO.getId()));
         } else {
-            taskService.update(taskDTO);
+            log.info("UPDATE_WITHOUT_FILE");
+            taskService.update(taskDTO, taskService.getOne(taskDTO.getId()));
         }
         return "redirect:/task";
     }
@@ -212,13 +195,9 @@ public class MVCTaskController {
                              @RequestParam(value = "size", defaultValue = "5") int pageSize,
                              @ModelAttribute("taskSearchForm") TaskSearchDTO taskSearchDTO,
                              Model model) {
-        PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "id"));
+        PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "id"));
         List<String> categoryDTOS = categoryService.getName(categoryMapper.toDTOs(categoryRepository.findAll()));
-        log.info("FIO_AUTHOR: " + userRepository.findUsersByLogin(SecurityContextHolder.getContext()
-                .getAuthentication().getName()).getLastName());
-        log.info("FIO_AUTHOR: " + userRepository.findUsersByLogin(SecurityContextHolder.getContext()
-                .getAuthentication().getName()).getRole());
-        if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString().equals("[ROLE_USER]")){
+        if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString().equals("[ROLE_USER]")) {
             taskSearchDTO.setUserFio(userRepository.findUsersByLogin(SecurityContextHolder.getContext()
                     .getAuthentication().getName()).getLastName());
         }
@@ -226,6 +205,37 @@ public class MVCTaskController {
         model.addAttribute("task", result);
         model.addAttribute("taskSearch", categoryDTOS);
         return "task/viewAllTask";
+    }
+
+    @GetMapping("/search/myTask")
+    public String myTask(@RequestParam(value = "page", defaultValue = "1") int page,
+                         @RequestParam(value = "size", defaultValue = "5") int pageSize,
+                         Model model) {
+        log.info("/search/myTask");
+        TaskSearchDTO taskSearchDTO = new TaskSearchDTO();
+        taskSearchDTO.setUserFio(userService.getOne(Long.valueOf(((CustomUserDetails) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal()).getUserId())).getLastName());
+        return searchTask(page, pageSize, taskSearchDTO, model);
+    }
+
+    @GetMapping("/search/assignToMe")
+    public String assignToMe(@RequestParam(value = "page", defaultValue = "1") int page,
+                             @RequestParam(value = "size", defaultValue = "5") int pageSize,
+                             Model model) {
+        TaskSearchDTO taskSearchDTO = new TaskSearchDTO();
+        taskSearchDTO.setWorkerFio(userService.getOne(Long.valueOf(((CustomUserDetails) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal()).getUserId())).getLastName());
+        return searchTask(page, pageSize, taskSearchDTO, model);
+    }
+
+    @GetMapping("/search/noAssign")
+    public String noAssign(@RequestParam(value = "page", defaultValue = "1") int page,
+                           @RequestParam(value = "size", defaultValue = "5") int pageSize,
+                           Model model) {
+        TaskSearchDTO taskSearchDTO = new TaskSearchDTO();
+        taskSearchDTO.setWorkerFio(userService.getUserByLogin("A_service").getLastName() + " " +
+                userService.getUserByLogin("A_service").getFirstName());
+        return searchTask(page, pageSize, taskSearchDTO, model);
     }
 
     @GetMapping(value = "/download", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -278,6 +288,7 @@ public class MVCTaskController {
         taskService.updateTaskForWorking(taskDTO);
         return "redirect:/task";
     }
+
     @GetMapping("/stopTask/{id}")
     public String stopTask(@PathVariable Long id,
                            Model model) {
@@ -293,6 +304,11 @@ public class MVCTaskController {
         taskService.updateTaskForStop(task);
         return "redirect:/task";
     }
+    @GetMapping("/unstopTask/{id}")
+    public String unstopTask(@PathVariable Long id) {
+        taskService.updateTaskUnstop(taskService.getOne(id));
+        return "redirect:/task";
+    }
     @GetMapping("/executeTask/{id}")
     public String executeTask(@PathVariable Long id,
                               Model model) {
@@ -300,6 +316,7 @@ public class MVCTaskController {
         log.info("я execute заявку");
         return "task/executeTask";
     }
+
     @PostMapping("/executeTask")
     public String executeTask(@ModelAttribute("taskExecForm") TaskDTO taskDTO) {
         TaskDTO task = taskService.getOne(taskDTO.getId());
@@ -307,6 +324,12 @@ public class MVCTaskController {
         taskService.updateTaskForExecute(task);
         return "redirect:/task";
     }
+    @GetMapping("/noexecuteTask/{id}")
+    public String noexecuteTask(@PathVariable Long id) {
+        taskService.updateTaskUnstop(taskService.getOne(id));
+        return "redirect:/task";
+    }
+
     @GetMapping("/closeTask/{id}")
     public String closeTask(@PathVariable Long id) {
         TaskDTO taskDTO = taskService.getOne(id);

@@ -41,4 +41,6 @@ public class CustomUserDetailsService implements UserDetailsService {
             return new CustomUserDetails(user.getId().intValue(), username, user.getPassword(), authorities);
         }
     }
+
+
 }

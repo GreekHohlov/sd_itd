@@ -9,10 +9,11 @@ import ru.sber.spring.java13springmy.sdproject.repository.GroupRepository;
 
 @Service
 public class GroupService extends GenericService<Group, GroupDTO> {
-
+    private final GroupRepository groupRepository;
     protected GroupService(GroupRepository groupRepository,
                            GroupMapper groupMapper) {
         super(groupRepository, groupMapper);
+        this.groupRepository = groupRepository;
     }
 
     public void deleteSoft(Long id) {
@@ -27,5 +28,9 @@ public class GroupService extends GenericService<Group, GroupDTO> {
                 () -> new NotFoundException("Группы с заданным ID=" + objectId + " не существует"));
         unMarkAsDeleted(group);
         repository.save(group);
+    }
+
+    public GroupDTO findByName(String responsible) {
+        return mapper.toDto(groupRepository.findByResponsible(responsible));
     }
 }

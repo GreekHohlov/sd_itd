@@ -7,6 +7,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.sber.spring.java13springmy.sdproject.model.Task;
 
+import java.util.List;
+
 @Repository
 public interface TaskRepository extends GenericRepository<Task> {
     @Query(nativeQuery = true, value = """
@@ -15,7 +17,7 @@ public interface TaskRepository extends GenericRepository<Task> {
                       left join users u on t.user_id = u.id
                       left join users w on t.worker_id = w.id
                       join category c on t.category = c.id
-                      where cast(t.id as char) SIMILAR TO coalesce(:id, '%')
+                      where cast(t.id as char) SIMILAR TO coalesce(:id, '%') || '%'
                       and t.name_task ilike '%' || coalesce(:nameTask, '%') || '%'
                       and u.last_name || ' ' || u.first_name || ' ' || u.middle_name ilike '%' || coalesce(:userFio, '%') || '%'
                       and w.last_name || ' ' || w.first_name || ' ' || w.middle_name ilike '%' || coalesce(:workerFio, '%') || '%'

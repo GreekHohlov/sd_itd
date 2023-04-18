@@ -9,8 +9,10 @@ import ru.sber.spring.java13springmy.sdproject.repository.LocationRepository;
 
 @Service
 public class LocationService extends GenericService<Location, LocationDTO> {
+    private final LocationRepository locationRepository;
     protected LocationService(LocationRepository locationRepository, LocationMapper locationMapper) {
         super(locationRepository, locationMapper);
+        this.locationRepository = locationRepository;
     }
 
     public void deleteSoft(Long id) {
@@ -25,5 +27,9 @@ public class LocationService extends GenericService<Location, LocationDTO> {
                 () -> new NotFoundException("Площадки с заданным ID=" + objectId + " не существует"));
         unMarkAsDeleted(location);
         repository.save(location);
+    }
+
+    public LocationDTO findByName(String nameLocation) {
+        return mapper.toDto(locationRepository.findByNameLocation(nameLocation));
     }
 }

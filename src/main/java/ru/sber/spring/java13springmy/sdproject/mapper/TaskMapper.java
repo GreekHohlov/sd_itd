@@ -7,10 +7,7 @@ import org.webjars.NotFoundException;
 import ru.sber.spring.java13springmy.sdproject.dto.TaskDTO;
 import ru.sber.spring.java13springmy.sdproject.model.GenericModel;
 import ru.sber.spring.java13springmy.sdproject.model.Task;
-import ru.sber.spring.java13springmy.sdproject.repository.AttachmentsRepository;
-import ru.sber.spring.java13springmy.sdproject.repository.CategoryRepository;
-import ru.sber.spring.java13springmy.sdproject.repository.TypeTaskRepository;
-import ru.sber.spring.java13springmy.sdproject.repository.UserRepository;
+import ru.sber.spring.java13springmy.sdproject.repository.*;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -24,14 +21,18 @@ public class TaskMapper extends GenericMapper<Task, TaskDTO> {
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
     private final TypeTaskRepository typeTaskRepository;
+    private final HistoryRepository historyRepository;
+
     protected TaskMapper(ModelMapper modelMapper, AttachmentsRepository attachmentsRepository,
                          CategoryRepository categoryRepository, UserRepository userRepository,
-                         TypeTaskRepository typeTaskRepository){
+                         TypeTaskRepository typeTaskRepository,
+                         HistoryRepository historyRepository){
         super(modelMapper, Task.class, TaskDTO.class);
         this.attachmentsRepository = attachmentsRepository;
         this.categoryRepository = categoryRepository;
         this.userRepository = userRepository;
         this.typeTaskRepository = typeTaskRepository;
+        this.historyRepository = historyRepository;
     }
 
     @PostConstruct
@@ -41,13 +42,15 @@ public class TaskMapper extends GenericMapper<Task, TaskDTO> {
                 .addMappings(m -> m.skip(TaskDTO::setCategoryId)).setPostConverter(toDtoConverter())
                 .addMappings(m -> m.skip(TaskDTO::setUserId)).setPostConverter(toDtoConverter())
                 .addMappings(m -> m.skip(TaskDTO::setTypeTaskId)).setPostConverter(toDtoConverter())
-                .addMappings(m -> m.skip(TaskDTO::setWorkerId)).setPostConverter(toDtoConverter());
+                .addMappings(m -> m.skip(TaskDTO::setWorkerId)).setPostConverter(toDtoConverter())
+                .addMappings(m -> m.skip(TaskDTO::setHistoryIds)).setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(TaskDTO.class, Task.class)
                 .addMappings(m -> m.skip(Task::setAttachments)).setPostConverter(toEntityConverter())
                 .addMappings(m -> m.skip(Task::setCategory)).setPostConverter(toEntityConverter())
                 .addMappings(m -> m.skip(Task::setUser)).setPostConverter(toEntityConverter())
                 .addMappings(m -> m.skip(Task::setTypeTask)).setPostConverter(toEntityConverter())
-                .addMappings(m -> m.skip(Task::setWorker)).setPostConverter(toEntityConverter());
+                .addMappings(m -> m.skip(Task::setWorker)).setPostConverter(toEntityConverter())
+                .addMappings(m -> m.skip(Task::setHistory)).setPostConverter(toEntityConverter());
         //дату только в одну сторону
         //.addMappings(m -> m.skip(Book::setPublishDate)).setPostConverter(toEntityConverter());
     }
@@ -70,6 +73,11 @@ public class TaskMapper extends GenericMapper<Task, TaskDTO> {
         } else {
             destination.setCategory(categoryRepository.findById(1L).orElseThrow());
         }
+        if (!Objects.isNull(source.getHistoryIds())) {
+            destination.setHistory(new HashSet<>(historyRepository.findAllById(source.getHistoryIds())));
+        } else {
+            destination.setHistory(Collections.emptySet());
+        }
         destination.setUser(userRepository.findById(source.getUserId())
                 .orElseThrow(() -> new NotFoundException("Пользователь не найден")));
         destination.setTypeTask(typeTaskRepository.findById(source.getTypeTaskId())
@@ -83,12 +91,21 @@ public class TaskMapper extends GenericMapper<Task, TaskDTO> {
         destination.setAttachmentsIds(getIds(source));
         destination.setUserId(source.getUser().getId());
         destination.setTypeTaskId(source.getTypeTask().getId());
+        destination.setHistoryIds(getHistoryIds(source));
         if (!Objects.isNull(source.getCategory())) {
             destination.setCategoryId(source.getCategory().getId());
         }
         if (!Objects.isNull(source.getWorker())) {
             destination.setWorkerId(source.getWorker().getId());
         }
+    }
+
+    private Set<Long> getHistoryIds(Task source) {
+        return Objects.isNull(source) || Objects.isNull(source.getHistory())
+                ? Collections.emptySet()
+                :source.getHistory().stream()
+                .map(GenericModel::getId)
+                .collect(Collectors.toSet());
     }
 
     @Override

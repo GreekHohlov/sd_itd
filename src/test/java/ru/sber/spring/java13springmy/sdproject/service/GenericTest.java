@@ -26,7 +26,7 @@ public abstract class GenericTest<E extends GenericModel, D extends GenericDTO> 
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
     
-    protected abstract void getAll();
+    protected abstract void listAll();
     
     protected abstract void getOne();
     
@@ -36,7 +36,4 @@ public abstract class GenericTest<E extends GenericModel, D extends GenericDTO> 
     
     protected abstract void delete() throws MyDeleteException;
     
-    protected abstract void restore();
-    
-    protected abstract void getAllNotDeleted();
 }

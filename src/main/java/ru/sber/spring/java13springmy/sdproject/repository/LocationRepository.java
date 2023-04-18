@@ -5,4 +5,5 @@ import ru.sber.spring.java13springmy.sdproject.model.Location;
 
 @Repository
 public interface LocationRepository extends GenericRepository<Location> {
+    Location findByNameLocation(String nameLocation);
 }

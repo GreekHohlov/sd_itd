@@ -1,0 +1,102 @@
+2023-04-09 17:29:50,227 INFO o.h.v.i.u.Version [background-preinit] HV000001: Hibernate Validator 8.0.0.Final
+2023-04-09 17:29:50,281 INFO o.s.b.StartupInfoLogger [restartedMain] Starting Java13SpringMyApplication using Java 18.0.2.1 with PID 3560 (C:\Users\bit1.000\YandexDisk\Studies\sd_itd\target\classes started by bit1 in C:\Users\bit1.000\YandexDisk\Studies\sd_itd)
+2023-04-09 17:29:50,287 INFO o.s.b.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
+2023-04-09 17:29:50,863 INFO o.s.b.l.DeferredLog [restartedMain] The Class-Path manifest attribute in C:\Users\bit1.000\.m2\repository\com\sun\xml\bind\jaxb-core\4.0.0\jaxb-core-4.0.0.jar referenced one or more files that do not exist: file:/C:/Users/bit1.000/.m2/repository/com/sun/xml/bind/jaxb-core/4.0.0/jakarta.activation-api.jar,file:/C:/Users/bit1.000/.m2/repository/com/sun/xml/bind/jaxb-core/4.0.0/jakarta.xml.bind-api.jar
+2023-04-09 17:29:50,865 INFO o.s.b.l.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-04-09 17:29:50,866 INFO o.s.b.l.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-04-09 17:29:52,643 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Multiple Spring Data modules found, entering strict repository configuration mode
+2023-04-09 17:29:52,645 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2023-04-09 17:29:52,695 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.AttachmentsRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-04-09 17:29:52,697 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.CalendarRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-04-09 17:29:52,699 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.CategoryRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-04-09 17:29:52,702 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.GroupRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-04-09 17:29:52,705 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.HistoryRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-04-09 17:29:52,707 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.LocationRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-04-09 17:29:52,709 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.RoleRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-04-09 17:29:52,711 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.SLARepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-04-09 17:29:52,714 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.TaskRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-04-09 17:29:52,716 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.TypeTaskRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-04-09 17:29:52,719 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.UserRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-04-09 17:29:52,722 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.sber.spring.java13springmy.sdproject.repository.WorkScheduleRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-04-09 17:29:52,723 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 71 ms. Found 0 JDBC repository interfaces.
+2023-04-09 17:29:52,732 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Multiple Spring Data modules found, entering strict repository configuration mode
+2023-04-09 17:29:52,733 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-04-09 17:29:52,793 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 55 ms. Found 12 JPA repository interfaces.
+2023-04-09 17:29:53,656 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 9090 (http)
+2023-04-09 17:29:53,666 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-9090"]
+2023-04-09 17:29:53,668 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2023-04-09 17:29:53,668 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/10.1.4]
+2023-04-09 17:29:53,746 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2023-04-09 17:29:53,746 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 2879 ms
+2023-04-09 17:29:54,056 INFO o.h.j.i.u.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-04-09 17:29:54,151 INFO o.h.Version [restartedMain] HHH000412: Hibernate ORM core version 6.1.6.Final
+2023-04-09 17:29:54,578 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Starting...
+2023-04-09 17:29:54,760 INFO c.z.h.p.HikariPool [restartedMain] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2cf40947
+2023-04-09 17:29:54,762 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Start completed.
+2023-04-09 17:29:54,818 INFO o.h.e.j.d.i.DialectFactoryImpl [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2023-04-09 17:29:55,126 WARN o.h.b.i.InFlightMetadataCollectorImpl [restartedMain] HHH000069: Duplicate generator name default_gen
+2023-04-09 17:29:55,158 WARN o.h.b.i.InFlightMetadataCollectorImpl [restartedMain] HHH000069: Duplicate generator name default_gen
+2023-04-09 17:29:55,166 WARN o.h.b.i.InFlightMetadataCollectorImpl [restartedMain] HHH000069: Duplicate generator name default_gen
+2023-04-09 17:29:55,171 WARN o.h.b.i.InFlightMetadataCollectorImpl [restartedMain] HHH000069: Duplicate generator name default_gen
+2023-04-09 17:29:55,178 WARN o.h.b.i.InFlightMetadataCollectorImpl [restartedMain] HHH000069: Duplicate generator name default_gen
+2023-04-09 17:29:55,181 WARN o.h.b.i.InFlightMetadataCollectorImpl [restartedMain] HHH000069: Duplicate generator name default_gen
+2023-04-09 17:29:55,201 WARN o.h.b.i.InFlightMetadataCollectorImpl [restartedMain] HHH000069: Duplicate generator name default_gen
+2023-04-09 17:29:55,207 WARN o.h.b.i.InFlightMetadataCollectorImpl [restartedMain] HHH000069: Duplicate generator name default_gen
+2023-04-09 17:29:55,215 WARN o.h.b.i.InFlightMetadataCollectorImpl [restartedMain] HHH000069: Duplicate generator name default_gen
+2023-04-09 17:29:58,762 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-04-09 17:29:58,783 INFO o.s.o.j.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-04-09 17:30:01,539 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-04-09 17:30:01,658 INFO o.s.b.a.w.s.WelcomePageHandlerMapping [restartedMain] Adding welcome page template: index
+2023-04-09 17:30:02,962 INFO o.s.s.w.DefaultSecurityFilterChain [restartedMain] Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7e5845d9, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5d05d4cd, org.springframework.security.web.context.SecurityContextHolderFilter@28b48db2, org.springframework.security.web.header.HeaderWriterFilter@6bb324f5, org.springframework.security.web.csrf.CsrfFilter@2b2edc85, org.springframework.security.web.authentication.logout.LogoutFilter@7f6e4972, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@3c9c078b, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7d0140ab, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4917d04c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@17930b9, org.springframework.security.web.access.ExceptionTranslationFilter@4bc923ef, org.springframework.security.web.access.intercept.AuthorizationFilter@5f3f882f]
+2023-04-09 17:30:03,442 INFO o.s.b.d.a.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2023-04-09 17:30:03,469 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-9090"]
+2023-04-09 17:30:03,495 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat started on port(s): 9090 (http) with context path ''
+2023-04-09 17:30:03,507 INFO o.s.b.StartupInfoLogger [restartedMain] Started Java13SpringMyApplication in 13.824 seconds (process running for 16.165)
+2023-04-09 17:30:08,449 INFO o.a.j.l.DirectJDKLog [http-nio-9090-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-04-09 17:30:08,449 INFO o.s.w.s.FrameworkServlet [http-nio-9090-exec-1] Initializing Servlet 'dispatcherServlet'
+2023-04-09 17:30:08,451 INFO o.s.w.s.FrameworkServlet [http-nio-9090-exec-1] Completed initialization in 1 ms
+2023-04-09 17:30:17,118 ERROR r.s.s.j.s.M.c.MVCErrorController [http-nio-9090-exec-3] Случилась беда! Ошибка 404
+2023-04-09 17:30:25,250 INFO r.s.s.j.s.s.HistoryService [http-nio-9090-exec-7] TASK_DTO_ID_TASKDTO: 40
+2023-04-09 17:30:25,251 INFO r.s.s.j.s.s.HistoryService [http-nio-9090-exec-7] TASK_DTO_HISTORY: HistoryDTO(taskId=40, event=Изменен статус:
+Заявка в работе. 
+Степаненко Б А
+
+)
+2023-04-09 17:31:13,466 INFO r.s.s.j.s.s.HistoryService [http-nio-9090-exec-3] TASK_DTO_ID_TASKDTO: 35
+2023-04-09 17:31:13,467 INFO r.s.s.j.s.s.HistoryService [http-nio-9090-exec-3] TASK_DTO_HISTORY: HistoryDTO(taskId=35, event=Изменен статус:
+Заявка в работе. 
+Степаненко Б А
+
+)
+2023-04-09 17:31:24,462 INFO r.s.s.j.s.M.c.MVCTaskController [http-nio-9090-exec-2] я остановил заявку. GET_MAPPINGTaskWithUserDTO(user=UserDTO(firstName=Борис, middleName=Алексеевич, lastName=Степаненко, login=Ex_greek, password=$2a$10$d29ROMqEG/QTzrmrXYvJ8O6oWrhBQq0d7E7ICnH0F0SIX/7.4yd2i, email=greekkk@mail.ru, phone=+79235555688, locationId=1, groupId=2, role=GenericDTO(id=2, createdBy=null, createdWhen=null, isDeleted=false), changePasswordToken=null, worker=true, tasksIds=[10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 40, 41], tasksWorkerIds=[3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 30, 33, 35, 36, 37, 38, 39, 40, 41], group=ru.sber.spring.java13springmy.sdproject.model.Group@11b13da4, location=ru.sber.spring.java13springmy.sdproject.model.Location@6cfcbfd2, isDeleted=false), worker=UserDTO(firstName=Борис, middleName=Алексеевич, lastName=Степаненко, login=Ex_greek, password=$2a$10$d29ROMqEG/QTzrmrXYvJ8O6oWrhBQq0d7E7ICnH0F0SIX/7.4yd2i, email=greekkk@mail.ru, phone=+79235555688, locationId=1, groupId=2, role=GenericDTO(id=2, createdBy=null, createdWhen=null, isDeleted=false), changePasswordToken=null, worker=true, tasksIds=[10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 40, 41], tasksWorkerIds=[3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 30, 33, 35, 36, 37, 38, 39, 40, 41], group=ru.sber.spring.java13springmy.sdproject.model.Group@11b13da4, location=ru.sber.spring.java13springmy.sdproject.model.Location@6cfcbfd2, isDeleted=false), statusTask=AT_WORK, typeTask=TypeTaskDTO(nameType=Инциндент (общий), slaId=2, sla=ru.sber.spring.java13springmy.sdproject.model.SLA@25a97311, taskIds=[8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]), category=CategoryDTO(nameCategory=Общая категория, parentCategoryNum=null, parentCategoryId=null, subCategoryIds=[2], taskIds=[8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 38, 39, 40, 41]))
+2023-04-09 17:31:34,216 INFO r.s.s.j.s.s.HistoryService [http-nio-9090-exec-7] TASK_DTO_ID_TASKDTO: 41
+2023-04-09 17:31:34,216 INFO r.s.s.j.s.s.HistoryService [http-nio-9090-exec-7] TASK_DTO_HISTORY: HistoryDTO(taskId=41, event=Изменен статус:
+Заявка остановлена.
+Обоснование:
+Тест остановки
+ 
+Степаненко Б А
+
+)
+2023-04-09 17:32:30,782 INFO r.s.s.j.s.s.HistoryService [http-nio-9090-exec-5] TASK_DTO_ID_TASKDTO: 32
+2023-04-09 17:32:30,782 INFO r.s.s.j.s.s.HistoryService [http-nio-9090-exec-5] TASK_DTO_HISTORY: HistoryDTO(taskId=32, event=Изменен статус:
+Заявка в работе. 
+Степаненко Б А
+
+)
+2023-04-09 17:45:17,686 INFO r.s.s.j.s.s.HistoryService [http-nio-9090-exec-7] TASK_DTO_ID_TASKDTO: 1
+2023-04-09 17:45:17,686 INFO r.s.s.j.s.s.HistoryService [http-nio-9090-exec-7] TASK_DTO_HISTORY: HistoryDTO(taskId=1, event=Изменен статус:
+Заявка в работе. 
+Степаненко Б А
+
+)
+2023-04-09 17:45:24,776 INFO r.s.s.j.s.M.c.MVCTaskController [http-nio-9090-exec-1] /search/myTask
+2023-04-09 17:47:57,776 ERROR r.s.s.j.s.M.c.MVCErrorController [http-nio-9090-exec-10] Случилась беда! Ошибка 404
+2023-04-09 19:59:06,997 ERROR r.s.s.j.s.M.c.MVCErrorController [http-nio-9090-exec-7] Случилась беда! Ошибка 404
+2023-04-09 20:00:01,678 INFO r.s.s.j.s.M.c.MVCTaskController [http-nio-9090-exec-10] /search/myTask
+2023-04-09 20:00:09,085 ERROR r.s.s.j.s.M.c.MVCUserController [http-nio-9090-exec-4] Запрос: http://localhost:9090/users/profile/4 вызвал ошибку 403 FORBIDDEN: У вас нет прав просматривать информацию о пользователе
+2023-04-09 20:00:09,088 WARN o.s.w.s.h.AbstractHandlerExceptionResolver [http-nio-9090-exec-4] Resolved [jakarta.security.auth.message.AuthException: 403 FORBIDDEN: У вас нет прав просматривать информацию о пользователе]
+2023-04-09 20:20:29,317 ERROR r.s.s.j.s.M.c.MVCErrorController [http-nio-9090-exec-10] Случилась беда! Ошибка 404
+2023-04-09 23:59:06,592 INFO o.s.o.j.AbstractEntityManagerFactoryBean [SpringApplicationShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-04-09 23:59:06,668 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
+2023-04-09 23:59:06,700 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.

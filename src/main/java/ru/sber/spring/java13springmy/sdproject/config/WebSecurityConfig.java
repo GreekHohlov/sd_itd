@@ -43,17 +43,19 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity
-                //TODO Для учебных целей пока отключим
 //                .csrf(csrf -> csrf
 //                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 //                )
+                .csrf().disable().cors().disable()
 
                 .authorizeHttpRequests((requests) -> requests
                                 .requestMatchers(RESOURCES_WHITE_LIST.toArray(String[]::new)).permitAll()
                                 .requestMatchers(ALL_WHITE_LIST.toArray(String[]::new)).permitAll()
                                 .requestMatchers(BASE_PERMISSION_LIST.toArray(String[]::new)).authenticated()
+                                .requestMatchers(EXECUTOR_PERMISSION_LIST.toArray(String[]::new)).hasAnyRole(EXECUTOR, MAIN_EXECUTOR)
                                 .requestMatchers(SETTINGS_PERMISSION_LIST.toArray(String[]::new)).hasAnyRole(ADMIN, EXECUTOR, MAIN_EXECUTOR)
                                 .anyRequest().authenticated()
+//                                .anyRequest().permitAll()
                         )
                 .formLogin((form) -> form
                         .loginPage("/login")

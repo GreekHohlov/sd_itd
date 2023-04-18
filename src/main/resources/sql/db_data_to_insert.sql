@@ -1,19 +1,3 @@
--- select *
--- from users u
--- where u.last_name ilike :?;
-
--- select distinct t.*
--- from tasks t
---          left join category c on t.category = c.id
---          left join users u on t.user_id = u.id
---          join users w on t.worker_id = w.id
--- where t.name_task ilike :nameTask
---   and cast(t.id as char) ilike :id
---   and cast(t.status as char) like :statusTask
---   and c.name_category ilike :nameCategory
---   and u.last_name ilike :userFio
---   and w.last_name ilike :workerFio;
-
 --Роли
 insert into role
 values (1, null, null, null, null, false, 'Пользователь', 'USER'),
@@ -122,7 +106,7 @@ values (nextval('tasks_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', 
         'Не печатает принтер в бухгалтерии', null, null, 'Проблема с печатью', 1, 1, 4, 2, 5, 2),
        (nextval('tasks_seq'), 'Starting loading', '2023-04-01 10:25:10.702359', null, null, false,
         '2023-04-03 10:25:10.702359', null,
-        'Не работает почта', null, null, 'Не отправляются письма и не приходят новые! Почта почищена.', 2, 1, 6, 3, 6,
+        'Не работает почта', null, null, 'Не отправляются письма! Почта почищена.', 2, 1, 6, 3, 6,
         3),
        (nextval('tasks_seq'), 'Starting loading', '2023-04-01 12:25:10.702359', null, null, false,
         '2023-04-02 10:25:10.702359', null,
@@ -135,3 +119,30 @@ values (nextval('tasks_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', 
        (nextval('tasks_seq'), 'Starting loading', '2023-04-01 12:25:10.702359', null, null, false,
         '2023-04-03 10:25:10.702359', null, 'Доработка модуля оповещения в Java', null, null,
         'Доработать модуль оповещения в статусе заявки', 2, 2, 6, 3, 6, 3);
+
+--История заявок
+insert into history
+values (nextval('history_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', null, null, false,
+        'Создана заявка: Starting loading', 1),
+(nextval('history_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', null, null, false,
+        'Создана заявка: Starting loading', 2),
+(nextval('history_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', null, null, false,
+        'Создана заявка: Starting loading', 3),
+(nextval('history_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', null, null, false,
+        'Создана заявка: Starting loading', 4),
+(nextval('history_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', null, null, false,
+        'Создана заявка: Starting loading', 5),
+(nextval('history_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', null, null, false,
+        'Создана заявка: Starting loading', 6),
+(nextval('history_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', null, null, false,
+        'Изменен статус: Заявка в работе. Степаненко Б А', 1),
+(nextval('history_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', null, null, false,
+        'Изменен статус: Заявка в работе. Игнатьев В К', 2),
+(nextval('history_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', null, null, false,
+        'Изменен статус: Заявка в работе. Степаненко Б А', 3),
+(nextval('history_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', null, null, false,
+        'Изменен статус: Заявка в работе. Степаненко Б А', 4),
+(nextval('history_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', null, null, false,
+        'Изменен статус: Заявка остановлена. Обоснование: Тестирование сервиса Степаненко Б А', 5),
+(nextval('history_seq'), 'Starting loading', '2023-03-31 10:25:10.702359', null, null, false,
+        'Изменен статус: Заявка остановлена. Обоснование: Доп тестирование Степаненко Б А', 6)
